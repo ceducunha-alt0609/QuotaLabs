@@ -2638,6 +2638,124 @@ body.ql-lock-scroll{overflow:hidden;}
 
 
 
+<style>
+/* ══ QUOTALAB PRO — ACORDEÃO MÚLTIPLO / INADIMPLÊNCIA ═════════════ */
+#page-inadimplencia .ql-acc-card{position:relative;overflow:hidden;padding:0!important;transition:border-color .22s ease,box-shadow .22s ease,transform .22s ease,background .22s ease;}
+#page-inadimplencia .ql-acc-card:hover{transform:translateY(-1px);box-shadow:0 18px 42px rgba(0,0,0,.18);}
+#page-inadimplencia .ql-acc-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;background:linear-gradient(135deg,rgba(255,255,255,.045),rgba(255,255,255,.012));border:0;border-bottom:1px solid var(--border);color:var(--text);text-align:left;cursor:pointer;font-family:inherit;}
+#page-inadimplencia .ql-acc-head:hover{background:linear-gradient(135deg,rgba(210,153,34,.075),rgba(255,255,255,.018));}
+#page-inadimplencia .ql-acc-main{display:flex;align-items:flex-start;gap:11px;min-width:0;}
+#page-inadimplencia .ql-acc-icon{width:32px;height:32px;min-width:32px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(210,153,34,.10);border:1px solid rgba(210,153,34,.22);color:var(--gold,#d29922);font-size:15px;}
+#page-inadimplencia .ql-acc-title{font-size:13px;font-weight:900;letter-spacing:.015em;color:var(--text);line-height:1.25;}
+#page-inadimplencia .ql-acc-sub{font-size:11px;color:var(--text3);line-height:1.35;margin-top:3px;font-weight:500;display:block;}
+#page-inadimplencia .ql-acc-right{display:flex;align-items:center;gap:9px;flex-shrink:0;}
+#page-inadimplencia .ql-acc-badge{font-size:10px;font-weight:900;letter-spacing:.055em;text-transform:uppercase;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.045);border:1px solid var(--border);color:var(--text2);}
+#page-inadimplencia .ql-acc-chev{width:26px;height:26px;border-radius:9px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);color:var(--text2);transition:transform .22s ease,color .22s ease,border-color .22s ease;}
+#page-inadimplencia .ql-acc-card.is-open .ql-acc-chev{transform:rotate(180deg);color:var(--gold,#d29922);border-color:rgba(210,153,34,.35);}
+#page-inadimplencia .ql-acc-body{overflow:hidden;max-height:0;opacity:0;padding:0 16px;transition:max-height .28s ease,opacity .2s ease,padding .24s ease;}
+#page-inadimplencia .ql-acc-card.is-open .ql-acc-body{max-height:5000px;opacity:1;padding:16px;}
+#page-inadimplencia .ql-acc-card[data-acc-key="calculadora"]{border-left:3px solid var(--red)!important;}
+#page-inadimplencia .ql-acc-card[data-acc-key="impacto"]{border-left:3px solid var(--amber)!important;}
+#page-inadimplencia .ql-acc-card[data-acc-key="historico"]{border-left:3px solid var(--blue2)!important;}
+#page-inadimplencia .ql-acc-card[data-acc-key="ranking"]{border-left:3px solid var(--red)!important;}
+#page-inadimplencia .ql-acc-card[data-acc-key="colapso"]{border-left:3px solid var(--red)!important;}
+@media(max-width:760px){#page-inadimplencia .ql-acc-head{padding:13px 12px;}#page-inadimplencia .ql-acc-card.is-open .ql-acc-body{padding:12px;}#page-inadimplencia .ql-acc-sub,#page-inadimplencia .ql-acc-badge{display:none;}}
+/* ══ FIM ACORDEÃO MÚLTIPLO ════════════════════════════════════════ */
+</style>
+<style id="ql-historico-risco-8-pulse">
+@keyframes qlHistPulseRed{
+  0%{box-shadow:inset 4px 0 0 var(--red),0 0 0 0 rgba(248,81,73,.42),0 0 0 1px rgba(248,81,73,.28)}
+  65%{box-shadow:inset 4px 0 0 var(--red),0 0 0 7px rgba(248,81,73,0),0 0 18px rgba(248,81,73,.14)}
+  100%{box-shadow:inset 4px 0 0 var(--red),0 0 0 0 rgba(248,81,73,0),0 0 0 1px rgba(248,81,73,.25)}
+}
+.hist-card-risk.hist-critical-pulse{border-color:var(--red)!important;animation:qlHistPulseRed 1.85s ease-out infinite;}
+.hist-card-risk.hist-critical-pulse input{border-color:rgba(248,81,73,.38)!important;}
+@media (prefers-reduced-motion: reduce){.hist-card-risk.hist-critical-pulse{animation:none!important;box-shadow:inset 4px 0 0 var(--red),0 0 0 1px rgba(248,81,73,.32)!important}}
+
+
+<style id="ql-inad-alertas-tendencia">
+#hist-alertas .hist-alert{display:flex;align-items:flex-start;gap:10px;border-radius:13px;padding:10px 12px;border:1px solid var(--border);background:var(--bg2);box-shadow:0 10px 28px rgba(0,0,0,.10);}
+#hist-alertas .hist-alert .ha-ico{width:28px;height:28px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;background:rgba(255,255,255,.055);}
+#hist-alertas .hist-alert .ha-title{font-size:12px;font-weight:950;color:var(--text);margin-bottom:3px;letter-spacing:.01em;}
+#hist-alertas .hist-alert .ha-text{font-size:11px;color:var(--text2);line-height:1.45;}
+#hist-alertas .hist-alert.red{border-color:rgba(248,81,73,.34);background:linear-gradient(135deg,rgba(248,81,73,.095),rgba(248,81,73,.025));}
+#hist-alertas .hist-alert.amber{border-color:rgba(210,153,34,.36);background:linear-gradient(135deg,rgba(210,153,34,.095),rgba(210,153,34,.025));}
+#hist-alertas .hist-alert.green{border-color:rgba(63,185,80,.30);background:linear-gradient(135deg,rgba(63,185,80,.085),rgba(63,185,80,.022));}
+#hist-alertas .hist-alert.blue{border-color:rgba(47,129,247,.30);background:linear-gradient(135deg,rgba(47,129,247,.085),rgba(47,129,247,.022));}
+#hist-alertas .hist-alert.red .ha-ico{color:var(--red);}
+#hist-alertas .hist-alert.amber .ha-ico{color:var(--amber);}
+#hist-alertas .hist-alert.green .ha-ico{color:var(--green);}
+#hist-alertas .hist-alert.blue .ha-ico{color:var(--blue2);}
+@media(max-width:760px){#hist-alertas .hist-alert{padding:9px 10px;}#hist-alertas .hist-alert .ha-text{font-size:10.5px;}}
+</style>
+<style id="ql-colapso-integrado-8pct">
+@keyframes qlColPulseRed{
+  0%{box-shadow:0 0 0 0 rgba(248,81,73,.42),inset 0 0 0 1px rgba(248,81,73,.28)}
+  65%{box-shadow:0 0 0 8px rgba(248,81,73,0),0 0 18px rgba(248,81,73,.14),inset 0 0 0 1px rgba(248,81,73,.32)}
+  100%{box-shadow:0 0 0 0 rgba(248,81,73,0),inset 0 0 0 1px rgba(248,81,73,.28)}
+}
+.col-risk-pulse{animation:qlColPulseRed 1.85s ease-out infinite;border-color:rgba(248,81,73,.55)!important;}
+.col-sync-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(47,129,247,.28);background:rgba(47,129,247,.08);color:var(--blue2);border-radius:999px;padding:5px 9px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.045em;}
+.col-risk-chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.045em;}
+@media (prefers-reduced-motion: reduce){.col-risk-pulse{animation:none!important}}
+</style>
+
+<style id="ql-hist-setas-tendencia-mensal">
+.hist-trend-arrow{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;margin-left:4px;border-radius:999px;font-size:10px;font-weight:950;line-height:1;vertical-align:1px;border:1px solid transparent;opacity:.92;filter:drop-shadow(0 2px 5px rgba(0,0,0,.16));}
+.hist-trend-arrow.up{color:var(--red);background:rgba(248,81,73,.10);border-color:rgba(248,81,73,.24);}
+.hist-trend-arrow.down{color:var(--green);background:rgba(63,185,80,.10);border-color:rgba(63,185,80,.24);}
+.hist-trend-arrow.stable{color:var(--amber);background:rgba(210,153,34,.10);border-color:rgba(210,153,34,.24);}
+.hist-trend-arrow.none{display:none;}
+@media(max-width:760px){.hist-trend-arrow{width:14px;height:14px;font-size:9px;margin-left:3px;}}
+/* ══ QUOTALAB PRO — HOVER + HIERARQUIA DE PERCENTUAIS ═════════════ */
+#page-inadimplencia .hist-card-risk{position:relative;}
+#page-inadimplencia .hist-card-risk:hover{transform:translateY(-2px);filter:brightness(1.045);z-index:3;}
+#page-inadimplencia .hist-pct-main{display:inline-flex;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:950;line-height:1;}
+#page-inadimplencia .hist-pct-fin{display:block;font-size:9px;font-weight:800;color:var(--text3);opacity:.86;margin-top:3px;line-height:1.1;}
+#page-inadimplencia .hist-month-tooltip{position:absolute;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%) translateY(4px);min-width:220px;max-width:260px;padding:10px 11px;border-radius:12px;background:rgba(11,14,20,.96);border:1px solid rgba(210,153,34,.28);box-shadow:0 18px 44px rgba(0,0,0,.42);color:var(--text);font-size:11px;text-align:left;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .16s ease,transform .16s ease,visibility .16s ease;backdrop-filter:blur(16px);}
+#page-inadimplencia .hist-month-tooltip:after{content:'';position:absolute;left:50%;top:100%;transform:translateX(-50%);border:7px solid transparent;border-top-color:rgba(11,14,20,.96);}
+#page-inadimplencia .hist-card-risk:hover .hist-month-tooltip{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0);}
+#page-inadimplencia .hist-tip-title{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--gold,#d29922);font-weight:950;margin-bottom:7px;}
+#page-inadimplencia .hist-tip-row{display:flex;justify-content:space-between;gap:12px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+#page-inadimplencia .hist-tip-row:last-child{border-bottom:0;}
+#page-inadimplencia .hist-tip-row span:first-child{color:var(--text3);}
+#page-inadimplencia .hist-tip-row strong{color:var(--text);font-weight:900;text-align:right;}
+@media(max-width:760px){#page-inadimplencia .hist-month-tooltip{display:none;}#page-inadimplencia .hist-pct-fin{font-size:8.5px;}}
+
+</style>
+
+<style id="ql-month-detail-drawer-safe-css">
+#page-inadimplencia .hist-card-risk{cursor:pointer;}
+#page-inadimplencia .hist-card-risk:hover{transform:translateY(-2px);filter:brightness(1.045);}
+#page-inadimplencia .hist-card-risk::after{content:'clique para detalhar';position:absolute;left:50%;top:7px;transform:translateX(-50%);font-size:8px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.08);border-radius:999px;padding:3px 6px;opacity:0;pointer-events:none;transition:opacity .16s ease,top .16s ease;white-space:nowrap;}
+#page-inadimplencia .hist-card-risk:hover::after{opacity:.72;top:4px;}
+.ql-month-panel-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.42);backdrop-filter:blur(4px);z-index:9997;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .22s ease,visibility .22s ease;}
+.ql-month-panel-backdrop.is-open{opacity:1;visibility:visible;pointer-events:auto;}
+.ql-month-panel{position:fixed;top:0;right:0;width:min(430px,94vw);height:100dvh;background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.018)),var(--bg1);border-left:1px solid rgba(210,153,34,.26);box-shadow:-26px 0 70px rgba(0,0,0,.42);z-index:9998;transform:translateX(106%);transition:transform .24s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;color:var(--text);}
+.ql-month-panel.is-open{transform:translateX(0);}
+.ql-mp-head{padding:18px 18px 14px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,rgba(210,153,34,.08),rgba(255,255,255,.015));display:flex;align-items:flex-start;justify-content:space-between;gap:14px;}
+.ql-mp-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--text3);font-weight:900;margin-bottom:6px;}
+.ql-mp-title{font-size:20px;font-weight:950;letter-spacing:-.02em;color:var(--text);line-height:1.1;}
+.ql-mp-sub{font-size:12px;color:var(--text2);margin-top:6px;line-height:1.35;}
+.ql-mp-close{width:34px;height:34px;border-radius:12px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);font-size:20px;line-height:1;cursor:pointer;transition:.18s ease;}
+.ql-mp-close:hover{border-color:rgba(210,153,34,.42);color:var(--gold,#d29922);transform:translateY(-1px);}
+.ql-mp-body{padding:16px 18px 22px;overflow:auto;display:grid;gap:12px;}
+.ql-mp-main{border-radius:18px;border:1px solid var(--border);background:var(--bg2);padding:14px;box-shadow:0 14px 34px rgba(0,0,0,.16);}
+.ql-mp-main-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;}
+.ql-mp-risk{font-size:10px;font-weight:950;letter-spacing:.07em;text-transform:uppercase;border-radius:999px;padding:5px 9px;border:1px solid currentColor;background:rgba(255,255,255,.04);}
+.ql-mp-percent{font-size:34px;font-weight:950;letter-spacing:-.04em;line-height:1;}
+.ql-mp-percent small{font-size:13px;color:var(--text3);font-weight:800;margin-left:5px;letter-spacing:0;}
+.ql-mp-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.ql-mp-item{border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.025);padding:11px 12px;min-width:0;}
+.ql-mp-label{font-size:9.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);font-weight:900;margin-bottom:5px;}
+.ql-mp-value{font-size:14px;font-weight:950;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ql-mp-note{border-radius:14px;border:1px solid rgba(210,153,34,.22);background:rgba(210,153,34,.07);padding:11px 12px;font-size:12px;line-height:1.45;color:var(--text2);}
+.ql-mp-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;}
+.ql-mp-btn{border:1px solid var(--border);border-radius:12px;background:var(--bg2);color:var(--text2);font-size:11px;font-weight:900;padding:8px 10px;cursor:pointer;transition:.18s ease;}
+.ql-mp-btn:hover{border-color:rgba(210,153,34,.38);color:var(--gold,#d29922);transform:translateY(-1px);}
+@media(max-width:760px){.ql-month-panel{width:100vw}.ql-mp-grid{grid-template-columns:1fr}.ql-mp-title{font-size:18px}.ql-mp-percent{font-size:30px}}
+</style>
+
 </head>
 <body>
 
@@ -2970,6 +3088,11 @@ body.ql-lock-scroll{overflow:hidden;}
       <span class="nav-label">Simulações</span>
     </button>
 
+    <button class="nav-item role-conselho-up" id="nav-inadimplencia" onclick="navPage('inadimplencia',this)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span class="nav-label">Inadimplência</span>
+    </button>
+
     <button class="nav-item" id="nav-assembleia" onclick="navPage('assembleia',this)">
       <svg viewBox="0 0 24 24"><path d="M4 19h16"/><path d="M5 5h14v10H5z"/><path d="M9 19l3-4 3 4"/><path d="M8 9h8"/><path d="M8 12h5"/></svg>
       <span class="nav-label">Modo Assembleia</span>
@@ -3298,7 +3421,7 @@ body.ql-lock-scroll{overflow:hidden;}
             <div class="rt-field"><label>Entrada %</label><input id="rt_entrada_pct" type="number" step="0.1" value="20" oninput="rtAtualizar()"></div>
             <div class="rt-field"><label>Início</label><input id="rt_inicio" type="month" oninput="rtAtualizar()"></div>
             <div class="rt-field"><label>Meses</label><input id="rt_meses" type="number" min="1" max="120" value="12" oninput="rtAtualizar()"></div>
-            <div class="rt-field"><label>Unidades pagantes</label><input id="rt_unidades" type="number" min="1" value="40" oninput="rtAtualizar()"></div>
+            <div class="rt-field"><label>Unidades pagantes</label><input id="rt_unidades" type="number" min="1" value="80" oninput="rtAtualizar()"></div>
             <div class="rt-field"><label>Arrecadado até agora</label><input id="rt_arrecadado" type="number" step="0.01" value="0" oninput="rtAtualizar()"></div>
             <div class="rt-field"><label>Inadimplência simulada %</label><input id="rt_inadimplencia_pct" type="number" step="0.1" min="0" max="100" value="8" oninput="rtAtualizar()"></div>
             <div class="rt-field rt-corrige-field"><label>Correção automática</label><label class="rt-switch-line"><input id="rt_corrigir_inadimplencia" type="checkbox" onchange="rtAtualizar()"><span>Corrigir pela inadimplência</span></label></div>
@@ -3429,7 +3552,7 @@ body.ql-lock-scroll{overflow:hidden;}
       <div>
         <div class="hero-lbl">Proposta condominial / unidade</div>
         <div class="hero-val" id="hero_cota">R$ 0,00</div>
-        <div class="hero-sub"><span id="n_uni_sub">40</span> unidades · Arrecadação: <strong id="arrecadacao_total">R$ 0,00</strong></div>
+        <div class="hero-sub"><span id="n_uni_sub">80</span> unidades · Arrecadação: <strong id="arrecadacao_total">R$ 0,00</strong></div>
         <div id="cota-arredond-box" style="display:none;margin-top:10px;background:rgba(210,153,34,.1);border:1px solid rgba(210,153,34,.35);border-radius:var(--rs);padding:9px 13px;font-size:12px;line-height:1.5">
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
             <span style="font-size:14px">💡</span>
@@ -3856,7 +3979,7 @@ body.ql-lock-scroll{overflow:hidden;}
       <div class="cttlh" style="color:var(--amber)">Impacto global — cenário de inadimplência</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
         <div class="field"><label>Nº de unidades inadimplentes</label><input type="number" inputmode="numeric" id="inad_n_inad" value="3" min="0" oninput="calcInad()"></div>
-        <div class="field"><label>Nº total de unidades</label><input type="number" inputmode="numeric" id="inad_n_total" value="40" min="1" oninput="calcInad()"></div>
+        <div class="field"><label>Nº total de unidades</label><input type="number" inputmode="numeric" id="inad_n_total" value="80" min="1" oninput="calcInad()"></div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px" id="inad-global-stats"></div>
     </div>
@@ -4060,6 +4183,183 @@ body.ql-lock-scroll{overflow:hidden;}
       <div class="card" style="margin-bottom:18px;"><div class="card-hdr"><span class="cdot" style="background:var(--amber)"></span><span class="cttl">📄 Explicação para os moradores</span><button onclick="copiarExplicacao()" style="margin-left:auto;font-size:11px;padding:4px 10px;background:var(--bg4);border:1px solid var(--border);border-radius:var(--rs);cursor:pointer;color:var(--text2);">Copiar texto</button></div><div class="simp-explain" id="simp-explain-text">—</div></div>
     </div>
   </div><!-- end page-simulacoes -->
+  <!-- ══ PAGE: INADIMPLÊNCIA ══ -->
+  <div id="page-inadimplencia" class="page">
+    <div style="padding:1.25rem;max-width:1080px;margin:0 auto;">
+
+      <!-- Hero -->
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--red);font-weight:700;margin-bottom:4px;">Gestão de Inadimplência</div>
+          <h1 style="font-family:'DM Serif Display',serif;font-size:28px;margin:0 0 4px;color:var(--text)">Inadimplência</h1>
+          <p style="font-size:13px;color:var(--text2);margin:0;line-height:1.6;">Calculadora de dívida por unidade e análise do impacto global no condomínio.</p>
+        </div>
+      </div>
+
+      <!-- Calculadora por unidade -->
+      <div class="chart-card" style="border-color:var(--rbd);margin-bottom:14px;">
+        <div class="cttlh" style="color:var(--red)">Calculadora de inadimplência por unidade</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+          <div class="field"><label>Valor da cota (R$)</label><input type="number" inputmode="decimal" id="inad2_cota" value="850" min="0" step="10" oninput="calcInad2()"></div>
+          <div class="field"><label>Meses em atraso</label><input type="number" inputmode="numeric" id="inad2_meses" value="3" min="1" max="60" oninput="calcInad2()"></div>
+          <div class="field"><label>Multa contratual (%)</label><input type="number" inputmode="decimal" id="inad2_multa" value="2" min="0" max="10" step="0.5" oninput="calcInad2()"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+          <div class="field"><label>Juros ao mês (%)</label><input type="number" inputmode="decimal" id="inad2_juros" value="1" min="0" max="5" step="0.1" oninput="calcInad2()"></div>
+          <div class="field"><label>Correção monetária (% a.m.)</label><input type="number" inputmode="decimal" id="inad2_corr" value="0.5" min="0" max="5" step="0.1" oninput="calcInad2()"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px" id="inad2-stats"></div>
+        <div style="margin-bottom:4px">
+          <div class="cttlh" style="margin-bottom:8px">Evolução da dívida mês a mês</div>
+          <div id="inad2-chart"></div>
+        </div>
+      </div>
+
+      <!-- Impacto global -->
+      <div class="chart-card" style="border-color:var(--abd);">
+        <div class="cttlh" style="color:var(--amber)">Impacto global — cenário de inadimplência</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+          <div class="field"><label>Nº de unidades inadimplentes</label><input type="number" inputmode="numeric" id="inad2_n_inad" value="3" min="0" oninput="calcInad2()"></div>
+          <div class="field"><label>Nº total de unidades</label><input type="number" inputmode="numeric" id="inad2_n_total" value="80" min="1" oninput="calcInad2()"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px" id="inad2-global-stats"></div>
+      </div>
+
+      <!-- ── PAINEL HISTÓRICO MENSAL ── -->
+      <div class="chart-card" style="border-color:rgba(47,129,247,.35);margin-top:14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;flex-wrap:wrap;gap:8px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--blue2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <div class="cttlh" style="color:var(--blue2);margin:0;">Histórico Real de Inadimplência</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="field" style="margin:0;display:flex;align-items:center;gap:6px;">
+              <label style="font-size:11px;white-space:nowrap;color:var(--text2);">Ano</label>
+              <input type="number" id="hist_ano" style="width:72px;font-size:13px;" oninput="histSalvar();histAtualizarGrade();calcColapso()">
+            </div>
+            <div class="field" style="margin:0;display:flex;align-items:center;gap:6px;">
+              <label style="font-size:11px;white-space:nowrap;color:var(--text2);">Base oficial</label>
+              <input type="number" id="hist_total" style="width:68px;font-size:13px;" min="1" value="80" title="Use sempre o total de unidades do condomínio. Ex.: 80 unidades." oninput="histSalvar();histAtualizarGrade();calcColapso()">
+            </div>
+            <button onclick="histLimpar()" style="font-size:11px;padding:5px 10px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text2);cursor:pointer;">Limpar</button>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--text3);margin:0 0 14px;line-height:1.5;">Preencha mês a mês com o número de unidades inadimplentes e a cota vigente do mês. A base oficial do cálculo é o total de unidades do condomínio — exemplo: 2 inadimplentes em 80 unidades = 2,5%. O valor em aberto é calculado por inadimplentes × cota, com campo de ajuste para juros, acordo ou diferenças de cobrança.</p>
+
+        <!-- Grade Jan–Dez -->
+        <div id="hist-grade" style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px;"></div>
+
+        <!-- Mini gráfico histórico -->
+        <div id="hist-sparkline" style="margin-bottom:4px;"></div>
+        <!-- Estatísticas derivadas do histórico -->
+        <div id="hist-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:12px;"></div>
+
+        <!-- Alertas automáticos + tendência -->
+        <div id="hist-alertas" style="display:grid;gap:8px;margin-top:12px;"></div>
+      </div>
+
+      <!-- ── RANKING INTERNO DE UNIDADES INADIMPLENTES ── -->
+      <div class="chart-card" style="border-color:rgba(248,81,73,.38);margin-top:14px;background:linear-gradient(160deg,rgba(248,81,73,.045),transparent 62%);">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+          <div>
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:4px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-7"/></svg>
+              <div class="cttlh" style="color:var(--red);margin:0;">Ranking interno de unidades inadimplentes</div>
+            </div>
+            <p style="font-size:12px;color:var(--text3);margin:0;line-height:1.5;max-width:720px;">Controle reservado para uso administrativo/pessoal. Não use este painel em comunicados, assembleias abertas ou materiais de divulgação.</p>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <button onclick="rankInadAdd()" style="font-size:11px;padding:7px 11px;background:rgba(248,81,73,.14);border:1px solid rgba(248,81,73,.42);border-radius:9px;color:var(--red);font-weight:800;cursor:pointer;">+ Unidade</button>
+            <button onclick="rankInadExportarResumo()" style="font-size:11px;padding:7px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;color:var(--text2);cursor:pointer;">Resumo</button>
+            <button onclick="rankInadLimpar()" style="font-size:11px;padding:7px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:9px;color:var(--text2);cursor:pointer;">Limpar</button>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;" id="rank-inad-stats"></div>
+
+        <div style="display:grid;grid-template-columns:1.05fr .85fr .85fr .85fr .9fr 38px;gap:8px;margin-bottom:7px;align-items:center;">
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);font-weight:800;">Unidade</div>
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);font-weight:800;text-align:right;">Meses</div>
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);font-weight:800;text-align:right;">Valor base</div>
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);font-weight:800;">Status</div>
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);font-weight:800;text-align:right;">Total estimado</div>
+          <div></div>
+        </div>
+        <div id="rank-inad-list" style="display:grid;gap:7px;"></div>
+        <div id="rank-inad-empty" style="display:none;text-align:center;padding:18px 12px;border:1px dashed var(--border);border-radius:13px;color:var(--text3);font-size:12px;margin-top:8px;">Nenhuma unidade cadastrada no ranking interno.</div>
+        <div id="rank-inad-resumo" style="display:none;margin-top:12px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:11px 12px;color:var(--text2);font-size:12px;line-height:1.55;"></div>
+      </div>
+
+      <!-- ── PROJEÇÃO DE COLAPSO ── -->
+      <div class="chart-card" style="border-color:rgba(248,81,73,.45);margin-top:14px;background:linear-gradient(160deg,rgba(248,81,73,.04),transparent 60%);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div class="cttlh" style="color:var(--red);margin:0;">Projeção de Colapso Financeiro</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 16px;">
+          <p style="font-size:12px;color:var(--text3);margin:0;line-height:1.55;max-width:760px;">Modelo de efeito cascata calibrado com seus dados reais. A linha histórica mostra o passado; a projetada, o futuro se nada mudar. O limite oficial de risco estrutural é 8%.</p>
+          <button onclick="colAplicarHistoricoReal()" style="font-size:11px;padding:7px 11px;background:rgba(47,129,247,.10);border:1px solid rgba(47,129,247,.35);border-radius:9px;color:var(--blue2);font-weight:900;cursor:pointer;">Usar histórico real</button>
+        </div>
+        <div id="col-integracao-real" style="margin-bottom:14px;"></div>
+
+        <!-- Inputs do colapso -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
+          <div class="field">
+            <label>Despesas mensais (R$)</label>
+            <input type="number" inputmode="decimal" id="col_despesas" value="34000" min="0" step="500" oninput="calcColapso()">
+          </div>
+          <div class="field">
+            <label>Cota atual (R$)</label>
+            <input type="number" inputmode="decimal" id="col_cota" value="850" min="0" step="10" oninput="calcColapso()">
+          </div>
+          <div class="field">
+            <label>Unidades total</label>
+            <input type="number" inputmode="numeric" id="col_unidades" value="40" min="2" oninput="histSalvar();calcColapso()">
+          </div>
+          <div class="field">
+            <label>Inad. atual (%)</label>
+            <input type="number" inputmode="decimal" id="col_inad_pct" value="7.5" min="0" max="99" step="0.5" oninput="calcColapso()">
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px;">
+          <div class="field">
+            <label>Taxa de contágio (%/mês) <span title="Calculada automaticamente se há histórico; ajuste manual caso contrário" style="cursor:help;color:var(--text3)">ⓘ</span></label>
+            <input type="number" inputmode="decimal" id="col_contágio" value="1.5" min="0" max="20" step="0.5" oninput="calcColapso()">
+          </div>
+          <div class="field">
+            <label>Limite suportável da cota (R$)</label>
+            <input type="number" inputmode="decimal" id="col_limite" value="1200" min="0" step="50" oninput="calcColapso()">
+          </div>
+          <div class="field">
+            <label>Horizonte (meses)</label>
+            <input type="number" inputmode="numeric" id="col_horizonte" value="24" min="6" max="60" step="6" oninput="calcColapso()">
+          </div>
+        </div>
+
+        <!-- Termômetro de risco -->
+        <div id="col-termometro" style="margin-bottom:18px;"></div>
+
+        <!-- Gráfico de cascata (histórico + projeção) -->
+        <div style="margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px;flex-wrap:wrap;">
+            <div class="cttlh" style="font-size:11px;margin:0;">Trajetória da inadimplência</div>
+            <div style="display:flex;gap:12px;font-size:10px;color:var(--text3);">
+              <span><span style="display:inline-block;width:16px;height:3px;background:var(--blue2);border-radius:2px;vertical-align:middle;margin-right:4px;"></span>Histórico real</span>
+              <span><span style="display:inline-block;width:16px;height:3px;background:var(--red);border-radius:2px;vertical-align:middle;margin-right:4px;border-top:2px dashed var(--red);background:none;"></span>Projeção</span>
+            </div>
+          </div>
+          <div id="col-chart" style="width:100%;overflow:hidden;"></div>
+        </div>
+
+        <!-- Cards de cenários -->
+        <div id="col-scenarios" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;"></div>
+
+        <!-- Alertas e recomendações -->
+        <div id="col-alertas"></div>
+      </div>
+
+    </div>
+  </div><!-- end page-inadimplencia -->
 
   <!-- ══ RESUMO MENSAL ══ -->
   <div id="page-resumo" class="page">
@@ -4230,9 +4530,10 @@ body.ql-lock-scroll{overflow:hidden;}
         <div style="grid-column:1/-1">
           <div class="field"><label>Nome do condomínio</label><input type="text" id="condo_nome" value="Edificio Primavera" oninput="dirty();calcular()"></div>
         </div>
-        <div class="field"><label>Nº total de unidades <span style="font-size:10px;color:var(--text3);font-weight:400">(rateio)</span></label><input type="number" inputmode="decimal" id="n_unidades" value="40" min="1" oninput="dirty();calcular()"></div>
-        <div class="field"><label>Unidades pagantes <span style="font-size:10px;color:var(--text3);font-weight:400">(cobrança)</span></label><input type="number" inputmode="decimal" id="n_pagantes" value="40" min="1" oninput="dirty();calcular()"><div style="font-size:10px;color:var(--text3);margin-top:4px;line-height:1.4">Síndico/subsíndico isentos? Informe aqui o nº de unidades que efetivamente pagam a cota.</div></div>
+        <div class="field"><label>Nº total de unidades <span style="font-size:10px;color:var(--text3);font-weight:400">(rateio)</span></label><input type="number" inputmode="decimal" id="n_unidades" value="80" min="1" oninput="dirty();calcular()"></div>
+        <div class="field"><label>Unidades pagantes <span style="font-size:10px;color:var(--text3);font-weight:400">(cobrança)</span></label><input type="number" inputmode="decimal" id="n_pagantes" value="80" min="1" oninput="dirty();calcular()"><div style="font-size:10px;color:var(--text3);margin-top:4px;line-height:1.4">Síndico/subsíndico isentos? Informe aqui o nº de unidades que efetivamente pagam a cota.</div></div>
         <div class="field"><label>Cota vigente (R$)</label><input type="number" inputmode="decimal" id="cota_atual" value="850" min="0" step="10" oninput="dirty();calcular()"></div>
+        <div style="grid-column:1/-1;font-size:10.5px;color:var(--text3);line-height:1.45;margin-top:-4px;">Base oficial centralizada: altere o total de unidades uma vez aqui ou no Histórico Real. Inadimplência, colapso e calculadoras passam a usar a mesma base automaticamente.</div>
         <div class="field" style="grid-column:1/-1"><label>Competência</label><input type="text" id="competencia" placeholder="ex: Janeiro/2026" oninput="dirty();calcular()"></div>
       </div>
 
@@ -5096,6 +5397,88 @@ body.ql-lock-scroll{overflow:hidden;}
 <script>
 const ANO = new Date().getFullYear();
 const STORAGE_KEY = 'condocalc_v3';
+
+/* ══ CONFIGURAÇÃO GLOBAL DE UNIDADES ═════════════════════════════
+   Fonte única para evitar repetir total/pagantes em várias telas.
+   Total oficial = usado por histórico, inadimplência e colapso.
+   Pagantes = usado apenas onde a cota operacional precisa considerar isenção/cobrança.
+*/
+const QL_UNITS_KEY = 'ql_condominio_unidades_global_v1';
+function qlNum(v, fallback){
+  const n = Number(String(v ?? '').replace(',','.'));
+  return Number.isFinite(n) && n > 0 ? n : fallback;
+}
+function qlGetUnitsConfig(){
+  let saved = {};
+  try{ saved = JSON.parse(localStorage.getItem(QL_UNITS_KEY)||'{}') || {}; }catch(e){ saved = {}; }
+  const total = Math.max(1, Math.round(
+    qlNum(document.getElementById('n_unidades')?.value, qlNum(saved.total, qlNum(document.getElementById('hist_total')?.value, 80)))
+  ));
+  const pagRaw = qlNum(document.getElementById('n_pagantes')?.value, qlNum(saved.pagantes, total));
+  const pagantes = Math.max(1, Math.min(Math.round(pagRaw), total));
+  return { total, pagantes };
+}
+function qlSaveUnitsConfig(total, pagantes){
+  total = Math.max(1, Math.round(Number(total)||80));
+  pagantes = Math.max(1, Math.min(Math.round(Number(pagantes)||total), total));
+  try{ localStorage.setItem(QL_UNITS_KEY, JSON.stringify({total, pagantes, updatedAt:new Date().toISOString()})); }catch(e){}
+  return { total, pagantes };
+}
+function qlSetIfNotFocused(id, value){
+  const el = document.getElementById(id);
+  if(!el) return;
+  const v = String(value);
+  if(document.activeElement !== el && el.value !== v) el.value = v;
+}
+function qlApplyUnitsConfig(total, pagantes, opts={}){
+  const cfg = qlSaveUnitsConfig(total, pagantes);
+  const t = cfg.total, p = cfg.pagantes;
+  // Campos globais / calculadoras que devem ler a mesma base oficial
+  ['n_unidades','hist_total','inad_n_total','inad2_n_total','col_unidades'].forEach(id=>qlSetIfNotFocused(id,t));
+  // Rateio recebe a base oficial como padrão, mas não força quando o usuário está editando um rateio específico
+  const rt = document.getElementById('rt_unidades');
+  if(rt && document.activeElement !== rt && (!rt.value || Number(rt.value)===40 || Number(rt.value)===Number(rt.dataset.lastGlobal||0))) rt.value = t;
+  if(rt) rt.dataset.lastGlobal = String(t);
+  qlSetIfNotFocused('n_pagantes', p);
+  // Indicador visual do hero
+  const nSub = document.getElementById('n_uni_sub');
+  if(nSub) nSub.textContent = t + (p<t ? ` (${p} pagantes)` : '');
+  // Histórico é a referência crítica: ao mudar a base oficial, recalcula percentuais/colapso.
+  if(opts.recalc !== false){
+    try{ if(typeof histSalvar==='function') histSalvar(); }catch(e){}
+    try{ if(typeof histAtualizarGrade==='function') histAtualizarGrade(); }catch(e){}
+    try{ if(typeof calcColapso==='function') calcColapso(); }catch(e){}
+  }
+  return cfg;
+}
+function qlUnitsFromInputs(changedId){
+  const current = qlGetUnitsConfig();
+  let total = current.total, pagantes = current.pagantes;
+  const get = id => Number(document.getElementById(id)?.value || 0);
+  if(['n_unidades','hist_total','inad_n_total','inad2_n_total','col_unidades'].includes(changedId)){
+    total = Math.max(1, Math.round(get(changedId) || total || 80));
+    pagantes = Math.min(pagantes || total, total);
+  }
+  if(changedId === 'n_pagantes') pagantes = Math.max(1, Math.min(Math.round(get('n_pagantes') || total), total));
+  qlApplyUnitsConfig(total, pagantes);
+}
+function qlInitUnitsConfig(){
+  // Migração: se o app antigo já salvou 80 em qualquer lugar, usa essa base; senão aplica 80 como padrão do seu condomínio.
+  let saved = {};
+  try{ saved = JSON.parse(localStorage.getItem(QL_UNITS_KEY)||'{}') || {}; }catch(e){ saved = {}; }
+  const baseTotal = qlNum(saved.total, qlNum(document.getElementById('n_unidades')?.value, qlNum(document.getElementById('hist_total')?.value, 80)));
+  const basePag = qlNum(saved.pagantes, qlNum(document.getElementById('n_pagantes')?.value, baseTotal));
+  qlApplyUnitsConfig(baseTotal, basePag, {recalc:false});
+  ['n_unidades','n_pagantes','hist_total','inad_n_total','inad2_n_total','col_unidades'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el || el.dataset.qlUnitsBound==='1') return;
+    el.dataset.qlUnitsBound='1';
+    el.addEventListener('input',()=>qlUnitsFromInputs(id));
+    el.addEventListener('change',()=>qlUnitsFromInputs(id));
+  });
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', qlInitUnitsConfig);
+else qlInitUnitsConfig();
 
 // ── STATE ──
 const despesas = [
@@ -7112,6 +7495,7 @@ function calcular(){
   // nPag = unidades pagantes (excluindo isentos como síndico/subsíndico)
   const nPagRaw=parseInt(document.getElementById('n_pagantes')?.value)||nRaw;
   const nPag=Math.max(1,Math.min(nPagRaw,n));
+  try{ if(typeof qlSaveUnitsConfig==='function') qlSaveUnitsConfig(n,nPag); }catch(e){}
   const cotaAtual=parseFloat(document.getElementById('cota_atual').value)||0;
   const inadPct=parseFloat(document.getElementById('inadimplencia').value);
   const frPct=parseFloat(document.getElementById('fundo_reserva').value);
@@ -8017,7 +8401,7 @@ function buildAppData(){
   return {
     version: 4,
     exportedAt: new Date().toISOString(),
-    config:{condoNome:document.getElementById('condo_nome').value,nUnidades:document.getElementById('n_unidades').value,cotaAtual:document.getElementById('cota_atual').value,competencia:document.getElementById('competencia').value,inadimplencia:document.getElementById('inadimplencia').value,fundoReserva:document.getElementById('fundo_reserva').value,fundoObras:document.getElementById('fundo_obras').value,frSaldo:document.getElementById('fr_saldo').value,frTaxa:document.getElementById('fr_taxa').value,modoRateio:document.getElementById('modo_rateio').value,tickerPrefs:getTickerPrefs()},
+    config:{condoNome:document.getElementById('condo_nome').value,nUnidades:document.getElementById('n_unidades').value,nPagantes:document.getElementById('n_pagantes')?.value||document.getElementById('n_unidades').value,cotaAtual:document.getElementById('cota_atual').value,competencia:document.getElementById('competencia').value,inadimplencia:document.getElementById('inadimplencia').value,fundoReserva:document.getElementById('fundo_reserva').value,fundoObras:document.getElementById('fundo_obras').value,frSaldo:document.getElementById('fr_saldo').value,frTaxa:document.getElementById('fr_taxa').value,modoRateio:document.getElementById('modo_rateio').value,tickerPrefs:getTickerPrefs()},
     indices:{ipca:document.getElementById('idx_ipca').value,igpm:document.getElementById('idx_igpm').value,inpc:document.getElementById('idx_inpc').value,ipcfipe:document.getElementById('idx_ipcfipe').value,sm:document.getElementById('idx_sm').value,custom:document.getElementById('idx_custom').value,customNome:document.getElementById('idx_custom_nome').value},
     despesas:[...despesas],historico:[...historico],despComp:[...despComp],tiposUnidade:[...tiposUnidade],rateios:[...rateios],
   };
@@ -8036,6 +8420,7 @@ function applyAppData(d){
   if(cfg.frTaxa!=null){ document.getElementById('fr_taxa').value=cfg.frTaxa; if(typeof syncFrTaxa==='function') syncFrTaxa(); }
   if(cfg.modoRateio) document.getElementById('modo_rateio').value=cfg.modoRateio;
   if(cfg.tickerPrefs) setTickerPrefs(cfg.tickerPrefs);
+  try{ qlApplyUnitsConfig(cfg.nUnidades||80, cfg.nPagantes||cfg.nUnidades||80, {recalc:false}); }catch(e){}
   if(d.indices) Object.entries(d.indices).forEach(([k,v])=>{const el=document.getElementById('idx_'+k); if(el) el.value=v;});
   despesas.length=0; (d.despesas||[]).forEach(x=>despesas.push(x));
   historico.length=0; (d.historico||[]).forEach(x=>historico.push(x));
@@ -10459,7 +10844,7 @@ function rtMoney(v){try{return (Number(v)||0).toLocaleString('pt-BR',{style:'cur
 function rtYmNow(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
 function rtYmLabel(ym){if(!ym)return'—';const [y,m]=ym.split('-').map(Number);const nomes=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];return (nomes[(m||1)-1]||'mês')+'/'+String(y||'').slice(-2)}
 function rtAddMonths(ym,n){const [y,m]=String(ym||rtYmNow()).split('-').map(Number);const d=new Date(y,(m||1)-1+(Number(n)||0),1);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
-function rtGetUnidades(){return Number(document.getElementById('rt_unidades')?.value||document.getElementById('n_pagantes')?.value||document.getElementById('n_unidades')?.value||40)||40}
+function rtGetUnidades(){const g=(typeof qlGetUnitsConfig==='function'?qlGetUnitsConfig().total:null);return Number(document.getElementById('rt_unidades')?.value||g||document.getElementById('n_unidades')?.value||80)||80}
 function rtLoad(){try{rtState=JSON.parse(localStorage.getItem(RT_KEY)||'{}')||{}}catch(e){rtState={}};rtState.items=Array.isArray(rtState.items)?rtState.items:[];if(!rtState.items.length){rtState.items=[{id:'rt_'+Date.now(),nome:'Pintura externa',total:80000,entradaPct:20,inicio:rtYmNow(),meses:12,unidades:rtGetUnidades(),arrecadado:0,tipo:'igualitario',status:'Planejado',inadimplenciaPct:8,corrigirInadimplencia:false,finalidade:'Rateio extraordinário para obra de melhoria e conservação.',fornecedor:'',obs:'Simulação inicial. Ajuste os valores conforme orçamento aprovado.'}];rtState.active=rtState.items[0].id;rtPersist()}if(!rtState.active||!rtState.items.some(x=>x.id===rtState.active))rtState.active=rtState.items[0]?.id||null}
 function rtPersist(){try{localStorage.setItem(RT_KEY,JSON.stringify(rtState))}catch(e){console.warn('rateio',e)}}
 function rtActive(){return rtState.items.find(x=>x.id===rtState.active)||null}
@@ -10608,6 +10993,636 @@ function rtGerarRelatorio(){rtSalvar();document.body.classList.add('printing-rat
 function rtInit(){rtLoad();const uni=document.getElementById('rt_unidades');if(uni&&!uni.value)uni.value=rtGetUnidades();rtRender()}
 /* ══ FIM RATEIO INTELIGENTE ════════════════════════════════════ */
 
+
+/* ══ INADIMPLÊNCIA STAND-ALONE PAGE ══════════════════════════════ */
+function calcInad2(){
+  function fmtMoney(v){return'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function fmtPct(v){return v.toFixed(2).replace('.',',')+'%';}
+  const cota=parseFloat(document.getElementById('inad2_cota')?.value)||0;
+  const meses=parseInt(document.getElementById('inad2_meses')?.value)||1;
+  const multaPct=parseFloat(document.getElementById('inad2_multa')?.value)||0;
+  const jurosPct=parseFloat(document.getElementById('inad2_juros')?.value)||0;
+  const corrPct=parseFloat(document.getElementById('inad2_corr')?.value)||0;
+  const nInad=parseInt(document.getElementById('inad2_n_inad')?.value)||0;
+  const nTotal=parseInt(document.getElementById('inad2_n_total')?.value)||1;
+  const multa=cota*multaPct/100;
+  let total=0;const rows=[];
+  for(let m=1;m<=meses;m++){
+    const juros=(cota*m+multa)*jurosPct/100;
+    const corr=(cota*m+multa)*corrPct/100;
+    total=cota*m+multa+juros+corr;
+    rows.push({m,valor:total});
+  }
+  const statsEl=document.getElementById('inad2-stats');
+  if(statsEl){
+    statsEl.innerHTML=[
+      {l:'Principal',v:fmtMoney(cota*meses),c:'var(--text)'},
+      {l:'Multa',v:fmtMoney(multa),c:'var(--red)'},
+      {l:'Juros acumulados',v:fmtMoney((cota*meses+multa)*jurosPct/100*meses/2),c:'var(--amber)'},
+      {l:'Total devido',v:fmtMoney(total),c:'var(--red)'}
+    ].map(x=>`<div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:5px;">${x.l}</div><div style="font-size:15px;font-weight:700;color:${x.c};">${x.v}</div></div>`).join('');
+  }
+  const chartEl=document.getElementById('inad2-chart');
+  if(chartEl&&rows.length>0){
+    const W=chartEl.clientWidth||560,H=120,P=8;
+    const maxV=rows[rows.length-1].valor;
+    const xF=i=>(P+(W-2*P)*i/(rows.length-1||1)).toFixed(1);
+    const yF=v=>(H-P-(H-2*P)*(v/maxV)).toFixed(1);
+    const path=rows.map((r,i)=>`${i?'L':'M'} ${xF(i)} ${yF(r.valor)}`).join(' ');
+    chartEl.innerHTML=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block;"><path d="${path} L ${xF(rows.length-1)} ${H-P} L ${P} ${H-P} Z" fill="rgba(248,81,73,.10)"/><path d="${path}" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>${rows.filter((_,i)=>i===0||i===rows.length-1||rows.length<=6).map((r,_,arr)=>{const i=rows.indexOf(r);return`<text x="${xF(i)}" y="${parseFloat(yF(r.valor))-6}" fill="var(--text2)" font-size="9" text-anchor="middle">M${r.m}</text>`}).join('')}</svg>`;
+  }
+  const pctInad=nTotal>0?(nInad/nTotal*100):0;
+  const perda=cota*nInad;
+  const impactoRateio=nTotal>nInad?(perda/(nTotal-nInad)):0;
+  const globalEl=document.getElementById('inad2-global-stats');
+  if(globalEl){
+    globalEl.innerHTML=[
+      {l:'Taxa de inadimplência',v:fmtPct(pctInad),c:'var(--red)'},
+      {l:'Perda mensal',v:fmtMoney(perda),c:'var(--red)'},
+      {l:'Impacto por unidade pagante',v:fmtMoney(impactoRateio),c:'var(--amber)'}
+    ].map(x=>`<div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:5px;">${x.l}</div><div style="font-size:16px;font-weight:700;color:${x.c};">${x.v}</div></div>`).join('');
+  }
+}
+
+
+/* ══ HISTÓRICO MENSAL DE INADIMPLÊNCIA ══════════════════════════ */
+const MESES_LABEL = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const HIST_KEY = 'ql_inad_historico';
+
+function histDefaultData(){
+  return { ano:new Date().getFullYear(), total:(typeof qlGetUnitsConfig==='function'?qlGetUnitsConfig().total:80), meses:Array(12).fill(''), cotas:[496,496,496,496,658.37,658.37,658.37,658.37,658.37,658.37,658.37,658.37], ajustes:Array(12).fill('') };
+}
+function histNormalizarData(d){
+  const def=histDefaultData(); d=(d&&typeof d==='object')?d:{};
+  return { ano:Number(d.ano)||def.ano, total:Number(d.total)||def.total,
+    meses:Array.from({length:12},(_,i)=>d.meses&&d.meses[i]!==undefined?d.meses[i]:def.meses[i]),
+    cotas:Array.from({length:12},(_,i)=>d.cotas&&d.cotas[i]!==undefined&&d.cotas[i]!==''?Number(d.cotas[i]):def.cotas[i]),
+    ajustes:Array.from({length:12},(_,i)=>d.ajustes&&d.ajustes[i]!==undefined?d.ajustes[i]:def.ajustes[i]) };
+}
+function histCarregar(){ try{ const raw=localStorage.getItem(HIST_KEY); return raw?histNormalizarData(JSON.parse(raw)):histDefaultData(); }catch(e){ return histDefaultData(); } }
+function histSalvar(){ try{ localStorage.setItem(HIST_KEY, JSON.stringify(histGetData())); }catch(e){} }
+function histGetData(){
+  const ano=parseInt(document.getElementById('hist_ano')?.value)||new Date().getFullYear();
+  const total=parseInt(document.getElementById('hist_total')?.value)||(typeof qlGetUnitsConfig==='function'?qlGetUnitsConfig().total:80);
+  const def=histDefaultData();
+  const meses=MESES_LABEL.map((_,i)=>document.getElementById('hist_m'+i)?.value??'');
+  const cotas=MESES_LABEL.map((_,i)=>{const el=document.getElementById('hist_cota'+i); const v=el?parseFloat(String(el.value).replace(',','.')):def.cotas[i]; return isFinite(v)&&v>=0?v:def.cotas[i];});
+  const ajustes=MESES_LABEL.map((_,i)=>document.getElementById('hist_ajuste'+i)?.value??'');
+  return {ano,total,meses,cotas,ajustes};
+}
+function histLimpar(){ MESES_LABEL.forEach((_,i)=>{const m=document.getElementById('hist_m'+i);if(m)m.value=''; const a=document.getElementById('hist_ajuste'+i);if(a)a.value='';}); histSalvar(); histAtualizarGrade(); calcColapso(); }
+function histRiskMeta(pct){ if(pct===null||!isFinite(pct))return{cor:'var(--border)',faixa:'Sem dado',cls:'empty'}; if(pct<5)return{cor:'var(--green)',faixa:'Baixo',cls:'ok'}; if(pct<8)return{cor:'var(--amber)',faixa:'Atenção',cls:'warn'}; return{cor:'var(--red)',faixa:'Crítico 8%+',cls:'risk pulse'}; }
+function histMoney(v){ return 'R$ '+(Number(v)||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function histMonthCalc(data,i){
+  const raw=data.meses[i]??''; const val=raw!==''?Math.max(0,parseFloat(raw)||0):null; const total=Math.max(1,parseFloat(data.total)||1);
+  const cota=Math.max(0,parseFloat(data.cotas?.[i])||0); const ajusteRaw=data.ajustes?.[i]??''; const ajuste=ajusteRaw!==''?(parseFloat(String(ajusteRaw).replace(',','.'))||0):0;
+  const valorBase=val!==null?val*cota:null; const valorAberto=val!==null?Math.max(0,valorBase+ajuste):null; const valorPrevisto=total*cota;
+  const pct=val!==null?(val/total*100):null; const pctFinanceiro=(valorAberto!==null&&valorPrevisto>0)?(valorAberto/valorPrevisto*100):null;
+  const pagantes=val!==null?Math.max(0,total-val):null; const adimplPct=pagantes!==null?(pagantes/total*100):null; const meta=histRiskMeta(pct); const barH=pct!==null?Math.max(4,Math.min(40,pct*1.55)).toFixed(0):0;
+  return {raw,val,total,cota,ajusteRaw,ajuste,valorBase,valorAberto,valorPrevisto,pct,pctFinanceiro,pagantes,adimplPct,meta,barH};
+}
+
+function histMesAnteriorComDado(data,i){
+  for(let j=i-1;j>=0;j--){
+    if(data.meses && data.meses[j] !== '' && data.meses[j] !== null && data.meses[j] !== undefined){
+      const m=histMonthCalc(data,j);
+      if(m && m.pct!==null && isFinite(m.pct)) return m;
+    }
+  }
+  return null;
+}
+function histTrendArrow(data,i,m){
+  const ant=histMesAnteriorComDado(data,i);
+  if(!ant || !m || m.pct===null || !isFinite(m.pct)) return '';
+  const delta=m.pct-ant.pct;
+  const eps=0.0001;
+  if(delta>eps) return '<span class="hist-trend-arrow up" title="Subiu em relação ao mês anterior lançado">▲</span>';
+  if(delta<-eps) return '<span class="hist-trend-arrow down" title="Caiu em relação ao mês anterior lançado">▼</span>';
+  return '<span class="hist-trend-arrow stable" title="Manteve o mesmo percentual do mês anterior lançado">→</span>';
+}
+
+function histTrendLabel(data,i,m){
+  const ant=histMesAnteriorComDado(data,i);
+  if(!ant || !m || m.pct===null || !isFinite(m.pct)) return 'Sem mês anterior para comparação';
+  const delta=m.pct-ant.pct;
+  const eps=0.0001;
+  const d=Math.abs(delta).toFixed(1).replace('.',',')+' p.p.';
+  if(delta>eps) return 'Subiu '+d+' em relação ao mês anterior lançado';
+  if(delta<-eps) return 'Caiu '+d+' em relação ao mês anterior lançado';
+  return 'Manteve o mesmo percentual do mês anterior lançado';
+}
+function histTooltipHtml(lbl,m,data,i){
+  const pct=m.pct!==null?m.pct.toFixed(1).replace('.',',')+'%':'—';
+  const fin=m.pctFinanceiro!==null?m.pctFinanceiro.toFixed(1).replace('.',',')+'%':'—';
+  const valor=m.valorAberto!==null?histMoney(m.valorAberto):'R$ —';
+  const qtd=m.val!==null?m.val+' de '+m.total:'—';
+  const pag=m.pagantes!==null?m.pagantes+' pagantes':'—';
+  const tendencia=histTrendLabel(data,i,m);
+  return '<div class="hist-month-tooltip"><div class="hist-tip-title">'+lbl+' · leitura interna</div>'+
+    '<div class="hist-tip-row"><span>Inadimplentes</span><strong>'+qtd+'</strong></div>'+
+    '<div class="hist-tip-row"><span>% por unidade</span><strong>'+pct+'</strong></div>'+
+    '<div class="hist-tip-row"><span>Valor em aberto</span><strong>'+valor+'</strong></div>'+
+    '<div class="hist-tip-row"><span>% financeiro</span><strong>'+fin+'</strong></div>'+
+    '<div class="hist-tip-row"><span>Pagantes</span><strong>'+pag+'</strong></div>'+
+    '<div class="hist-tip-row"><span>Tendência</span><strong>'+tendencia+'</strong></div></div>';
+}
+function histPctHtml(pctTxt,finTxt,trendArrow){
+  return '<span class="hist-pct-main">'+pctTxt+trendArrow+'</span><span class="hist-pct-fin">(fin: '+String(finTxt).replace(' fin.','')+')</span>';
+}
+
+function histRenderGrade(data){
+  const grade=document.getElementById('hist-grade'); if(!grade)return; const hoje=new Date(); const anoAtual=hoje.getFullYear(); const mesAtual=hoje.getMonth();
+  grade.innerHTML=MESES_LABEL.map((lbl,i)=>{const m=histMonthCalc(data,i); const isFuturo=(data.ano>anoAtual)||(data.ano===anoAtual&&i>mesAtual); const pctTxt=m.pct!==null?m.pct.toFixed(1).replace('.',',')+'%':'—'; const finTxt=m.pctFinanceiro!==null?m.pctFinanceiro.toFixed(1).replace('.',',')+'%':'—'; const unTxt=m.val!==null?m.val+'/'+m.total+' inad.':'sem dado'; const pagTxt=m.pagantes!==null?m.pagantes+' pagantes · '+m.adimplPct.toFixed(1).replace('.',',')+'%':'pagantes —'; const valorTxt=m.valorAberto!==null?histMoney(m.valorAberto):'R$ —'; const trendArrow=histTrendArrow(data,i,m);
+  return '<div id="hist_card_'+i+'" data-hist-card="'+i+'" class="hist-card-risk '+(m.meta.cls==='risk pulse'?'hist-critical-pulse':'')+'" style="background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.018)),var(--bg2);border:1.5px solid '+m.meta.cor+';box-shadow:inset 4px 0 0 '+m.meta.cor+';border-radius:12px;padding:10px 8px;text-align:center;'+(isFuturo?'opacity:.45':'')+';transition:border-color .18s ease,box-shadow .18s ease,opacity .18s ease;">'+
+    '<div style="display:flex;align-items:center;justify-content:space-between;gap:4px;margin-bottom:7px;"><div style="font-size:10px;font-weight:800;color:var(--text2);letter-spacing:.06em;">'+lbl+'</div><div id="hist_risk_'+i+'" style="font-size:8px;color:'+m.meta.cor+';font-weight:900;text-transform:uppercase;letter-spacing:.04em;">'+m.meta.faixa+'</div></div>'+
+    '<div style="height:42px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:6px;"><div id="hist_bar_'+i+'" style="width:22px;background:'+m.meta.cor+';border-radius:5px 5px 0 0;height:'+m.barH+'px;min-height:'+(m.pct!==null?4:0)+'px;transition:height .3s,background .18s;"></div></div>'+
+    '<div style="font-size:8px;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:2px;font-weight:800;">Qtd.</div><input type="number" id="hist_m'+i+'" value="'+m.raw+'" min="0" max="'+m.total+'" step="1" inputmode="numeric" placeholder="—" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:5px 4px;text-align:center;font-size:13px;font-weight:800;color:var(--text);font-family:inherit;outline:none;margin-bottom:6px;" oninput="histSalvar();histAtualizarGrade();calcColapso()" onfocus="this.select()">'+
+    '<div style="display:grid;grid-template-columns:1fr;gap:5px;margin-bottom:6px;"><label style="font-size:8px;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);font-weight:800;text-align:left;">Cota R$</label><input type="number" id="hist_cota'+i+'" value="'+Number(m.cota).toFixed(2)+'" min="0" step="0.01" inputmode="decimal" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:5px 4px;text-align:center;font-size:11px;font-weight:800;color:var(--text);font-family:inherit;outline:none;" oninput="histSalvar();histAtualizarGrade();calcColapso()" onfocus="this.select()"><label style="font-size:8px;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);font-weight:800;text-align:left;">Ajuste R$</label><input type="number" id="hist_ajuste'+i+'" value="'+m.ajusteRaw+'" step="0.01" inputmode="decimal" placeholder="0,00" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:5px 4px;text-align:center;font-size:11px;font-weight:800;color:var(--text);font-family:inherit;outline:none;" oninput="histSalvar();histAtualizarGrade();calcColapso()" onfocus="this.select()"></div>'+
+    '<div id="hist_valor_'+i+'" style="font-size:12px;color:'+m.meta.cor+';margin-top:4px;font-weight:950;">'+valorTxt+'</div><div id="hist_pct_'+i+'" style="font-size:11px;color:'+m.meta.cor+';margin-top:4px;font-weight:950;display:flex;align-items:center;justify-content:center;gap:2px;white-space:nowrap;">'+histPctHtml(pctTxt,finTxt,trendArrow)+'</div><div id="hist_unid_'+i+'" style="font-size:9px;color:var(--text3);margin-top:2px;font-weight:700;">'+unTxt+'</div><div id="hist_pag_'+i+'" style="font-size:8.5px;color:var(--text3);margin-top:1px;font-weight:700;opacity:.9;">'+pagTxt+'</div></div>';}).join('');
+}
+function histAtualizarGrade(){
+  const data=histGetData(); const hoje=new Date(); const anoAtual=hoje.getFullYear(); const mesAtual=hoje.getMonth();
+  MESES_LABEL.forEach((_,i)=>{const input=document.getElementById('hist_m'+i); if(!input)return; const m=histMonthCalc(data,i); const isFuturo=(data.ano>anoAtual)||(data.ano===anoAtual&&i>mesAtual); const card=document.getElementById('hist_card_'+i)||input.closest('[data-hist-card]'); const pctTxt=m.pct!==null?m.pct.toFixed(1).replace('.',',')+'%':'—'; const finTxt=m.pctFinanceiro!==null?m.pctFinanceiro.toFixed(1).replace('.',',')+'%':'—'; const unTxt=m.val!==null?m.val+'/'+m.total+' inad.':'sem dado'; const pagTxt=m.pagantes!==null?m.pagantes+' pagantes · '+m.adimplPct.toFixed(1).replace('.',',')+'%':'pagantes —'; const valorTxt=m.valorAberto!==null?histMoney(m.valorAberto):'R$ —'; const trendArrow=histTrendArrow(data,i,m); input.max=m.total; if(card){card.style.borderColor=m.meta.cor;card.classList.toggle('hist-critical-pulse',m.meta.cls==='risk pulse');card.style.boxShadow=(m.meta.cls==='risk pulse'?'inset 4px 0 0 '+m.meta.cor+', 0 0 0 1px rgba(248,81,73,.25)':'inset 4px 0 0 '+m.meta.cor);card.style.opacity=isFuturo?'.45':'1'; const tip=card.querySelector('.hist-month-tooltip'); if(tip) tip.outerHTML=histTooltipHtml(MESES_LABEL[i],m,data,i);} const bar=document.getElementById('hist_bar_'+i); if(bar){bar.style.background=m.meta.cor;bar.style.height=m.barH+'px';bar.style.minHeight=(m.pct!==null?4:0)+'px';} const valorLbl=document.getElementById('hist_valor_'+i); if(valorLbl){valorLbl.style.color=m.meta.cor;valorLbl.textContent=valorTxt;} const pctLbl=document.getElementById('hist_pct_'+i); if(pctLbl){pctLbl.style.color=m.meta.cor;pctLbl.innerHTML=histPctHtml(pctTxt,finTxt,trendArrow);} const riskLbl=document.getElementById('hist_risk_'+i); if(riskLbl){riskLbl.style.color=m.meta.cor;riskLbl.textContent=m.meta.faixa;} const unidLbl=document.getElementById('hist_unid_'+i); if(unidLbl)unidLbl.textContent=unTxt; const pagLbl=document.getElementById('hist_pag_'+i); if(pagLbl)pagLbl.textContent=pagTxt;});
+  histRenderSparkline(data); histRenderStats(data); histRenderAlerts(data);
+}
+function histRenderSparkline(data){
+  const el=document.getElementById('hist-sparkline'); if(!el)return; const pts=data.meses.map((v,i)=>v!==''?{i,v:parseFloat(v)/data.total*100}:null).filter(Boolean); if(pts.length<2){el.innerHTML='';return;} const W=el.clientWidth||560,H=56,P=10; const maxV=Math.max(...pts.map(p=>p.v),1); const xF=i=>(P+(W-2*P)*(i/11)).toFixed(1); const yF=v=>(H-P-(H-2*P)*(v/maxV)).toFixed(1); const path=pts.map((p,k)=>(k?'L':'M')+' '+xF(p.i)+' '+yF(p.v)).join(' '); const area=path+' L '+xF(pts[pts.length-1].i)+' '+(H-P)+' L '+xF(pts[0].i)+' '+(H-P)+' Z'; const dots=pts.map(p=>{const cor=p.v<5?'#3fb950':p.v<8?'#d2991f':'#f85149'; return '<circle cx="'+xF(p.i)+'" cy="'+yF(p.v)+'" r="3.5" fill="'+cor+'" stroke="var(--bg1)" stroke-width="1.5"/>';}).join(''); el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;display:block;"><defs><linearGradient id="hArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2f81f7" stop-opacity=".25"/><stop offset="100%" stop-color="#2f81f7" stop-opacity=".01"/></linearGradient></defs><path d="'+area+'" fill="url(#hArea)"/><path d="'+path+'" fill="none" stroke="var(--blue2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'+dots+pts.map(p=>'<text x="'+xF(p.i)+'" y="'+(H-1)+'" fill="var(--text3)" font-size="8" text-anchor="middle">'+MESES_LABEL[p.i]+'</text>').join('')+'</svg>';
+}
+function histTrendInfo(mesesCalc){
+  const pcts=mesesCalc.map(m=>m.pct||0);
+  const n=pcts.length;
+  if(n<2)return {slope:0,label:'Sem tendência suficiente',cor:'var(--text3)',tipo:'blue',icon:'ℹ️'};
+  const media=pcts.reduce((a,b)=>a+b,0)/n; const mx=(n-1)/2;
+  const num=pcts.reduce((s,y,i)=>s+(i-mx)*(y-media),0);
+  const den=pcts.reduce((s,_,i)=>s+(i-mx)*(i-mx),0);
+  const slope=den>0?num/den:0;
+  if(slope>0.5)return {slope,label:'Subindo',cor:'var(--red)',tipo:'red',icon:'↗'};
+  if(slope<-0.5)return {slope,label:'Caindo',cor:'var(--green)',tipo:'green',icon:'↘'};
+  return {slope,label:'Estável',cor:'var(--amber)',tipo:'amber',icon:'→'};
+}
+function histRenderAlerts(data,mesesCalc){
+  const el=document.getElementById('hist-alertas'); if(!el)return;
+  mesesCalc=Array.isArray(mesesCalc)?mesesCalc:data.meses.map((v,i)=>v!==''?histMonthCalc(data,i):null).filter(Boolean);
+  if(!mesesCalc.length){el.innerHTML='';return;}
+  const fmtPct=v=>(Number(v)||0).toFixed(1).replace('.',',')+'%';
+  const trend=histTrendInfo(mesesCalc), alerts=[];
+  const criticos=mesesCalc.filter(m=>(m.pct||0)>=8);
+  const atencao=mesesCalc.filter(m=>(m.pct||0)>=5&&(m.pct||0)<8);
+  const ultimo=mesesCalc[mesesCalc.length-1];
+  const ultimoIdx=data.meses.reduce((acc,v,i)=>v!==''?i:acc,-1);
+  const pior=mesesCalc.reduce((a,b)=>(b.pct||0)>(a.pct||0)?b:a,mesesCalc[0]);
+  const allCalc=data.meses.map((v,i)=>v!==''?histMonthCalc(data,i):null);
+  const piorIdx=allCalc.findIndex(m=>m&&m.pct===pior.pct&&m.valorAberto===pior.valorAberto);
+  let seqCrit=0,maxSeqCrit=0,seqWarn=0,maxSeqWarn=0;
+  data.meses.forEach((v,i)=>{if(v===''){seqCrit=0;seqWarn=0;return;} const m=histMonthCalc(data,i); if((m.pct||0)>=8){seqCrit++;seqWarn++;}else{seqCrit=0;if((m.pct||0)>=5)seqWarn++;else seqWarn=0;} maxSeqCrit=Math.max(maxSeqCrit,seqCrit);maxSeqWarn=Math.max(maxSeqWarn,seqWarn);});
+  if(maxSeqCrit>=2)alerts.push({tipo:'red',ico:'🚨',titulo:'Crítico recorrente',txt:'Inadimplência em 8% ou mais por '+maxSeqCrit+' meses consecutivos. Isso reforça risco estrutural e alimenta diretamente a Projeção de Colapso.'});
+  else if(criticos.length)alerts.push({tipo:'red',ico:'🔴',titulo:'Limite de 8% rompido',txt:criticos.length+' mês(es) acima do limite oficial. Pior leitura: '+MESES_LABEL[piorIdx>=0?piorIdx:0]+' com '+fmtPct(pior.pct)+' e '+histMoney(pior.valorAberto||0)+' em aberto.'});
+  if(maxSeqWarn>=3&&!maxSeqCrit)alerts.push({tipo:'amber',ico:'⚠️',titulo:'Atenção prolongada',txt:'A inadimplência ficou em zona amarela por '+maxSeqWarn+' meses consecutivos. Ainda não é colapso, mas indica pressão no caixa.'});
+  if(trend.label==='Subindo')alerts.push({tipo:'red',ico:'📈',titulo:'Tendência de alta',txt:'A série está subindo cerca de '+Math.abs(trend.slope).toFixed(2).replace('.',',')+' ponto percentual por mês. Se continuar, o limite de 8% pode ser atingido ou ampliado rapidamente.'});
+  else if(trend.label==='Caindo')alerts.push({tipo:'green',ico:'📉',titulo:'Tendência de queda',txt:'A inadimplência vem caindo cerca de '+Math.abs(trend.slope).toFixed(2).replace('.',',')+' ponto percentual por mês. Mantenha acompanhamento para confirmar a recuperação.'});
+  else alerts.push({tipo:'blue',ico:'➡️',titulo:'Tendência estável',txt:'A variação mensal está baixa ('+Math.abs(trend.slope).toFixed(2).replace('.',',')+' pp/mês). Use o valor financeiro em aberto para avaliar impacto real no caixa.'});
+  if(ultimo&&(ultimo.pct||0)>=8)alerts.push({tipo:'red',ico:'⏱️',titulo:'Último mês em risco crítico',txt:MESES_LABEL[ultimoIdx>=0?ultimoIdx:0]+' fechou com '+fmtPct(ultimo.pct)+' ('+ultimo.val+'/'+ultimo.total+') e '+histMoney(ultimo.valorAberto||0)+' em aberto. Recomenda-se acionar cobrança preventiva.'});
+  else if(ultimo&&(ultimo.pct||0)>=5)alerts.push({tipo:'amber',ico:'🟡',titulo:'Último mês em atenção',txt:MESES_LABEL[ultimoIdx>=0?ultimoIdx:0]+' ficou em '+fmtPct(ultimo.pct)+'. Ainda abaixo de 8%, mas já merece monitoramento.'});
+  if(!criticos.length&&!atencao.length&&trend.label!=='Subindo')alerts.push({tipo:'green',ico:'✅',titulo:'Sem alerta estrutural',txt:'Nenhum mês lançado ultrapassou 5%. A leitura atual está saudável dentro do modelo adotado.'});
+  el.innerHTML=alerts.slice(0,4).map(a=>'<div class="hist-alert '+a.tipo+'"><span class="ha-ico">'+a.ico+'</span><div><div class="ha-title">'+a.titulo+'</div><div class="ha-text">'+a.txt+'</div></div></div>').join('');
+}
+function histRenderStats(data){
+  const el=document.getElementById('hist-stats'); if(!el)return; const mesesCalc=data.meses.map((v,i)=>v!==''?histMonthCalc(data,i):null).filter(Boolean); if(mesesCalc.length===0){el.innerHTML='';return;} const baseTotal=Math.max(1,Number(data.total)||1); const vals=mesesCalc.map(m=>m.val||0); const pcts=mesesCalc.map(m=>m.pct||0); const media=pcts.reduce((a,b)=>a+b,0)/pcts.length; const maxPct=Math.max(...pcts); const minPct=Math.min(...pcts); const last=mesesCalc[mesesCalc.length-1]; const lastInad=last.val||0; const lastPagantes=Math.max(0,baseTotal-lastInad); const lastAdimplPct=lastPagantes/baseTotal*100; const totalAberto=mesesCalc.reduce((s,m)=>s+(m.valorAberto||0),0); const totalPrevisto=mesesCalc.reduce((s,m)=>s+(m.valorPrevisto||0),0); const pctFin=totalPrevisto>0?totalAberto/totalPrevisto*100:0; const mediaCota=mesesCalc.reduce((s,m)=>s+(m.cota||0),0)/mesesCalc.length; const n=pcts.length; const xs=pcts.map((_,i)=>i); const mx=(n-1)/2; const my=media; const num=xs.reduce((s,x,i)=>s+(x-mx)*(pcts[i]-my),0); const den=xs.reduce((s,x)=>s+(x-mx)**2,0); const slope=den>0?num/den:0; const corMedia=media<5?'var(--green)':media<8?'var(--amber)':'var(--red)'; const corTend=slope<-0.3?'var(--green)':slope<0.3?'var(--amber)':'var(--red)'; const tendLbl=slope<-0.5?'↘ Caindo':slope>0.5?'↗ Subindo':'→ Estável'; const corFin=pctFin<5?'var(--green)':pctFin<8?'var(--amber)':'var(--red)';
+  el.innerHTML=[{l:'Base oficial',v:baseTotal+' unidades',c:'var(--blue2)'},{l:'Total em aberto',v:histMoney(totalAberto),c:'var(--red)'},{l:'Impacto financeiro',v:pctFin.toFixed(1)+'%',c:corFin},{l:'Cota média lançada',v:histMoney(mediaCota),c:'var(--amber)'},{l:'Últimos pagantes',v:lastPagantes+' ('+lastAdimplPct.toFixed(1)+'%)',c:'var(--green)'},{l:'Média inad.',v:media.toFixed(1)+'%',c:corMedia},{l:'Pior mês',v:maxPct.toFixed(1)+'%',c:'var(--red)'},{l:'Melhor mês',v:minPct.toFixed(1)+'%',c:'var(--green)'},{l:'Tendência',v:tendLbl+' ('+Math.abs(slope).toFixed(2)+'pp/mês)',c:corTend}].map(s=>'<div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:4px;">'+s.l+'</div><div style="font-size:15px;font-weight:800;color:'+s.c+';">'+s.v+'</div></div>').join('');
+  const lastPct=lastInad/baseTotal*100; const colInad=document.getElementById('col_inad_pct'); if(colInad&&document.activeElement!==colInad)colInad.value=lastPct.toFixed(1); const colUnid=document.getElementById('col_unidades'); if(colUnid&&document.activeElement!==colUnid)colUnid.value=data.total; const colCota=document.getElementById('col_cota'); if(colCota&&document.activeElement!==colCota&&last.cota>0)colCota.value=last.cota.toFixed(2); const colContag=document.getElementById('col_contágio'); if(colContag&&document.activeElement!==colContag&&slope>0)colContag.value=Math.min(20,slope.toFixed(2));
+}
+function histInit(){ const data=histCarregar(); const anoEl=document.getElementById('hist_ano'); const totEl=document.getElementById('hist_total'); if(anoEl)anoEl.value=data.ano; if(totEl)totEl.value=data.total; histRenderGrade(data); histRenderSparkline(data); histRenderStats(data); histRenderAlerts(data); rankInadInit(); }
+
+/* ══ RANKING INTERNO DE UNIDADES INADIMPLENTES ═════════════════ */
+const RANK_INAD_KEY = 'ql_inad_ranking_unidades';
+
+function rankInadMoney(v){
+  return 'R$ '+(Number(v)||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function rankInadParseMoney(v){
+  return Number(String(v??'').replace(/\./g,'').replace(',','.')) || 0;
+}
+function rankInadStatusMeta(status, total, meses){
+  const st = String(status||'Cobrança').toLowerCase();
+  if(st.includes('juríd')) return {cor:'var(--red)', tag:'Jurídico'};
+  if(st.includes('acordo')) return {cor:'var(--blue2)', tag:'Acordo'};
+  if(total >= 5000 || meses >= 6) return {cor:'var(--red)', tag:'Crítico'};
+  if(total >= 2500 || meses >= 3) return {cor:'var(--amber)', tag:'Atenção'};
+  return {cor:'var(--green)', tag:'Monitorar'};
+}
+function rankInadLoad(){
+  try{ const raw = localStorage.getItem(RANK_INAD_KEY); return raw ? JSON.parse(raw) : []; }catch(e){ return []; }
+}
+function rankInadSave(items){
+  try{ localStorage.setItem(RANK_INAD_KEY, JSON.stringify(items||[])); }catch(e){}
+}
+function rankInadCalcItem(item){
+  const cota = Number(document.getElementById('inad2_cota')?.value) || Number(document.getElementById('col_cota')?.value) || 850;
+  const multa = Math.max(0, Number(document.getElementById('inad2_multa')?.value) || 2) / 100;
+  const juros = Math.max(0, Number(document.getElementById('inad2_juros')?.value) || 1) / 100;
+  const corr  = Math.max(0, Number(document.getElementById('inad2_corr')?.value) || 0.5) / 100;
+  const meses = Math.max(0, Number(item.meses)||0);
+  const baseMensal = Number(item.valor)||cota;
+  let total = 0;
+  for(let m=1;m<=meses;m++){
+    const fator = Math.pow(1+corr, m-1);
+    total += baseMensal * fator;
+  }
+  total += total * multa;
+  total += baseMensal * juros * (meses*(meses+1)/2);
+  return {meses, baseMensal, total};
+}
+function rankInadReadRows(){
+  return Array.from(document.querySelectorAll('[data-rank-row]')).map(row => ({
+    id: row.getAttribute('data-rank-row') || ('u_'+Date.now()),
+    unidade: row.querySelector('[data-rank-field="unidade"]')?.value || '',
+    meses: Math.max(0, Number(row.querySelector('[data-rank-field="meses"]')?.value)||0),
+    valor: rankInadParseMoney(row.querySelector('[data-rank-field="valor"]')?.value),
+    status: row.querySelector('[data-rank-field="status"]')?.value || 'Cobrança'
+  })).filter(x => x.unidade || x.meses || x.valor);
+}
+function rankInadPersistAndRender(){
+  const items = rankInadReadRows();
+  rankInadSave(items);
+  rankInadRender(items);
+}
+function rankInadAdd(){
+  const items = rankInadReadRows();
+  const cota = Number(document.getElementById('inad2_cota')?.value) || Number(document.getElementById('col_cota')?.value) || 850;
+  items.push({id:'u_'+Date.now(),unidade:'',meses:1,valor:cota,status:'Cobrança'});
+  rankInadSave(items);
+  rankInadRender(items);
+}
+function rankInadRemove(id){
+  const items = rankInadReadRows().filter(x => x.id !== id);
+  rankInadSave(items);
+  rankInadRender(items);
+}
+function rankInadLimpar(){
+  if(!confirm('Limpar o ranking interno de unidades inadimplentes?')) return;
+  rankInadSave([]);
+  rankInadRender([]);
+}
+function rankInadRenderStats(items){
+  const el = document.getElementById('rank-inad-stats');
+  if(!el) return;
+  const enriched = items.map(it => ({...it, calc:rankInadCalcItem(it)}));
+  const total = enriched.reduce((s,it)=>s+it.calc.total,0);
+  const qtd = enriched.length;
+  const maior = enriched.reduce((m,it)=>Math.max(m,it.calc.total),0);
+  const juridico = enriched.filter(it=>String(it.status).toLowerCase().includes('juríd')).length;
+  el.innerHTML = [
+    {l:'Unidades listadas',v:String(qtd),c:'var(--text)'},
+    {l:'Total estimado',v:rankInadMoney(total),c:'var(--red)'},
+    {l:'Maior dívida',v:rankInadMoney(maior),c:'var(--amber)'},
+    {l:'Em jurídico',v:String(juridico),c:'var(--blue2)'}
+  ].map(x=>`<div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:4px;">${x.l}</div><div style="font-size:15px;font-weight:900;color:${x.c};">${x.v}</div></div>`).join('');
+}
+function rankInadRender(items){
+  items = Array.isArray(items) ? items : rankInadLoad();
+  const list = document.getElementById('rank-inad-list');
+  const empty = document.getElementById('rank-inad-empty');
+  if(!list) return;
+  const enriched = items.map(it => ({...it, calc:rankInadCalcItem(it)})).sort((a,b)=>b.calc.total-a.calc.total);
+  if(empty) empty.style.display = enriched.length ? 'none' : 'block';
+  rankInadRenderStats(enriched);
+  list.innerHTML = enriched.map((it,idx) => {
+    const meta = rankInadStatusMeta(it.status, it.calc.total, it.calc.meses);
+    const pos = idx+1;
+    return `<div data-rank-row="${it.id}" style="display:grid;grid-template-columns:1.05fr .85fr .85fr .85fr .9fr 38px;gap:8px;align-items:center;background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.018)),var(--bg2);border:1px solid ${meta.cor};box-shadow:inset 4px 0 0 ${meta.cor};border-radius:12px;padding:8px;">
+      <div style="display:flex;align-items:center;gap:7px;min-width:0;"><span style="width:24px;height:24px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:${meta.cor};">${pos}</span><input data-rank-field="unidade" value="${String(it.unidade||'').replace(/"/g,'&quot;')}" placeholder="Ex.: Bl. 2 / Apto 33" oninput="rankInadPersistAndRender()" style="min-width:0;width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 8px;color:var(--text);font-size:12px;font-family:inherit;outline:none;"></div>
+      <input data-rank-field="meses" type="number" min="0" step="1" value="${it.calc.meses}" oninput="rankInadPersistAndRender()" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 8px;text-align:right;color:var(--text);font-size:12px;font-family:inherit;outline:none;">
+      <input data-rank-field="valor" value="${it.calc.baseMensal.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}" oninput="rankInadPersistAndRender()" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 8px;text-align:right;color:var(--text);font-size:12px;font-family:inherit;outline:none;">
+      <select data-rank-field="status" onchange="rankInadPersistAndRender()" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 8px;color:var(--text);font-size:12px;font-family:inherit;outline:none;">
+        ${['Cobrança','Acordo','Jurídico','Monitorar'].map(s=>`<option ${s===it.status?'selected':''}>${s}</option>`).join('')}
+      </select>
+      <div style="text-align:right;"><div style="font-size:14px;font-weight:950;color:${meta.cor};">${rankInadMoney(it.calc.total)}</div><div style="font-size:9px;text-transform:uppercase;color:${meta.cor};font-weight:900;letter-spacing:.04em;">${meta.tag}</div></div>
+      <button onclick="rankInadRemove('${it.id}')" title="Remover" style="width:31px;height:31px;border-radius:9px;border:1px solid var(--border);background:var(--bg3);color:var(--text3);cursor:pointer;font-weight:900;">×</button>
+    </div>`;
+  }).join('');
+}
+function rankInadExportarResumo(){
+  const box = document.getElementById('rank-inad-resumo');
+  const items = rankInadReadRows().map(it => ({...it, calc:rankInadCalcItem(it)})).sort((a,b)=>b.calc.total-a.calc.total);
+  if(!box) return;
+  if(!items.length){ box.style.display='block'; box.innerHTML='Nenhuma unidade cadastrada para resumir.'; return; }
+  const total = items.reduce((s,it)=>s+it.calc.total,0);
+  box.style.display='block';
+  box.innerHTML = `<strong style="color:var(--text);">Resumo reservado — não divulgar nominalmente</strong><br>Total estimado em atraso: <strong style="color:var(--red);">${rankInadMoney(total)}</strong> em ${items.length} unidade(s). Top 3 interno: ${items.slice(0,3).map((it,i)=>`${i+1}º ${it.unidade||'sem identificação'} (${rankInadMoney(it.calc.total)})`).join(' • ')}.`;
+}
+function rankInadInit(){
+  rankInadRender(rankInadLoad());
+}
+/* ══ FIM HISTÓRICO MENSAL ═══════════════════════════════════════ */
+
+/* ══ PROJEÇÃO DE COLAPSO FINANCEIRO ═════════════════════════════ */
+function colHistoricoRealResumo(){
+  const data = histGetData();
+  const meses = MESES_LABEL.map((lbl,i)=>({lbl,i,...histMonthCalc(data,i)})).filter(m=>m.val!==null);
+  const ult = meses.length ? meses[meses.length-1] : null;
+  const pior = meses.length ? meses.reduce((a,b)=>(b.pct||0)>(a.pct||0)?b:a, meses[0]) : null;
+  const mediaPct = meses.length ? meses.reduce((s,m)=>s+(m.pct||0),0)/meses.length : null;
+  const mediaFin = meses.length ? meses.reduce((s,m)=>s+(m.pctFinanceiro||0),0)/meses.length : null;
+  const valorAno = meses.reduce((s,m)=>s+(m.valorAberto||0),0);
+  const mesesCriticos = meses.filter(m=>(m.pct||0)>=8);
+  const ultimos3 = meses.slice(-3);
+  const tendencia = ultimos3.length>=2 ? (ultimos3[ultimos3.length-1].pct - ultimos3[0].pct)/Math.max(1,ultimos3.length-1) : 0;
+  return {data,meses,ult,pior,mediaPct,mediaFin,valorAno,mesesCriticos,tendencia};
+}
+function colAplicarHistoricoReal(){
+  const r = colHistoricoRealResumo();
+  if(!r.ult) return calcColapso();
+  const set=(id,val)=>{const el=document.getElementById(id); if(el) el.value=val;};
+  set('col_unidades', r.ult.total);
+  set('col_cota', Number(r.ult.cota||0).toFixed(2));
+  set('col_inad_pct', Number(r.ult.pct||0).toFixed(1));
+  const cont = Math.max(0.5, Math.min(12, Math.abs(r.tendencia||0) || 1.5));
+  set('col_contágio', cont.toFixed(1));
+  calcColapso();
+}
+function calcColapso(){
+  const real = colHistoricoRealResumo();
+  const despesas = parseFloat(document.getElementById('col_despesas')?.value)||34000;
+  const cotaBase = parseFloat(document.getElementById('col_cota')?.value)||850;
+  const nTotal   = Math.max(2, parseInt(document.getElementById('col_unidades')?.value)||40);
+  const inadInicial = Math.min(99, parseFloat(document.getElementById('col_inad_pct')?.value)||7.5) / 100;
+  const taxaContagio = Math.min(50, parseFloat(document.getElementById('col_contágio')?.value)||1.5) / 100;
+  const cotaLimite   = parseFloat(document.getElementById('col_limite')?.value)||1200;
+  const horizonte    = Math.min(60, Math.max(6, parseInt(document.getElementById('col_horizonte')?.value)||24));
+  const limiteEstrutural = 8;
+
+  function fmtM(v){ return 'R$ '+(Number(v)||0).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}); }
+  function fmtM2(v){ return 'R$ '+(Number(v)||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  function fmtP(v){ return (Number(v)||0).toFixed(1).replace('.',',')+' %'; }
+  const integ = document.getElementById('col-integracao-real');
+  if(integ){
+    const ult = real.ult; const pior = real.pior;
+    const cor = ult && ult.pct>=8 ? 'var(--red)' : ult && ult.pct>=5 ? 'var(--amber)' : 'var(--green)';
+    integ.innerHTML = ult ? `
+      <div class="${ult.pct>=8?'col-risk-pulse':''}" style="border:1px solid ${ult.pct>=8?'rgba(248,81,73,.45)':'var(--border)'};background:linear-gradient(160deg,rgba(47,129,247,.055),rgba(255,255,255,.018));border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:1.15fr repeat(4,.85fr);gap:10px;align-items:center;">
+        <div><span class="col-sync-chip">Histórico real conectado</span><div style="font-size:11px;color:var(--text3);margin-top:6px;line-height:1.45;">Último mês lançado: <strong style="color:var(--text);">${ult.lbl}/${real.data.ano}</strong>. Gatilho vermelho oficial: <strong style="color:var(--red);">8%</strong>.</div></div>
+        <div><div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;">Inad. atual</div><div style="font-size:18px;font-weight:950;color:${cor};">${fmtP(ult.pct)}</div></div>
+        <div><div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;">Valor aberto</div><div style="font-size:16px;font-weight:950;color:${cor};">${fmtM2(ult.valorAberto||0)}</div></div>
+        <div><div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;">Pior mês</div><div style="font-size:16px;font-weight:950;color:${pior&&pior.pct>=8?'var(--red)':'var(--amber)'};">${pior?pior.lbl+' · '+fmtP(pior.pct):'—'}</div></div>
+        <div><div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;">Críticos 8%+</div><div style="font-size:16px;font-weight:950;color:${real.mesesCriticos.length?'var(--red)':'var(--green)'};">${real.mesesCriticos.length}</div></div>
+      </div>` : `<div style="border:1px dashed var(--border);border-radius:13px;padding:11px 12px;color:var(--text3);font-size:12px;">Preencha o Histórico Real para a Projeção de Colapso herdar automaticamente inadimplência, cota, base oficial e valor em aberto.</div>`;
+  }
+
+  // ── Modelo de cascata ──
+  // A cada mês: inadimplentes aumentam proporcionalmente à pressão da cota
+  // cotaEfetiva = despesas / (nAdimplentes) = despesas / (nTotal * (1 - inadPct))
+  // Se cotaEfetiva > cotaLimite → novos inadimplentes surgem
+  // Taxa de contagio: % do excesso de cota que converte adimplentes em inadimplentes
+  const meses = [];
+  let inadPct = inadInicial;
+  let colapseMes = null;
+  let pontoNaoRetorno = null;
+
+  for(let m = 0; m <= horizonte; m++){
+    const nInad = Math.min(nTotal - 1, Math.round(nTotal * inadPct));
+    const nAdim = nTotal - nInad;
+    const cotaEfetiva = nAdim > 0 ? despesas / nAdim : Infinity;
+    const pressao = cotaEfetiva > cotaLimite ? (cotaEfetiva - cotaLimite) / cotaLimite : 0;
+    const novosInadPct = pressao * taxaContagio;
+
+    meses.push({
+      m,
+      inadPct: inadPct * 100,
+      nInad,
+      nAdim,
+      cotaEfetiva: isFinite(cotaEfetiva) ? cotaEfetiva : 99999,
+      pressao,
+      colapso: inadPct >= 0.85
+    });
+
+    if(inadPct >= 0.85 && colapseMes === null) colapseMes = m;
+    if(novosInadPct > inadPct * 0.5 && pontoNaoRetorno === null && m > 0) pontoNaoRetorno = m;
+
+    // Atualiza para próximo mês
+    inadPct = Math.min(0.99, inadPct + novosInadPct);
+    if(inadPct >= 0.99) { for(let r=m+1;r<=horizonte;r++) meses.push({m:r,inadPct:99,nInad:nTotal-1,nAdim:1,cotaEfetiva:despesas,pressao:1,colapso:true}); break; }
+  }
+
+  const inadAtual = meses[0]?.inadPct || 0;
+  const inadFinal = meses[meses.length-1]?.inadPct || 0;
+  const cotaAtual = meses[0]?.cotaEfetiva || cotaBase;
+  const cotaFinal = meses[meses.length-1]?.cotaEfetiva || cotaBase;
+
+  // Ponto crítico teórico: inad onde cota == limite
+  // despesas / (nTotal*(1-x)) = cotaLimite → x = 1 - despesas/(nTotal*cotaLimite)
+  const inadCritica = Math.max(0, (1 - despesas / (nTotal * cotaLimite)) * 100);
+
+  // ── Nível de risco ──
+  // Regra oficial do seu modelo: 8% já entra em risco crítico visual.
+  // O ponto crítico financeiro continua sendo calculado pelo limite suportável da cota.
+  const pontoReferencia = inadCritica > 0 ? Math.min(inadCritica, limiteEstrutural) : limiteEstrutural;
+  let risco, riscoLabel, riscoColor, riscoDesc;
+  if(inadAtual < 5){ risco=1; riscoLabel='ESTÁVEL'; riscoColor='var(--green)'; riscoDesc='A inadimplência está abaixo de 5%. O histórico real fica em zona saudável, com acompanhamento mensal.'; }
+  else if(inadAtual < limiteEstrutural){ risco=2; riscoLabel='ATENÇÃO'; riscoColor='var(--amber)'; riscoDesc='A inadimplência está entre 5% e 8%. Ainda não rompeu o limite estrutural, mas exige cobrança preventiva.'; }
+  else if(inadAtual < Math.max(limiteEstrutural, inadCritica || limiteEstrutural)){ risco=3; riscoLabel='CRÍTICO 8%+'; riscoColor='var(--red)'; riscoDesc='A inadimplência atingiu ou ultrapassou 8%, que é o gatilho oficial da sua projeção. A borda passa a pulsar e o cenário exige ação imediata.'; }
+  else { risco=4; riscoLabel='COLAPSO EM CURSO'; riscoColor='var(--red)'; riscoDesc='A inadimplência ultrapassou também o ponto crítico financeiro. Sem intervenção, a pressão sobre os pagantes tende a acelerar.'; }
+
+  const pctBarra = Math.min(100, pontoReferencia > 0 ? (inadAtual / pontoReferencia) * 100 : 0);
+
+  // ── Termômetro ──
+  const termo = document.getElementById('col-termometro');
+  if(termo){
+    termo.innerHTML = `
+      <div class="${inadAtual>=limiteEstrutural?'col-risk-pulse':''}" style="background:var(--bg2);border:1px solid ${inadAtual>=limiteEstrutural?'rgba(248,81,73,.48)':'var(--border)'};border-radius:14px;padding:14px 16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div>
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--text3);font-weight:700;margin-bottom:3px;">Nível de risco atual</div>
+            <div style="font-size:20px;font-weight:900;color:${riscoColor};">${riscoLabel}</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:10px;color:var(--text3);margin-bottom:3px;">Ponto crítico em</div>
+            <div style="font-size:17px;font-weight:800;color:var(--red);">${inadCritica > 0 ? fmtP(inadCritica) : '∞'}</div>
+            <div style="font-size:10px;color:var(--text3);">de inadimplência</div>
+          </div>
+        </div>
+        <div style="height:12px;background:linear-gradient(90deg,var(--green) 0%,var(--amber) 45%,#f97316 70%,var(--red) 100%);border-radius:999px;position:relative;margin-bottom:8px;">
+          <div style="position:absolute;top:50%;transform:translate(-50%,-50%);left:${Math.min(97,Math.max(3,pctBarra))}%;width:18px;height:18px;border-radius:50%;background:var(--bg1);border:3px solid ${riscoColor};box-shadow:0 0 10px ${riscoColor};"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:10px;">
+          <span>0%</span><span>Ponto crítico: ${inadCritica > 0 ? fmtP(inadCritica) : 'N/A'}</span><span>Colapso</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.5;padding:8px 10px;background:var(--bg3);border-radius:10px;border-left:3px solid ${riscoColor};">${riscoDesc}</div>
+      </div>`;
+  }
+
+  // ── Gráfico SVG combinado: histórico real + projeção ──
+  const chartEl = document.getElementById('col-chart');
+  if(chartEl && meses.length > 1){
+    const hist = histGetData();
+    const histPts = hist.meses
+      .map((v,i) => v !== '' ? { i, pct: parseFloat(v)/Math.max(1,hist.total)*100 } : null)
+      .filter(Boolean);
+
+    const W = chartEl.clientWidth || 560;
+    const H = 200, PL = 38, PR = 16, PT = 14, PB = 22;
+    const maxInad = 100;
+
+    // Total de slots = histPts (até 12) + meses da projeção
+    // O gráfico exibe ambos numa linha do tempo contínua
+    // x-slots: -N..-1 para histórico, 0..horizonte para projeção
+    const nHist = histPts.length;
+    const totalSlots = nHist + meses.length;
+    const xF = slot => (PL + (W - PL - PR) * slot / Math.max(1, totalSlots - 1)).toFixed(1);
+    const yF = v    => (H - PB - (H - PT - PB) * (Math.min(v,100) / maxInad)).toFixed(1);
+    const yCrit = inadCritica > 0 ? parseFloat(yF(inadCritica)) : null;
+
+    // Grid lines
+    const grid = [0,25,50,75,100].map(v =>
+      `<text x="${PL-4}" y="${parseFloat(yF(v))+4}" fill="var(--text3)" font-size="9" text-anchor="end">${v}%</text>
+       <line x1="${PL}" y1="${yF(v)}" x2="${W-PR}" y2="${yF(v)}" stroke="rgba(148,163,184,.11)" stroke-width="1"/>`
+    ).join('');
+
+    // Histórico: slots 0..nHist-1
+    const histPath = histPts.map((p,k) => `${k===0?'M':'L'} ${xF(k)} ${yF(p.pct)}`).join(' ');
+    const histArea = nHist > 1 ? histPath + ` L ${xF(nHist-1)} ${H-PB} L ${xF(0)} ${H-PB} Z` : '';
+    const histDots = histPts.map((p,k) => {
+      const cor = p.pct < 5 ? '#3fb950' : p.pct < 8 ? '#d2991f' : '#f85149';
+      return `<circle cx="${xF(k)}" cy="${yF(p.pct)}" r="3.5" fill="${cor}" stroke="var(--bg1)" stroke-width="1.5"/>`;
+    }).join('');
+    const histLabels = histPts.map((p,k) =>
+      `<text x="${xF(k)}" y="${H-6}" fill="var(--text3)" font-size="8" text-anchor="middle">${MESES_LABEL[p.i]}</text>`
+    ).join('');
+
+    // Projeção: slots nHist..nHist+horizonte
+    // O ponto de junção usa o último valor histórico real (se houver)
+    const projOffset = nHist > 0 ? nHist - 1 : 0;
+    const projStartPct = nHist > 0 ? histPts[nHist-1].pct : meses[0].inadPct;
+    // Recalcula a projeção a partir do último ponto real
+    let pip = projStartPct / 100;
+    const projMeses = [{ slot: projOffset, pct: projStartPct }];
+    for(let m = 1; m <= horizonte; m++){
+      const nA = nTotal - Math.round(nTotal * pip);
+      const cE = nA > 0 ? despesas / nA : Infinity;
+      const press = cE > cotaLimite ? (cE - cotaLimite) / cotaLimite : 0;
+      pip = Math.min(0.99, pip + press * taxaContagio);
+      projMeses.push({ slot: projOffset + m, pct: pip * 100 });
+    }
+
+    const projPath = projMeses.map((p,k) => `${k===0?'M':'L'} ${xF(p.slot)} ${yF(p.pct)}`).join(' ');
+    const projArea = projMeses.length > 1
+      ? projPath + ` L ${xF(projMeses[projMeses.length-1].slot)} ${H-PB} L ${xF(projOffset)} ${H-PB} Z` : '';
+
+    // X labels projeção (a cada 6 meses)
+    const projLabels = projMeses.filter(p => (p.slot - projOffset) % 6 === 0 && p.slot !== projOffset).map(p =>
+      `<text x="${xF(p.slot)}" y="${H-6}" fill="rgba(248,81,73,.7)" font-size="8" text-anchor="middle">+${p.slot-projOffset}m</text>`
+    ).join('');
+
+    // Linha divisória histórico/projeção
+    const divLine = nHist > 0
+      ? `<line x1="${xF(projOffset)}" y1="${PT}" x2="${xF(projOffset)}" y2="${H-PB}" stroke="rgba(148,163,184,.3)" stroke-width="1" stroke-dasharray="3 3"/>
+         <text x="${parseFloat(xF(projOffset))+4}" y="${PT+10}" fill="var(--text3)" font-size="8">hoje</text>` : '';
+
+    // Ponto crítico financeiro + limite estrutural oficial de 8%
+    const critLine = yCrit !== null && inadCritica < 100 ?
+      `<line x1="${PL}" y1="${yCrit}" x2="${W-PR}" y2="${yCrit}" stroke="#f97316" stroke-width="1.5" stroke-dasharray="5 4" opacity=".8"/>
+       <text x="${W-PR-2}" y="${yCrit-3}" fill="#f97316" font-size="9" text-anchor="end" font-weight="700">crítico financeiro</text>` : '';
+    const yLim8 = parseFloat(yF(limiteEstrutural));
+    const lim8Line = `<line x1="${PL}" y1="${yLim8}" x2="${W-PR}" y2="${yLim8}" stroke="#f85149" stroke-width="1.8" stroke-dasharray="2 4" opacity=".92"/>
+       <text x="${PL+4}" y="${yLim8-4}" fill="#f85149" font-size="9" font-weight="900">limite 8%</text>`;
+
+    // Marcador ponto de não-retorno
+    const pnrSlot = pontoNaoRetorno !== null ? projOffset + pontoNaoRetorno : null;
+    const pnrPct  = pnrSlot !== null ? projMeses.find(p=>p.slot===pnrSlot)?.pct : null;
+    const pnrMark = pnrSlot !== null && pnrPct != null ?
+      `<circle cx="${xF(pnrSlot)}" cy="${yF(pnrPct)}" r="5" fill="var(--red)" opacity=".85"/>
+       <text x="${parseFloat(xF(pnrSlot))+7}" y="${parseFloat(yF(pnrPct))-4}" fill="var(--red)" font-size="9" font-weight="700">não-retorno</text>` : '';
+
+    chartEl.innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block;">
+      <defs>
+        <linearGradient id="colHistArea" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#2f81f7" stop-opacity=".20"/>
+          <stop offset="100%" stop-color="#2f81f7" stop-opacity=".02"/>
+        </linearGradient>
+        <linearGradient id="colProjArea" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f85149" stop-opacity=".22"/>
+          <stop offset="100%" stop-color="#f85149" stop-opacity=".02"/>
+        </linearGradient>
+      </defs>
+      ${grid}${lim8Line}${critLine}${divLine}
+      ${histArea ? `<path d="${histArea}" fill="url(#colHistArea)"/>` : ''}
+      ${projArea ? `<path d="${projArea}" fill="url(#colProjArea)"/>` : ''}
+      ${nHist > 1 ? `<path d="${histPath}" fill="none" stroke="var(--blue2)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>` : ''}
+      <path d="${projPath}" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="7 5"/>
+      ${histDots}${histLabels}${projLabels}${pnrMark}
+    </svg>`;
+  }
+
+  // ── 3 Cenários ──
+  function simCenario(contagioMult){
+    let ip = inadInicial;
+    for(let m=0;m<=horizonte;m++){
+      const nA = nTotal - Math.round(nTotal*ip);
+      const cE = nA > 0 ? despesas / nA : Infinity;
+      const press = cE > cotaLimite ? (cE - cotaLimite) / cotaLimite : 0;
+      ip = Math.min(0.99, ip + press * taxaContagio * contagioMult);
+    }
+    return { inadFinal: ip*100, cotaFinal: despesas / Math.max(1, nTotal*(1-ip)) };
+  }
+  const cenOtimista  = simCenario(0.3);
+  const cenBase      = simCenario(1.0);
+  const cenPessimista= simCenario(2.5);
+
+  const scenEl = document.getElementById('col-scenarios');
+  if(scenEl){
+    scenEl.innerHTML = [
+      {titulo:'🟢 Otimista',sub:'Baixo contágio / intervenção rápida',inad:cenOtimista.inadFinal,cota:cenOtimista.cotaFinal,cor:'var(--green)',borda:'rgba(63,185,80,.35)'},
+      {titulo:'🟡 Base',sub:'Sem intervenção, ritmo atual',inad:cenBase.inadFinal,cota:cenBase.cotaFinal,cor:'var(--amber)',borda:'rgba(210,153,34,.40)'},
+      {titulo:'🔴 Pessimista',sub:'Pressão social alta / crise',inad:cenPessimista.inadFinal,cota:cenPessimista.cotaFinal,cor:'var(--red)',borda:'rgba(248,81,73,.40)'},
+    ].map(c=>`
+      <div style="border:1px solid ${c.borda};background:var(--bg2);border-radius:14px;padding:12px;">
+        <div style="font-size:12px;font-weight:800;color:var(--text);margin-bottom:2px;">${c.titulo}</div>
+        <div style="font-size:10px;color:var(--text3);margin-bottom:10px;">${c.sub}</div>
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;">Inad. em ${horizonte}m</div>
+        <div style="font-size:22px;font-weight:900;color:${c.cor};margin-bottom:6px;">${fmtP(c.inad)}</div>
+        <div style="font-size:10px;color:var(--text3);">Cota projetada</div>
+        <div style="font-size:14px;font-weight:700;color:var(--text);">${c.cota < 50000 ? fmtM(c.cota) : '∞'}</div>
+      </div>`).join('');
+  }
+
+  // ── Alertas e recomendações ──
+  const alertEl = document.getElementById('col-alertas');
+  if(alertEl){
+    const alertas = [];
+    if(inadAtual >= limiteEstrutural) alertas.push({tipo:'red',icone:'🔴',titulo:'Limite estrutural de 8% rompido',texto:`A inadimplência atual está em ${fmtP(inadAtual)}. Pelo seu modelo, 8% já aciona risco crítico. ${real.ult?`No último mês real, o valor em aberto foi ${fmtM2(real.ult.valorAberto||0)}.`:''}`});
+    if(real.mesesCriticos.length) alertas.push({tipo:'orange',icone:'📌',titulo:'Histórico real com meses críticos',texto:`${real.mesesCriticos.length} mês(es) ficaram em 8% ou mais: ${real.mesesCriticos.map(m=>m.lbl+' '+fmtP(m.pct)).join(' · ')}. Esses meses passam a alimentar a leitura da projeção.`});
+    try{
+      const hData=histGetData(); const hCalc=hData.meses.map((v,i)=>v!==''?histMonthCalc(hData,i):null).filter(Boolean); const tr=histTrendInfo(hCalc);
+      if(hCalc.length>=2 && tr.label==='Subindo') alertas.push({tipo:'red',icone:'📈',titulo:'Tendência histórica de alta integrada',texto:`O histórico real indica alta de ${Math.abs(tr.slope).toFixed(2).replace('.',',')} ponto percentual/mês. A projeção deve ser lida em cenário de atenção reforçada.`});
+      if(hCalc.length>=2 && tr.label==='Caindo') alertas.push({tipo:'green',icone:'📉',titulo:'Tendência histórica de queda integrada',texto:`O histórico real indica queda de ${Math.abs(tr.slope).toFixed(2).replace('.',',')} ponto percentual/mês. A tendência ajuda a reduzir o risco, desde que se mantenha nos próximos lançamentos.`});
+    }catch(e){}
+    if(inadAtual >= inadCritica) alertas.push({tipo:'red',icone:'🚨',titulo:'Sistema já em zona de colapso financeiro',texto:`Com ${fmtP(inadAtual)} de inadimplência e ponto crítico financeiro em ${fmtP(inadCritica)}, cada novo inadimplente eleva a cota dos demais, acelerando o colapso. Intervenção imediata é necessária.`});
+    if(cotaAtual > cotaLimite) alertas.push({tipo:'red',icone:'⛔',titulo:'Cota já supera o limite suportável',texto:`A cota efetiva atual (${fmtM(cotaAtual)}) já ultrapassou o limite configurado (${fmtM(cotaLimite)}). Isso indica pressão ativa de abandono de pagamento.`});
+    if(pontoNaoRetorno !== null && pontoNaoRetorno <= 12) alertas.push({tipo:'orange',icone:'⚠️',titulo:`Ponto de não-retorno previsto em ${pontoNaoRetorno} meses`,texto:'Após esse prazo, o sistema entra em aceleração autossustentada. Ações preventivas precisam ser tomadas antes disso.'});
+    if(colapseMes !== null) alertas.push({tipo:'red',icone:'💥',titulo:`Colapso projetado para o mês ${colapseMes}`,texto:`Com o ritmo atual de contágio, mais de 85% das unidades estarão inadimplentes em ${colapseMes} meses, tornando o condomínio financeiramente inviável.`});
+    if(risco <= 1) alertas.push({tipo:'green',icone:'✅',titulo:'Situação sob controle',texto:`A inadimplência atual (${fmtP(inadAtual)}) representa apenas ${fmtP(pctBarra)} do ponto crítico. Mantenha o acompanhamento mensal e aja rapidamente ao primeiro sinal de aumento.`});
+
+    // Recomendações sempre presentes
+    alertas.push({tipo:'blue',icone:'💡',titulo:'Ações recomendadas',texto:`
+      <ul style="margin:6px 0 0 16px;padding:0;font-size:11px;line-height:1.7;color:var(--text2);">
+        <li>Notificação extrajudicial após 30 dias de atraso</li>
+        <li>Parcelamento estruturado para devedores antigos (preserva o fluxo)</li>
+        <li>Fundo de reserva para cobrir até 3 meses de inadimplência</li>
+        <li>Protesto em cartório após 90 dias — reduz drasticamente a taxa</li>
+        <li>Assembleia de emergência se inadimplência atingir 8% ou permanecer acima de 5% por meses consecutivos</li>
+      </ul>`});
+
+    alertEl.innerHTML = alertas.map(a=>
+      `<div style="display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;border:1px solid ${a.tipo==='red'?'rgba(248,81,73,.28)':a.tipo==='orange'?'rgba(245,158,11,.30)':a.tipo==='green'?'rgba(63,185,80,.28)':'rgba(47,129,247,.25)'};background:${a.tipo==='red'?'rgba(248,81,73,.07)':a.tipo==='orange'?'rgba(245,158,11,.07)':a.tipo==='green'?'rgba(63,185,80,.07)':'rgba(47,129,247,.07)'};margin-bottom:8px;">
+        <span style="font-size:16px;margin-top:1px;flex-shrink:0;">${a.icone}</span>
+        <div><div style="font-size:12px;font-weight:800;color:var(--text);margin-bottom:3px;">${a.titulo}</div><div style="font-size:12px;color:var(--text2);line-height:1.5;">${a.texto}</div></div>
+      </div>`
+    ).join('');
+  }
+}
+/* ══ FIM PROJEÇÃO DE COLAPSO ════════════════════════════════════ */
+
+/* ══ FIM INADIMPLÊNCIA STAND-ALONE ══════════════════════════════ */
+
 function navPage(page, btn){
   const current = document.querySelector('.page.on');
   function _show(){
@@ -10629,6 +11644,7 @@ function navPage(page, btn){
     if(page==='rateio') setTimeout(rtInit,0);
     if(page==='assembleia') setTimeout(asmRender,0);
     if(page==='simulacoes') setTimeout(renderSimulacoes,0);
+    if(page==='inadimplencia') setTimeout(()=>{histInit();calcInad2();calcColapso();},0);
     try{ localStorage.setItem('cdc_page', page); }catch(e){}
   }
   if(current && current.id !== 'page-'+page){
@@ -13631,6 +14647,167 @@ function rmLoadDemo(){
 })();
 </script>
 
+<script>
+/* QuotaLab PRO — acordeão múltiplo da guia Inadimplência */
+(function(){
+  const LS_KEY='ql_inadimplencia_acordeoes_abertos_v1';
+  const META=[
+    {key:'calculadora', icon:'🧮', title:'Calculadora por unidade', sub:'Simula dívida individual com multa, juros e correção.', badge:'PRO', open:true},
+    {key:'impacto', icon:'📊', title:'Impacto global', sub:'Mede o reflexo da inadimplência no caixa do condomínio.', badge:'Cenário', open:false},
+    {key:'historico', icon:'📅', title:'Histórico real', sub:'Meses com borda por risco, percentuais e tendência real.', badge:'Aberto', open:true},
+    {key:'ranking', icon:'🔒', title:'Ranking interno de unidades', sub:'Controle reservado para uso pessoal/administrativo, sem divulgação.', badge:'Reservado', open:true},
+    {key:'colapso', icon:'⚠️', title:'Projeção de colapso', sub:'Simula efeito cascata e limite financeiro suportável.', badge:'Risco', open:false}
+  ];
+  function loadState(){try{const raw=localStorage.getItem(LS_KEY);if(!raw)return null;const arr=JSON.parse(raw);return Array.isArray(arr)?new Set(arr):null;}catch(e){return null;}}
+  function saveState(){try{const open=[...document.querySelectorAll('#page-inadimplencia .ql-acc-card.is-open')].map(c=>c.dataset.accKey).filter(Boolean);localStorage.setItem(LS_KEY,JSON.stringify(open));}catch(e){}}
+  function setOpen(card,open,persist=true){card.classList.toggle('is-open',!!open);const head=card.querySelector('.ql-acc-head');if(head)head.setAttribute('aria-expanded',open?'true':'false');if(persist)saveState();if(open){setTimeout(()=>{try{if(typeof calcInad2==='function')calcInad2();}catch(e){}try{if(typeof histAtualizarGrade==='function')histAtualizarGrade();}catch(e){}try{if(typeof calcColapso==='function')calcColapso();}catch(e){}try{if(typeof rankInadRender==='function')rankInadRender();}catch(e){}},80);}}
+  function montarAcordeoes(){const cards=[...document.querySelectorAll('#page-inadimplencia > div > .chart-card')];if(!cards.length||cards[0].classList.contains('ql-acc-card'))return;const saved=loadState();cards.forEach((card,idx)=>{const meta=META[idx]||{key:'painel_'+idx,icon:'▦',title:'Painel',sub:'',badge:'',open:false};card.classList.add('ql-acc-card');card.dataset.accKey=meta.key;const body=document.createElement('div');body.className='ql-acc-body';while(card.firstChild)body.appendChild(card.firstChild);const head=document.createElement('button');head.type='button';head.className='ql-acc-head';head.setAttribute('aria-expanded','false');head.innerHTML=`<span class="ql-acc-main"><span class="ql-acc-icon">${meta.icon}</span><span style="min-width:0"><span class="ql-acc-title">${meta.title}</span><span class="ql-acc-sub">${meta.sub||''}</span></span></span><span class="ql-acc-right">${meta.badge?`<span class="ql-acc-badge">${meta.badge}</span>`:''}<span class="ql-acc-chev">⌄</span></span>`;head.addEventListener('click',()=>setOpen(card,!card.classList.contains('is-open')));card.appendChild(head);card.appendChild(body);const shouldOpen=saved?saved.has(meta.key):!!meta.open;setOpen(card,shouldOpen,false);});saveState();}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',montarAcordeoes);else montarAcordeoes();
+  window.qlMontarAcordeoesInadimplencia=montarAcordeoes;
+})();
+</script>
+
+<div class="ql-month-panel-backdrop" id="ql-month-panel-backdrop"></div>
+<aside class="ql-month-panel" id="ql-month-panel" aria-hidden="true" aria-label="Detalhamento do mês de inadimplência">
+  <div class="ql-mp-head">
+    <div>
+      <div class="ql-mp-kicker">Histórico real · uso interno</div>
+      <div class="ql-mp-title" id="ql-mp-title">Mês</div>
+      <div class="ql-mp-sub" id="ql-mp-sub">Clique em um mês para visualizar a leitura detalhada.</div>
+    </div>
+    <button class="ql-mp-close" type="button" id="ql-mp-close" aria-label="Fechar painel">×</button>
+  </div>
+  <div class="ql-mp-body" id="ql-mp-body"></div>
+</aside>
+<script id="ql-month-detail-drawer-safe-js">
+(function(){
+  function esc(v){return String(v==null?'':v).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]||c;});}
+  function pct(v){return (v===null||v===undefined||!isFinite(v))?'—':Number(v).toFixed(1).replace('.',',')+'%';}
+  function money(v){
+    if(v===null||v===undefined||!isFinite(v)) return 'R$ —';
+    try{ if(typeof histMoney==='function') return histMoney(v); }catch(e){}
+    return 'R$ '+Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  }
+  function closePanel(){
+    var p=document.getElementById('ql-month-panel'), b=document.getElementById('ql-month-panel-backdrop');
+    if(p){p.classList.remove('is-open');p.setAttribute('aria-hidden','true');}
+    if(b)b.classList.remove('is-open');
+  }
+  function openPanel(i){
+    try{
+      if(typeof histGetData!=='function' || typeof histMonthCalc!=='function') return;
+      var data=histGetData(); i=Number(i)||0;
+      var m=histMonthCalc(data,i);
+      window.__qlCurrentInadMonth = i;
+      var p=document.getElementById('ql-month-panel'), b=document.getElementById('ql-month-panel-backdrop');
+      var title=document.getElementById('ql-mp-title'), sub=document.getElementById('ql-mp-sub'), body=document.getElementById('ql-mp-body');
+      if(!p||!b||!title||!sub||!body) return;
+      var labels=(window.MESES_LABEL||['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']);
+      var cor=(m.meta&&m.meta.cor)||'var(--text2)';
+      var faixa=(m.meta&&m.meta.faixa)||'—';
+      var tendencia='Sem mês anterior para comparação';
+      try{ if(typeof histTrendLabel==='function') tendencia=histTrendLabel(data,i,m); }catch(e){}
+      title.textContent=(labels[i]||('Mês '+(i+1)))+' / '+(data.ano||'');
+      sub.textContent='Detalhamento administrativo do mês, sem divulgação pública.';
+      var qtd=(m.val!==null && m.val!==undefined)?(m.val+' de '+m.total):'Sem lançamento';
+      var pag=(m.pagantes!==null && m.pagantes!==undefined)?(m.pagantes+' unidades ('+pct(m.adimplPct)+')'):'—';
+      var leitura=(m.pct!==null && m.pct>=8)?'mês em zona crítica. Recomenda-se acompanhar cobrança, acordos e impacto na Projeção de Colapso.':(m.pct!==null && m.pct>=5)?'mês em atenção. Ainda abaixo do limite de 8%, mas merece monitoramento.':'mês dentro da zona saudável do modelo adotado.';
+      body.innerHTML=''+
+        '<section class="ql-mp-main" style="border-color:'+cor+';box-shadow:inset 4px 0 0 '+cor+',0 14px 34px rgba(0,0,0,.16);">'+
+          '<div class="ql-mp-main-top"><span class="ql-mp-risk" style="color:'+cor+'">'+esc(faixa)+'</span><span style="font-size:11px;color:var(--text3);font-weight:900;text-transform:uppercase;letter-spacing:.07em;">base '+esc(m.total)+' unid.</span></div>'+
+          '<div class="ql-mp-percent" style="color:'+cor+'">'+pct(m.pct)+'<small>por unidade</small></div>'+ 
+          '<div style="font-size:12px;color:var(--text2);margin-top:8px;line-height:1.45;">'+esc(tendencia)+'</div>'+ 
+        '</section>'+ 
+        '<section class="ql-mp-grid">'+
+          '<div class="ql-mp-item"><div class="ql-mp-label">Inadimplentes</div><div class="ql-mp-value">'+esc(qtd)+'</div></div>'+ 
+          '<div class="ql-mp-item"><div class="ql-mp-label">Pagantes</div><div class="ql-mp-value">'+esc(pag)+'</div></div>'+ 
+          '<div class="ql-mp-item"><div class="ql-mp-label">Valor em aberto</div><div class="ql-mp-value" style="color:'+cor+'">'+esc(money(m.valorAberto))+'</div></div>'+ 
+          '<div class="ql-mp-item"><div class="ql-mp-label">% financeiro</div><div class="ql-mp-value">'+esc(pct(m.pctFinanceiro))+'</div></div>'+ 
+          '<div class="ql-mp-item"><div class="ql-mp-label">Cota lançada</div><div class="ql-mp-value">'+esc(money(m.cota))+'</div></div>'+ 
+          '<div class="ql-mp-item"><div class="ql-mp-label">Ajuste manual</div><div class="ql-mp-value">'+esc(money(m.ajuste||0))+'</div></div>'+ 
+          '<div class="ql-mp-item"><div class="ql-mp-label">Arrecadação prevista</div><div class="ql-mp-value">'+esc(money(m.valorPrevisto))+'</div></div>'+ 
+          '<div class="ql-mp-item"><div class="ql-mp-label">Limite oficial</div><div class="ql-mp-value">8,0%</div></div>'+ 
+        '</section>'+ 
+        '<section class="ql-mp-note"><strong style="color:var(--gold,#d29922);">Leitura interna:</strong> '+esc(leitura)+'</section>'+ 
+        '<div class="ql-mp-actions"><button class="ql-mp-btn" type="button" id="ql-mp-action-ranking">Ver unidades deste mês</button><button class="ql-mp-btn" type="button" id="ql-mp-action-acordo">Abrir acordos</button><button class="ql-mp-btn" type="button" id="ql-mp-action-close">Fechar</button><button class="ql-mp-btn" type="button" id="ql-mp-action-colapso">Ver projeção de colapso</button></div>';
+      b.classList.add('is-open'); p.classList.add('is-open'); p.setAttribute('aria-hidden','false');
+    }catch(err){ console.warn('Falha ao abrir painel do mês', err); }
+  }
+  document.addEventListener('click',function(ev){
+    var closeBtn=ev.target.closest('#ql-mp-close,#ql-mp-action-close,#ql-month-panel-backdrop');
+    if(closeBtn){ closePanel(); return; }
+    var colBtn=ev.target.closest('#ql-mp-action-colapso');
+    if(colBtn){ closePanel(); setTimeout(function(){var el=document.getElementById('colapso-panel')||document.querySelector('[data-acc-key="colapso"]'); if(el&&el.scrollIntoView)el.scrollIntoView({behavior:'smooth',block:'start'});},80); return; }
+    var card=ev.target.closest('#page-inadimplencia .hist-card-risk[data-hist-card]');
+    if(!card) return;
+    if(ev.target.closest('input,button,select,textarea,label,a')) return;
+    ev.preventDefault(); ev.stopPropagation();
+    openPanel(card.getAttribute('data-hist-card'));
+  }, true);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closePanel(); });
+  window.histFecharPainelMes=closePanel;
+  window.histAbrirPainelMes=openPanel;
+})();
+</script>
+
+<style id="ql-rank-agreement-integration-css">
+#rank-inad-filterbar{display:none;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px;padding:9px 10px;border:1px solid rgba(47,129,247,.28);background:rgba(47,129,247,.07);border-radius:12px;color:var(--text2);font-size:11px;}
+#rank-inad-filterbar.is-on{display:flex;}
+#rank-inad-filterbar strong{color:var(--blue2);font-weight:950;}
+#rank-inad-filterbar button{border:1px solid var(--border);background:var(--bg3);border-radius:9px;color:var(--text2);font-size:10px;font-weight:900;padding:6px 8px;cursor:pointer;}
+#rank-inad-filterbar button:hover{color:var(--gold,#d29922);border-color:rgba(210,153,34,.38);}
+.rank-mini-action{border:1px solid var(--border);background:var(--bg3);color:var(--text2);border-radius:8px;font-size:9px;font-weight:950;padding:5px 6px;cursor:pointer;line-height:1;}
+.rank-mini-action:hover{border-color:rgba(210,153,34,.38);color:var(--gold,#d29922);}
+.rank-mini-action.blue:hover{border-color:rgba(47,129,247,.42);color:var(--blue2);}
+.rank-mini-action.red:hover{border-color:rgba(248,81,73,.42);color:var(--red);}
+.rank-row-note{grid-column:1/-1;font-size:10px;color:var(--text3);line-height:1.35;padding:0 2px 2px 32px;margin-top:-2px;}
+.rank-row-note strong{color:var(--text2);}
+.rank-status-pill{font-size:9px;text-transform:uppercase;letter-spacing:.05em;font-weight:950;border-radius:999px;padding:3px 6px;border:1px solid currentColor;display:inline-flex;margin-left:5px;}
+@media(max-width:900px){#rank-inad-list [data-rank-row]{grid-template-columns:1fr 1fr!important}.rank-row-note{padding-left:0}#rank-inad-list [data-rank-row] .rank-total-box{grid-column:1/-1;text-align:left!important}}
+</style>
+<script id="ql-rank-agreement-integration-js">
+(function(){
+  const MONTHS = window.MESES_LABEL || ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  const FILTER_KEY = 'ql_inad_rank_month_filter_v1';
+  function esc(v){return String(v==null?'':v).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]||c;});}
+  function parseMoney(v){try{ if(typeof rankInadParseMoney==='function') return rankInadParseMoney(v); }catch(e){} return Number(String(v??'').replace(/\./g,'').replace(',','.'))||0;}
+  function money(v){try{ if(typeof rankInadMoney==='function') return rankInadMoney(v); }catch(e){} return 'R$ '+(Number(v)||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function load(){try{ if(typeof rankInadLoad==='function') return rankInadLoad(); }catch(e){} try{return JSON.parse(localStorage.getItem('ql_inad_ranking_unidades')||'[]');}catch(e){return [];}}
+  function save(items){try{ if(typeof rankInadSave==='function') return rankInadSave(items); }catch(e){} try{localStorage.setItem('ql_inad_ranking_unidades',JSON.stringify(items||[]));}catch(e){}}
+  function calc(item){try{ if(typeof rankInadCalcItem==='function') return rankInadCalcItem(item); }catch(e){} return {meses:Number(item.meses)||0,baseMensal:Number(item.valor)||0,total:(Number(item.meses)||0)*(Number(item.valor)||0)};}
+  function meta(status,total,meses){ const st=String(status||'Cobrança').toLowerCase(); if(st.includes('juríd')) return {cor:'var(--red)',tag:'Jurídico'}; if(st.includes('acordo')) return {cor:'var(--blue2)',tag:'Acordo'}; if(st.includes('parcel')) return {cor:'var(--blue2)',tag:'Parcelado'}; if(st.includes('quit')) return {cor:'var(--green)',tag:'Quitado'}; if(st.includes('cobran')) return {cor:(total>=2500||meses>=3)?'var(--amber)':'var(--red)',tag:'Cobrança'}; if(total>=5000||meses>=6) return {cor:'var(--red)',tag:'Crítico'}; if(total>=2500||meses>=3) return {cor:'var(--amber)',tag:'Atenção'}; return {cor:'var(--green)',tag:'Monitorar'}; }
+  function getFilter(){try{const v=localStorage.getItem(FILTER_KEY);return v===''||v==null?null:Number(v);}catch(e){return null;}}
+  function setFilter(v){try{ if(v===null||v===undefined||v==='') localStorage.removeItem(FILTER_KEY); else localStorage.setItem(FILTER_KEY,String(v)); }catch(e){} window.__qlRankInadMonthFilter=(v===null||v===undefined||v==='')?null:Number(v);}
+  function getFilterEffective(){return window.__qlRankInadMonthFilter!==undefined?window.__qlRankInadMonthFilter:getFilter();}
+  function ensureFilterbar(){ const stats=document.getElementById('rank-inad-stats'); if(!stats) return null; let bar=document.getElementById('rank-inad-filterbar'); if(!bar){bar=document.createElement('div');bar.id='rank-inad-filterbar';stats.parentNode.insertBefore(bar,stats);} return bar; }
+  function readRows(){ return Array.from(document.querySelectorAll('[data-rank-row]')).map(row=>({ id: row.getAttribute('data-rank-row') || ('u_'+Date.now()), unidade: row.querySelector('[data-rank-field="unidade"]')?.value || '', mesRef: row.querySelector('[data-rank-field="mesRef"]')?.value || '', meses: Math.max(0,Number(row.querySelector('[data-rank-field="meses"]')?.value)||0), valor: parseMoney(row.querySelector('[data-rank-field="valor"]')?.value), status: row.querySelector('[data-rank-field="status"]')?.value || 'Cobrança', acordoEntrada: parseMoney(row.querySelector('[data-rank-field="acordoEntrada"]')?.value), acordoParcelas: Math.max(0,Number(row.querySelector('[data-rank-field="acordoParcelas"]')?.value)||0), obs: row.querySelector('[data-rank-field="obs"]')?.value || '' })).filter(x=>x.unidade||x.mesRef!==''||x.meses||x.valor||x.obs); }
+  window.rankInadReadRows = readRows;
+  window.rankInadPersistAndRender = function(){const items=readRows();save(items);window.rankInadRender(items);};
+  window.rankInadAdd = function(){ const items=readRows(); const cota=Number(document.getElementById('inad2_cota')?.value)||Number(document.getElementById('col_cota')?.value)||850; const f=getFilterEffective(); items.push({id:'u_'+Date.now(),unidade:'',mesRef:(f===null||f===undefined)?'':String(f),meses:1,valor:cota,status:'Cobrança',acordoEntrada:0,acordoParcelas:0,obs:''}); save(items); window.rankInadRender(items); };
+  window.rankInadRemove = function(id){const items=readRows().filter(x=>x.id!==id);save(items);window.rankInadRender(items);};
+  window.rankInadLimpar = function(){ if(!confirm('Limpar o ranking interno de unidades inadimplentes?')) return; save([]); window.rankInadRender([]); };
+  function renderStats(items){ const el=document.getElementById('rank-inad-stats'); if(!el) return; const enriched=items.map(function(it){return Object.assign({},it,{calc:calc(it)});}); const total=enriched.reduce(function(s,it){return s+it.calc.total;},0); const qtd=enriched.length; const emAcordo=enriched.filter(function(it){const st=String(it.status||'').toLowerCase(); return st.includes('acordo')||st.includes('parcel');}).length; const cobranca=enriched.filter(function(it){return String(it.status||'').toLowerCase().includes('cobran');}).length; const maior=enriched.reduce(function(m,it){return Math.max(m,it.calc.total||0);},0); const arr=[{l:'Unidades filtradas',v:qtd,c:'var(--blue2)'},{l:'Total atual',v:money(total),c:'var(--red)'},{l:'Em acordo/parcelado',v:emAcordo,c:'var(--blue2)'},{l:'Em cobrança',v:cobranca,c:'var(--amber)'},{l:'Maior dívida',v:money(maior),c:'var(--red)'}]; el.innerHTML=arr.map(function(s){return '<div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:9px 10px;"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:4px;">'+s.l+'</div><div style="font-size:14px;font-weight:950;color:'+s.c+';">'+s.v+'</div></div>';}).join(''); }
+  window.rankInadRender = function(items){ items=Array.isArray(items)?items:load(); const list=document.getElementById('rank-inad-list'), empty=document.getElementById('rank-inad-empty'); if(!list||!empty) return; const filter=getFilterEffective(); const bar=ensureFilterbar(); if(bar){ if(filter===null||filter===undefined||filter==='') {bar.classList.remove('is-on');bar.innerHTML='';} else {bar.classList.add('is-on');bar.innerHTML='<span>Filtro ativo: <strong>'+esc(MONTHS[Number(filter)]||('Mês '+(Number(filter)+1)))+'</strong>. O histórico permanece imutável; aqui aparece a situação atual das unidades.</span><button type="button" onclick="qlRankLimparFiltroMes()">Limpar filtro</button>'; } } let enriched=items.map(function(it){return Object.assign({},it,{calc:calc(it)});}); if(filter!==null&&filter!==undefined&&filter!=='') enriched=enriched.filter(function(it){return String(it.mesRef??'')===String(filter);}); enriched.sort(function(a,b){return b.calc.total-a.calc.total;}); renderStats(enriched); empty.style.display=enriched.length?'none':'block'; if(!enriched.length){list.innerHTML='';return;} list.innerHTML=enriched.map(function(it,idx){ const mt=meta(it.status,it.calc.total,it.calc.meses); const pos=idx+1; const mesOpts='<option value="">Mês livre</option>'+MONTHS.map(function(m,i){return '<option value="'+i+'" '+(String(it.mesRef??'')===String(i)?'selected':'')+'>'+m+'</option>';}).join(''); const statusOpts=['Cobrança','Acordo','Parcelado','Jurídico','Monitorar','Quitado'].map(function(s){return '<option '+(String(it.status||'')===s?'selected':'')+'>'+s+'</option>';}).join(''); const obs=it.obs?'<div class="rank-row-note"><strong>Obs. interna:</strong> '+esc(it.obs)+(it.acordoParcelas?'<span class="rank-status-pill" style="color:var(--blue2);">'+it.acordoParcelas+' parcela(s)</span>':'')+'</div>':''; return '<div data-rank-row="'+esc(it.id)+'" style="display:grid;grid-template-columns:.95fr .76fr .58fr .72fr .78fr .9fr 92px;gap:8px;align-items:center;background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.018)),var(--bg2);border:1px solid '+mt.cor+';box-shadow:inset 4px 0 0 '+mt.cor+';border-radius:12px;padding:8px;">'+
+        '<div style="display:flex;align-items:center;gap:7px;min-width:0;"><span style="width:24px;height:24px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:'+mt.cor+';">'+pos+'</span><input data-rank-field="unidade" value="'+esc(it.unidade||'')+'" placeholder="Bloco / Apto" oninput="rankInadPersistAndRender()" style="min-width:0;width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 8px;color:var(--text);font-size:12px;font-family:inherit;outline:none;"></div>'+ 
+        '<select data-rank-field="mesRef" onchange="rankInadPersistAndRender()" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 8px;color:var(--text);font-size:12px;font-family:inherit;outline:none;">'+mesOpts+'</select>'+ 
+        '<input data-rank-field="meses" type="number" min="0" step="1" value="'+it.calc.meses+'" oninput="rankInadPersistAndRender()" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 8px;text-align:right;color:var(--text);font-size:12px;font-family:inherit;outline:none;">'+
+        '<input data-rank-field="valor" value="'+Number(it.calc.baseMensal||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'" oninput="rankInadPersistAndRender()" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 8px;text-align:right;color:var(--text);font-size:12px;font-family:inherit;outline:none;">'+
+        '<select data-rank-field="status" onchange="rankInadPersistAndRender()" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 8px;color:var(--text);font-size:12px;font-family:inherit;outline:none;">'+statusOpts+'</select>'+ 
+        '<div class="rank-total-box" style="text-align:right;"><div style="font-size:14px;font-weight:950;color:'+mt.cor+';">'+money(it.calc.total)+'</div><div style="font-size:9px;text-transform:uppercase;color:'+mt.cor+';font-weight:900;letter-spacing:.04em;">'+mt.tag+'</div></div>'+ 
+        '<div style="display:flex;gap:5px;justify-content:flex-end;flex-wrap:wrap;"><button class="rank-mini-action blue" type="button" onclick="rankInadCriarAcordo(\''+esc(it.id)+'\')">Acordo</button><button class="rank-mini-action" type="button" onclick="rankInadRegistrarCobranca(\''+esc(it.id)+'\')">Cobrar</button><button class="rank-mini-action red" type="button" onclick="rankInadRemove(\''+esc(it.id)+'\')">×</button></div>'+ 
+        '<input type="hidden" data-rank-field="acordoEntrada" value="'+Number(it.acordoEntrada||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'"><input type="hidden" data-rank-field="acordoParcelas" value="'+Number(it.acordoParcelas||0)+'"><input type="hidden" data-rank-field="obs" value="'+esc(it.obs||'')+'">'+obs+'</div>'; }).join(''); };
+  window.rankInadCriarAcordo=function(id){ const items=readRows(); const it=items.find(function(x){return x.id===id;}); if(!it) return; const total=calc(it).total; const entrada=prompt('Entrada do acordo (R$). Deixe em branco para 0:', it.acordoEntrada?String(it.acordoEntrada).replace('.',','):'0'); if(entrada===null) return; const parcelas=prompt('Quantidade de parcelas:', it.acordoParcelas?String(it.acordoParcelas):'1'); if(parcelas===null) return; const obs=prompt('Observação interna do acordo:', it.obs || ('Acordo criado sobre saldo estimado de '+money(total))); if(obs===null) return; it.status='Acordo'; it.acordoEntrada=parseMoney(entrada); it.acordoParcelas=Math.max(1,Number(parcelas)||1); it.obs=obs; save(items); window.rankInadRender(items); };
+  window.rankInadRegistrarCobranca=function(id){ const items=readRows(); const it=items.find(function(x){return x.id===id;}); if(!it) return; const obs=prompt('Registro interno da cobrança:', it.obs || 'Cobrança registrada em '+new Date().toLocaleDateString('pt-BR')); if(obs===null) return; it.status=String(it.status||'').includes('Acordo')?it.status:'Cobrança'; it.obs=obs; save(items); window.rankInadRender(items); };
+  window.rankInadExportarResumo=function(){ const box=document.getElementById('rank-inad-resumo'); if(!box) return; const items=readRows().map(function(it){return Object.assign({},it,{calc:calc(it)});}).sort(function(a,b){return b.calc.total-a.calc.total;}); const filter=getFilterEffective(); const shown=(filter===null||filter===undefined||filter==='')?items:items.filter(function(it){return String(it.mesRef??'')===String(filter);}); if(!shown.length){box.style.display='block';box.innerHTML='Nenhuma unidade cadastrada para resumir.';return;} const total=shown.reduce(function(s,it){return s+it.calc.total;},0), acordos=shown.filter(function(it){const st=String(it.status||'').toLowerCase();return st.includes('acordo')||st.includes('parcel');}).length; box.style.display='block'; box.innerHTML='<strong style="color:var(--text);">Resumo reservado — não divulgar nominalmente</strong><br>'+(filter!==null&&filter!==undefined&&filter!==''?'Mês filtrado: <strong style="color:var(--blue2);">'+esc(MONTHS[Number(filter)])+'</strong><br>':'')+'Total atual estimado: <strong style="color:var(--red);">'+money(total)+'</strong> em '+shown.length+' unidade(s). Em acordo/parcelado: <strong style="color:var(--blue2);">'+acordos+'</strong>. Top 3 interno: '+shown.slice(0,3).map(function(it,i){return (i+1)+'º '+esc(it.unidade||'sem identificação')+' ('+money(it.calc.total)+')';}).join(' • ')+'.'; };
+  window.rankInadInit=function(){window.rankInadRender(load());};
+  window.qlRankFiltrarMes=function(i){setFilter(i); try{window.rankInadRender(load());}catch(e){}; const card=document.querySelector('#page-inadimplencia .ql-acc-card[data-acc-key="ranking"]'); if(card){card.classList.add('is-open'); const head=card.querySelector('.ql-acc-head'); if(head)head.setAttribute('aria-expanded','true'); setTimeout(function(){card.scrollIntoView({behavior:'smooth',block:'start'});},80);} };
+  window.qlRankLimparFiltroMes=function(){setFilter(null); window.rankInadRender(load());};
+  window.qlRankAbrirAcordos=function(){ window.qlRankFiltrarMes(window.__qlCurrentInadMonth); setTimeout(function(){const b=document.getElementById('rank-inad-resumo'); if(b){b.style.display='block'; b.innerHTML='<strong style="color:var(--text);">Acordos vinculados</strong><br>Use o botão <strong>Acordo</strong> em cada unidade para registrar entrada, parcelas e observação interna. O histórico mensal permanece preservado.';}},160); };
+  document.addEventListener('click',function(ev){ if(ev.target.closest('#ql-mp-action-ranking')){ev.preventDefault(); try{ if(typeof histFecharPainelMes==='function') histFecharPainelMes(); }catch(e){} window.qlRankFiltrarMes(window.__qlCurrentInadMonth);} if(ev.target.closest('#ql-mp-action-acordo')){ev.preventDefault(); try{ if(typeof histFecharPainelMes==='function') histFecharPainelMes(); }catch(e){} window.qlRankAbrirAcordos();} },true);
+  setFilter(getFilter());
+})();
+</script>
+
 </body>
 
 <!-- AJUSTE PONTUAL: remove o ticker SOMENTE do PDF/ impressão do Rateio Inteligente -->
@@ -14511,3 +15688,48 @@ function rmLoadDemo(){
   .rt-scope-remove{margin-left:auto;border:0;background:rgba(248,81,73,.10);color:#f85149;border-radius:8px;width:22px;height:22px;line-height:20px;cursor:pointer;font-weight:900;flex-shrink:0}
   @media(max-width:700px){.rt-scope-add>div{display:grid;grid-template-columns:1fr}.rt-scope-add .rt-btn{width:100%}}
 </style>
+
+<!-- ══ PATCH 65 — DASHBOARD PREMIUM: HOVER + MICROANIMAÇÕES ══ -->
+<style id="ql-dashboard-premium-v65">
+#page-dashboard .db{position:relative;isolation:isolate;}
+#page-dashboard .db::before{content:"";position:absolute;inset:-18px -12px auto -12px;height:220px;pointer-events:none;z-index:-1;background:radial-gradient(circle at 18% 20%,rgba(47,129,247,.18),transparent 34%),radial-gradient(circle at 78% 10%,rgba(210,153,34,.14),transparent 34%),radial-gradient(circle at 52% 80%,rgba(63,185,80,.08),transparent 38%);filter:blur(6px);opacity:.85;animation:qlDashAura 9s ease-in-out infinite alternate;}
+@keyframes qlDashAura{from{transform:translate3d(0,0,0) scale(1);opacity:.68;}to{transform:translate3d(0,8px,0) scale(1.035);opacity:.95;}}
+#page-dashboard .db-hero{position:relative;overflow:hidden;padding:1.65rem 1.55rem 1.45rem!important;border:1px solid rgba(210,153,34,.18)!important;border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.018)),radial-gradient(circle at 12% 18%,rgba(47,129,247,.15),transparent 35%),radial-gradient(circle at 86% 12%,rgba(210,153,34,.16),transparent 28%),var(--bg2);box-shadow:0 18px 58px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.055);transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease;}
+#page-dashboard .db-hero::after{content:"";position:absolute;top:-90px;left:-45%;width:42%;height:280px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);transform:rotate(18deg);animation:qlDashShine 6.8s ease-in-out infinite;pointer-events:none;}
+@keyframes qlDashShine{0%,54%{left:-50%;opacity:0;}62%{opacity:.65;}84%,100%{left:118%;opacity:0;}}
+#page-dashboard .db-hero:hover{transform:translateY(-2px);border-color:rgba(210,153,34,.34)!important;box-shadow:0 22px 72px rgba(0,0,0,.30),0 0 0 1px rgba(210,153,34,.06) inset;}
+#page-dashboard .db-hero-cota em,#page-dashboard .db-gauge-info-val,#page-dashboard .db-fr-stat-v{transition:filter .25s ease,transform .25s ease,text-shadow .25s ease;}
+#page-dashboard .db-hero:hover .db-hero-cota em{filter:brightness(1.12);text-shadow:0 0 22px rgba(47,129,247,.18);}
+#page-dashboard .db-hero-meta-item{position:relative;padding:8px 10px;border-radius:14px;background:rgba(255,255,255,.026);border:1px solid rgba(255,255,255,.045);transition:transform .22s ease,background .22s ease,border-color .22s ease;}
+#page-dashboard .db-hero-meta-item:hover{transform:translateY(-2px);background:rgba(255,255,255,.052);border-color:rgba(210,153,34,.22);}
+#page-dashboard .db-c{position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,.044),rgba(255,255,255,.012)),var(--bg2)!important;border-color:rgba(255,255,255,.085)!important;box-shadow:0 12px 34px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.035);transform:translateY(0);transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s ease,border-color .22s ease,background .22s ease;}
+#page-dashboard .db-c::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(210,153,34,.38),rgba(47,129,247,.25),transparent);opacity:.55;transition:opacity .22s ease;}
+#page-dashboard .db-c::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.075),transparent 34%);opacity:0;transition:opacity .22s ease;}
+#page-dashboard .db-c:hover{transform:translateY(-4px);border-color:rgba(210,153,34,.30)!important;box-shadow:0 18px 48px rgba(0,0,0,.24),0 0 0 1px rgba(210,153,34,.05) inset;}
+#page-dashboard .db-c:hover::before{opacity:1;}#page-dashboard .db-c:hover::after{opacity:1;}
+#page-dashboard .db-c-label{display:flex;align-items:center;gap:8px;}
+#page-dashboard .db-c-label::before{content:"";width:7px;height:7px;border-radius:99px;background:linear-gradient(135deg,var(--amber),var(--blue2));box-shadow:0 0 14px rgba(210,153,34,.28);opacity:.92;}
+#page-dashboard .db-c:hover .db-c-label{color:var(--text)!important;}
+#page-dashboard .db-gauge-row-track,#page-dashboard .db-inad-bar-wrap{background:rgba(255,255,255,.055)!important;box-shadow:inset 0 1px 2px rgba(0,0,0,.22);}
+#page-dashboard .db-gauge-row-fill{position:relative;overflow:hidden;}
+#page-dashboard .db-gauge-row-fill::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.26),transparent);transform:translateX(-100%);animation:qlDashBarShine 3.8s ease-in-out infinite;}
+@keyframes qlDashBarShine{0%,60%{transform:translateX(-110%);}82%,100%{transform:translateX(110%);}}
+#page-dashboard .db-inad-col{padding:5px 3px 2px;border-radius:10px;transition:background .18s ease,transform .18s ease;}
+#page-dashboard .db-inad-col:hover{background:rgba(255,255,255,.045);transform:translateY(-2px);}
+#page-dashboard .db-inad-bar{box-shadow:0 0 0 rgba(0,0,0,0);transition:height .8s cubic-bezier(.4,0,.2,1),filter .18s ease,box-shadow .18s ease,transform .18s ease;}
+#page-dashboard .db-inad-col:hover .db-inad-bar{filter:brightness(1.16) saturate(1.08);box-shadow:0 0 18px rgba(248,81,73,.16);transform:scaleX(1.05);}
+#page-dashboard .db-line-svg{border-radius:16px;transition:background .22s ease,filter .22s ease,transform .22s ease;}
+#page-dashboard .db-c:hover .db-line-svg{background:rgba(255,255,255,.018);filter:drop-shadow(0 8px 18px rgba(47,129,247,.08));}
+#page-dashboard svg path,#page-dashboard svg circle,#page-dashboard svg line{transition:filter .22s ease,opacity .22s ease,stroke-width .22s ease,transform .22s ease;}
+#page-dashboard .db-c:hover svg path[id],#page-dashboard .db-c:hover svg circle[id]{filter:drop-shadow(0 0 6px rgba(210,153,34,.16));}
+#page-dashboard .db-delta-pill,#page-dashboard .db-status-tag{transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;}
+#page-dashboard .db-delta-pill:hover,#page-dashboard .db-status-tag:hover{transform:translateY(-1px) scale(1.02);filter:brightness(1.08);box-shadow:0 10px 22px rgba(0,0,0,.16);}
+#page-dashboard .db-legend-item,#page-dashboard .db-fr-stat{border-radius:12px;padding:4px 6px;margin-left:-6px;transition:background .18s ease,transform .18s ease;}
+#page-dashboard .db-legend-item:hover,#page-dashboard .db-fr-stat:hover{background:rgba(255,255,255,.04);transform:translateX(2px);}
+#page-dashboard .db-row-3 .db-c:nth-child(1){animation-delay:.04s;}#page-dashboard .db-row-3 .db-c:nth-child(2){animation-delay:.10s;}#page-dashboard .db-row-3 .db-c:nth-child(3){animation-delay:.16s;}#page-dashboard .db-row-3 .db-c:nth-child(4){animation-delay:.22s;}#page-dashboard .db-row .db-c:nth-child(1){animation-delay:.28s;}#page-dashboard .db-row .db-c:nth-child(2){animation-delay:.34s;}
+@media (hover:none){#page-dashboard .db-c:hover,#page-dashboard .db-hero:hover,#page-dashboard .db-hero-meta-item:hover{transform:none;}#page-dashboard .db-c::after{display:none;}}
+@media (prefers-reduced-motion:reduce){#page-dashboard .db::before,#page-dashboard .db-hero::after,#page-dashboard .db-gauge-row-fill::after{animation:none!important;}#page-dashboard .db-c,#page-dashboard .db-hero,#page-dashboard .db-inad-col{transition:none!important;}}
+</style>
+<script id="ql-dashboard-premium-js-v65">
+(function(){function bindDashboardGlow(){var cards=document.querySelectorAll('#page-dashboard .db-c');cards.forEach(function(card){if(card.dataset.qlGlowBound==='1')return;card.dataset.qlGlowBound='1';card.addEventListener('pointermove',function(e){var r=card.getBoundingClientRect();card.style.setProperty('--mx',((e.clientX-r.left)/Math.max(1,r.width)*100).toFixed(1)+'%');card.style.setProperty('--my',((e.clientY-r.top)/Math.max(1,r.height)*100).toFixed(1)+'%');},{passive:true});});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bindDashboardGlow);else bindDashboardGlow();var oldNav=window.navPage;if(typeof oldNav==='function'&&!oldNav.__qlDashPremium){window.navPage=function(){var ret=oldNav.apply(this,arguments);if(arguments[0]==='dashboard')setTimeout(bindDashboardGlow,60);return ret;};window.navPage.__qlDashPremium=true;}})();
+</script>
