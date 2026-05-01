@@ -13792,6 +13792,7 @@ document.querySelectorAll('.faq-question').forEach(q=>{
         qid('ql-pop-confirm').addEventListener('click', async function(){
           pop.classList.remove('open');
           try{ localStorage.removeItem('ql_demo_access'); localStorage.removeItem('ql_demo_user'); localStorage.removeItem('ql_demo_role'); }catch(e){}
+          try{ sessionStorage.removeItem('ql_runtime_access'); sessionStorage.removeItem('ql_runtime_user'); sessionStorage.removeItem('ql_runtime_mode'); sessionStorage.removeItem('ql_runtime_role'); }catch(e){}
           const client = ensureSbClient();
           if(client){ try{ await client.auth.signOut(); }catch(e){} }
           pill.hidden = true;
@@ -13817,6 +13818,12 @@ document.querySelectorAll('.faq-question').forEach(q=>{
   }
   function enterApp(label, mode='demo', role){
     qlActiveLabel = label || 'Usuário';
+    try{
+      sessionStorage.setItem('ql_runtime_access','1');
+      sessionStorage.setItem('ql_runtime_user', qlActiveLabel || 'Usuário');
+      sessionStorage.setItem('ql_runtime_mode', mode || 'demo');
+      sessionStorage.setItem('ql_runtime_role', role || localStorage.getItem('ql_demo_role') || 'morador');
+    }catch(e){}
     hideSplash();
     hideLogin();
     applyIdentity(label, mode, role || localStorage.getItem('ql_demo_role') || 'morador');
@@ -13916,7 +13923,14 @@ document.querySelectorAll('.faq-question').forEach(q=>{
     bindLogin();
     let restored = false;
     try{
-      if(localStorage.getItem('ql_demo_access')==='1'){ restored = true; enterApp(localStorage.getItem('ql_demo_user') || 'Modo demo', 'demo'); }
+      const persistDemo = localStorage.getItem('ql_demo_access')==='1';
+      const runtimeLive = sessionStorage.getItem('ql_runtime_access')==='1';
+      if(persistDemo || runtimeLive){
+        restored = true;
+        const label = localStorage.getItem('ql_demo_user') || sessionStorage.getItem('ql_runtime_user') || 'Modo demo';
+        const role = localStorage.getItem('ql_demo_role') || sessionStorage.getItem('ql_runtime_role') || 'morador';
+        enterApp(label, 'demo', role);
+      }
     }catch(e){}
     if(!restored){ restored = await tryRestoreSession(); }
     setTimeout(()=>{
@@ -18213,6 +18227,113 @@ function rmLoadDemo(){
   pointer-events:none;
 }
 </style>
+
+
+<script id="ql-refresh-inteligente-v69-23">
+(function(){
+  const KEY='ql_refresh_state_v69_23';
+  const SCROLL_KEY='ql_refresh_scrolls_v69_23';
+  let restoring=false;
+  let lastSave=0;
+
+  function readJSON(key, fallback){
+    try{return JSON.parse(localStorage.getItem(key)||'') || fallback;}catch(e){return fallback;}
+  }
+  function writeJSON(key, value){
+    try{localStorage.setItem(key, JSON.stringify(value));}catch(e){}
+  }
+  function mainScroller(){return document.querySelector('.main') || document.scrollingElement || document.documentElement;}
+  function currentPage(){
+    const on=document.querySelector('.page.on');
+    if(on && on.id && on.id.indexOf('page-')===0) return on.id.replace('page-','');
+    return localStorage.getItem('cdc_page') || 'dashboard';
+  }
+  function activeAnaliseTab(){
+    const p=document.querySelector('#page-analises .tab-panel.on');
+    return p && p.id ? p.id : '';
+  }
+  function saveScroll(page){
+    const sc=mainScroller(); if(!sc) return;
+    const scrolls=readJSON(SCROLL_KEY,{});
+    scrolls[page || currentPage()]={top:sc.scrollTop||0,left:sc.scrollLeft||0,ts:Date.now()};
+    writeJSON(SCROLL_KEY, scrolls);
+  }
+  function restoreScroll(page){
+    const sc=mainScroller(); if(!sc) return;
+    const scrolls=readJSON(SCROLL_KEY,{});
+    const s=scrolls[page || currentPage()];
+    if(!s) return;
+    const top=Number(s.top)||0;
+    setTimeout(()=>{try{sc.scrollTo({top,left:Number(s.left)||0,behavior:'auto'});}catch(e){sc.scrollTop=top;}},60);
+    setTimeout(()=>{try{sc.scrollTop=top;}catch(e){}},260);
+  }
+  function saveState(){
+    const now=Date.now();
+    if(now-lastSave<120) return;
+    lastSave=now;
+    const page=currentPage();
+    saveScroll(page);
+    writeJSON(KEY,{page,analiseTab:activeAnaliseTab(),theme:localStorage.getItem('cdc_theme')||'',style:localStorage.getItem('cdc_style')||'',ts:now});
+    try{localStorage.setItem('cdc_page',page);}catch(e){}
+  }
+  function restoreAnaliseTab(tabId){
+    if(!tabId || currentPage()!=='analises') return;
+    const panel=document.getElementById(tabId);
+    if(!panel) return;
+    document.querySelectorAll('#page-analises .tab-panel').forEach(p=>p.classList.remove('on'));
+    panel.classList.add('on');
+    document.querySelectorAll('#page-analises .mtab').forEach(b=>b.classList.remove('on'));
+    const btn=[...document.querySelectorAll('#page-analises .mtab')].find(b=>String(b.getAttribute('onclick')||'').includes("'"+tabId.replace('tab-','')+"'") || String(b.textContent||'').trim().toLowerCase().includes(tabId.replace('tab-','').toLowerCase()));
+    if(btn) btn.classList.add('on');
+  }
+  function smartRestore(){
+    if(restoring) return;
+    restoring=true;
+    const state=readJSON(KEY,{});
+    const page=state.page || localStorage.getItem('cdc_page') || 'dashboard';
+    const btn=document.getElementById('nav-'+page);
+    try{
+      if(typeof navPage==='function') navPage(page,btn||null);
+      if(typeof updateBNav==='function') updateBNav(page);
+    }catch(e){}
+    setTimeout(()=>{restoreAnaliseTab(state.analiseTab); restoreScroll(page); restoring=false;},360);
+    setTimeout(()=>{restoreAnaliseTab(state.analiseTab); restoreScroll(page);},900);
+  }
+
+  // Wrap navPage so every navigation becomes the new refresh point.
+  function hookNav(){
+    if(window.__qlRefreshSmartHook || typeof window.navPage!=='function') return;
+    const original=window.navPage;
+    window.navPage=function(page,btn){
+      if(!restoring) saveState();
+      const ret=original.apply(this,arguments);
+      try{
+        writeJSON(KEY,{page,analiseTab:activeAnaliseTab(),theme:localStorage.getItem('cdc_theme')||'',style:localStorage.getItem('cdc_style')||'',ts:Date.now()});
+        localStorage.setItem('cdc_page',page);
+      }catch(e){}
+      setTimeout(()=>restoreScroll(page),260);
+      return ret;
+    };
+    window.__qlRefreshSmartHook=true;
+  }
+
+  // Save on scroll, visibility change and refresh.
+  function bind(){
+    hookNav();
+    const sc=mainScroller();
+    if(sc && !sc.__qlRefreshScroll){
+      sc.addEventListener('scroll', saveState, {passive:true});
+      sc.__qlRefreshScroll=true;
+    }
+    window.addEventListener('beforeunload', saveState);
+    document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveState();});
+    document.addEventListener('click',()=>setTimeout(saveState,120),true);
+    setTimeout(smartRestore,520);
+    setTimeout(smartRestore,1350);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bind,{once:true}); else bind();
+})();
+</script>
 
 </body>
 
