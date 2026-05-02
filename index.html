@@ -4506,6 +4506,88 @@ body.ql-lock-scroll{overflow:hidden;}
           <div id="simp-sync-badge" style="padding:4px 0;"><span style="color:var(--teal);font-size:11px;">✓ Sincronizado com Dados do Condomínio</span></div>
         </div>
       </div>
+      <!-- Planejamento Futuro -->
+      <section class="simp-future-card" id="simp-future-card">
+        <div class="simp-future-head">
+          <div>
+            <div class="simp-future-kicker">Planejamento Futuro</div>
+            <h3>Meta de fundos e inadimplência</h3>
+            <p>Compare o padrão atual com uma meta futura e veja o impacto real na cota, por unidade e por ano.</p>
+          </div>
+          <div class="simp-future-year">
+            <label>Ano/meta</label>
+            <input id="simp-fut-ano" type="number" min="2026" max="2040" step="1" value="2027" oninput="simFutureSave();renderFuturePlan()">
+          </div>
+        </div>
+
+        <div class="simp-future-controls">
+          <div class="simp-future-control reserve">
+            <div class="sfc-top"><span>Fundo de Reserva</span><strong><b id="simp-fut-fr-now">—</b> → <b id="simp-fut-fr-target-val">10,0%</b></strong></div>
+            <input id="simp-fut-fr" type="range" min="0" max="30" step="0.5" value="10" oninput="document.getElementById('simp-fut-fr-target-val').textContent=parseFloat(this.value).toFixed(1).replace('.',',')+'%';simFutureSave();renderFuturePlan()">
+            <div class="sfc-delta" id="simp-fut-fr-delta">—</div>
+          </div>
+          <div class="simp-future-control works">
+            <div class="sfc-top"><span>Fundo de Obras</span><strong><b id="simp-fut-fo-now">—</b> → <b id="simp-fut-fo-target-val">10,0%</b></strong></div>
+            <input id="simp-fut-fo" type="range" min="0" max="30" step="0.5" value="10" oninput="document.getElementById('simp-fut-fo-target-val').textContent=parseFloat(this.value).toFixed(1).replace('.',',')+'%';simFutureSave();renderFuturePlan()">
+            <div class="sfc-delta" id="simp-fut-fo-delta">—</div>
+          </div>
+          <div class="simp-future-control inad">
+            <div class="sfc-top"><span>Inadimplência</span><strong><b id="simp-fut-inad-now">—</b> → <b id="simp-fut-inad-target-val">10,0%</b></strong></div>
+            <input id="simp-fut-inad" type="range" min="0" max="30" step="0.5" value="10" oninput="document.getElementById('simp-fut-inad-target-val').textContent=parseFloat(this.value).toFixed(1).replace('.',',')+'%';simFutureSave();renderFuturePlan()">
+            <div class="sfc-delta" id="simp-fut-inad-delta">—</div>
+          </div>
+        </div>
+
+
+        <div class="simp-future-scenarios" id="simp-future-scenarios">
+          <article class="simp-future-scenario conservative" data-sf-scenario="conservador">
+            <div class="sfs-top"><span class="sfs-badge">Conservador</span><button type="button" onclick="simFutureApplyScenario('conservador')">Aplicar</button></div>
+            <div class="sfs-title">Evolução leve</div>
+            <div class="sfs-target" id="sfs-conservador-target">FR 6% · FO 7% · Inad. 9%</div>
+            <div class="sfs-grid">
+              <div><span>Impacto/mês</span><strong id="sfs-conservador-unit">—</strong></div>
+              <div><span>Nova cota</span><strong id="sfs-conservador-cota">—</strong></div>
+            </div>
+            <div class="sfs-note" id="sfs-conservador-note">Menor impacto imediato, bom para transição.</div>
+          </article>
+          <article class="simp-future-scenario balanced" data-sf-scenario="equilibrado">
+            <div class="sfs-top"><span class="sfs-badge">Equilibrado</span><button type="button" onclick="simFutureApplyScenario('equilibrado')">Aplicar</button></div>
+            <div class="sfs-title">Recomposição gradual</div>
+            <div class="sfs-target" id="sfs-equilibrado-target">FR 8% · FO 8% · Inad. 9%</div>
+            <div class="sfs-grid">
+              <div><span>Impacto/mês</span><strong id="sfs-equilibrado-unit">—</strong></div>
+              <div><span>Nova cota</span><strong id="sfs-equilibrado-cota">—</strong></div>
+            </div>
+            <div class="sfs-note" id="sfs-equilibrado-note">Boa proteção sem salto brusco.</div>
+          </article>
+          <article class="simp-future-scenario ideal" data-sf-scenario="ideal">
+            <div class="sfs-top"><span class="sfs-badge">Ideal 2027</span><button type="button" onclick="simFutureApplyScenario('ideal')">Aplicar</button></div>
+            <div class="sfs-title">Padrão forte</div>
+            <div class="sfs-target" id="sfs-ideal-target">FR 10% · FO 10% · Inad. 10%</div>
+            <div class="sfs-grid">
+              <div><span>Impacto/mês</span><strong id="sfs-ideal-unit">—</strong></div>
+              <div><span>Nova cota</span><strong id="sfs-ideal-cota">—</strong></div>
+            </div>
+            <div class="sfs-note" id="sfs-ideal-note">Máxima previsibilidade e segurança.</div>
+          </article>
+        </div>
+
+        <div class="simp-future-kpis">
+          <div class="sfk"><span>Impacto adicional</span><strong id="simp-fut-impact-unit">—</strong><small>por unidade/mês</small></div>
+          <div class="sfk"><span>Nova cota estimada</span><strong id="simp-fut-new-cota">—</strong><small>com a meta futura</small></div>
+          <div class="sfk"><span>Impacto anual</span><strong id="simp-fut-impact-year">—</strong><small>por unidade/ano</small></div>
+          <div class="sfk"><span>Reforço mensal total</span><strong id="simp-fut-impact-total">—</strong><small>no caixa do condomínio</small></div>
+        </div>
+
+        <div class="simp-future-breakdown">
+          <div class="sfb-row"><span>Reserva</span><div class="sfb-track"><i id="simp-fut-fr-bar"></i></div><strong id="simp-fut-fr-money">—</strong></div>
+          <div class="sfb-row"><span>Obras</span><div class="sfb-track"><i id="simp-fut-fo-bar"></i></div><strong id="simp-fut-fo-money">—</strong></div>
+          <div class="sfb-row"><span>Inadimplência</span><div class="sfb-track"><i id="simp-fut-inad-bar"></i></div><strong id="simp-fut-inad-money">—</strong></div>
+        </div>
+
+        <div class="simp-future-note" id="simp-fut-note">—</div>
+      </section>
+
       <!-- Cenários 4 cards -->
       <div style="font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;">Cenários comparativos — Ano 1</div>
       <div class="simp-scenarios">
@@ -18334,6 +18416,272 @@ function rmLoadDemo(){
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bind,{once:true}); else bind();
 })();
 </script>
+
+
+<style id="ql-simulado-futuro-v69-24-css">
+/* Simulações — Planejamento Futuro */
+.simp-future-card{
+  margin:0 0 18px;
+  padding:17px;
+  border-radius:22px;
+  border:1px solid rgba(57,197,207,.22);
+  background:
+    radial-gradient(circle at 10% 8%,rgba(57,197,207,.12),transparent 32%),
+    radial-gradient(circle at 88% 12%,rgba(210,153,34,.11),transparent 30%),
+    linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018)),var(--bg2);
+  box-shadow:0 18px 42px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.05);
+  overflow:hidden;position:relative;
+}
+.simp-future-card::before{content:'';position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--amber),var(--blue2));opacity:.86;}
+.simp-future-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px;position:relative;z-index:1;}
+.simp-future-kicker{font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:5px;}
+.simp-future-head h3{margin:0;font-size:19px;line-height:1.1;color:var(--text);letter-spacing:-.025em;}
+.simp-future-head p{margin:6px 0 0;font-size:12px;line-height:1.55;color:var(--text2);max-width:720px;}
+.simp-future-year{display:flex;flex-direction:column;gap:5px;min-width:112px;}
+.simp-future-year label{font-size:10px;text-transform:uppercase;letter-spacing:.10em;color:var(--text3);font-weight:800;}
+.simp-future-year input{background:var(--bg3);border:1px solid var(--border);border-radius:12px;color:var(--text);padding:8px 10px;font-weight:800;text-align:center;}
+.simp-future-controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px;}
+.simp-future-control{padding:12px;border-radius:17px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));box-shadow:inset 0 1px 0 rgba(255,255,255,.04);}
+.simp-future-control.reserve{border-color:rgba(57,197,207,.22)}.simp-future-control.works{border-color:rgba(63,185,80,.20)}.simp-future-control.inad{border-color:rgba(248,81,73,.20)}
+.sfc-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:9px;}
+.sfc-top span{font-size:11px;font-weight:800;color:var(--text2);}.sfc-top strong{font-size:11px;color:var(--text);font-weight:900;white-space:nowrap;}
+.simp-future-control input{width:100%;accent-color:var(--teal);}.simp-future-control.works input{accent-color:var(--green)}.simp-future-control.inad input{accent-color:var(--red)}
+.sfc-delta{margin-top:7px;font-size:11px;font-weight:800;color:var(--text3);}
+.simp-future-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-bottom:12px;}
+.sfk{padding:12px;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.022));}
+.sfk span{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--text3);font-weight:900;margin-bottom:5px;}.sfk strong{display:block;font-size:18px;color:var(--text);font-weight:950;letter-spacing:-.03em;}.sfk small{display:block;margin-top:4px;font-size:10.5px;color:var(--text3);}
+.simp-future-breakdown{display:grid;gap:8px;margin-bottom:12px;}
+.sfb-row{display:grid;grid-template-columns:105px 1fr 95px;align-items:center;gap:10px;font-size:12px;color:var(--text2);}.sfb-row strong{text-align:right;color:var(--text);font-weight:900;font-size:12px;}
+.sfb-track{height:9px;border-radius:999px;background:var(--bg4);overflow:hidden;border:1px solid var(--border);}.sfb-track i{display:block;height:100%;width:0%;border-radius:inherit;background:linear-gradient(90deg,var(--teal),var(--blue2));transition:width .35s ease;}
+#simp-fut-fo-bar{background:linear-gradient(90deg,var(--green),var(--teal));}#simp-fut-inad-bar{background:linear-gradient(90deg,var(--red),var(--amber));}
+.simp-future-note{padding:12px 13px;border-radius:15px;border:1px solid rgba(56,139,253,.16);background:rgba(56,139,253,.06);font-size:12px;line-height:1.65;color:var(--text2);}.simp-future-note strong{color:var(--text);}
+[data-theme="light"] .simp-future-card{background:radial-gradient(circle at 10% 8%,rgba(20,184,166,.08),transparent 32%),radial-gradient(circle at 88% 12%,rgba(217,119,6,.08),transparent 30%),linear-gradient(145deg,rgba(255,255,255,.99),rgba(247,250,252,.94))!important;border-color:rgba(15,23,42,.08)!important;box-shadow:0 16px 34px rgba(15,23,42,.08),inset 0 1px 0 rgba(255,255,255,.88)!important;}
+[data-theme="light"] .simp-future-head h3,[data-theme="light"] .sfk strong,[data-theme="light"] .sfb-row strong,[data-theme="light"] .simp-future-note strong{color:#0f172a!important;}
+[data-theme="light"] .simp-future-head p,[data-theme="light"] .sfc-top span,[data-theme="light"] .sfb-row,[data-theme="light"] .simp-future-note{color:#475569!important;}
+[data-theme="light"] .simp-future-control,[data-theme="light"] .sfk{background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(248,250,252,.90))!important;border-color:rgba(15,23,42,.08)!important;box-shadow:0 8px 18px rgba(15,23,42,.04),inset 0 1px 0 rgba(255,255,255,.82)!important;}
+[data-theme="light"] .simp-future-year input{background:#fff!important;color:#0f172a!important;border-color:rgba(15,23,42,.10)!important;}
+[data-theme="light"] .sfb-track{background:rgba(15,23,42,.06)!important;border-color:rgba(15,23,42,.07)!important;}
+[data-theme="light"] .simp-future-note{background:linear-gradient(180deg,rgba(37,99,235,.07),rgba(37,99,235,.035))!important;border-color:rgba(37,99,235,.14)!important;}
+.simp-future-scenarios{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 12px;}
+.simp-future-scenario{position:relative;overflow:hidden;padding:13px;border-radius:18px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(180deg,rgba(255,255,255,.052),rgba(255,255,255,.02));box-shadow:0 12px 26px rgba(0,0,0,.10),inset 0 1px 0 rgba(255,255,255,.04);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;}
+.simp-future-scenario:hover{transform:translateY(-2px);box-shadow:0 18px 34px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.05);}
+.simp-future-scenario::before{content:'';position:absolute;left:0;right:0;top:0;height:3px;background:var(--teal);opacity:.88;}
+.simp-future-scenario.conservative::before{background:var(--blue2);}.simp-future-scenario.balanced::before{background:var(--teal);}.simp-future-scenario.ideal::before{background:linear-gradient(90deg,var(--amber),var(--green));}
+.sfs-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px;}
+.sfs-badge{font-size:9px;font-weight:950;letter-spacing:.10em;text-transform:uppercase;color:var(--text3);}
+.sfs-top button{border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.045);color:var(--text2);border-radius:999px;padding:5px 8px;font-size:10px;font-weight:850;cursor:pointer;font-family:var(--font-body);}
+.sfs-top button:hover{color:var(--text);border-color:rgba(210,153,34,.24);background:rgba(210,153,34,.08);}
+.sfs-title{font-size:14px;font-weight:950;color:var(--text);letter-spacing:-.015em;margin-bottom:4px;}
+.sfs-target{font-size:11px;color:var(--text2);margin-bottom:10px;line-height:1.35;}
+.sfs-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:9px;}
+.sfs-grid div{padding:8px;border-radius:12px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);}
+.sfs-grid span{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);font-weight:850;margin-bottom:4px;}
+.sfs-grid strong{display:block;font-size:13px;color:var(--text);font-weight:950;letter-spacing:-.02em;}
+.sfs-note{font-size:11px;line-height:1.45;color:var(--text3);}
+.simp-future-scenario.is-selected{border-color:rgba(210,153,34,.34);box-shadow:0 18px 34px rgba(0,0,0,.16),0 0 0 1px rgba(210,153,34,.08),inset 0 1px 0 rgba(255,255,255,.05);}
+[data-theme="light"] .simp-future-scenario{background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(248,250,252,.92))!important;border-color:rgba(15,23,42,.08)!important;box-shadow:0 10px 22px rgba(15,23,42,.05),inset 0 1px 0 rgba(255,255,255,.82)!important;}
+[data-theme="light"] .sfs-title,[data-theme="light"] .sfs-grid strong{color:#0f172a!important;}[data-theme="light"] .sfs-target,[data-theme="light"] .sfs-note{color:#475569!important;}[data-theme="light"] .sfs-badge,[data-theme="light"] .sfs-grid span{color:#64748b!important;}
+[data-theme="light"] .sfs-grid div{background:linear-gradient(180deg,rgba(255,255,255,.96),rgba(248,250,252,.86))!important;border-color:rgba(15,23,42,.08)!important;}
+[data-theme="light"] .sfs-top button{background:#fff!important;border-color:rgba(15,23,42,.10)!important;color:#334155!important;box-shadow:0 6px 14px rgba(15,23,42,.04)!important;}
+[data-theme="light"] .simp-future-scenario.is-selected{border-color:rgba(217,119,6,.24)!important;box-shadow:0 14px 28px rgba(15,23,42,.08),0 0 0 1px rgba(217,119,6,.08),inset 0 1px 0 rgba(255,255,255,.86)!important;}
+
+@media(max-width:900px){.simp-future-controls,.simp-future-kpis{grid-template-columns:1fr 1fr}.simp-future-scenarios{grid-template-columns:1fr}.sfb-row{grid-template-columns:88px 1fr 84px}}
+@media(max-width:620px){.simp-future-controls,.simp-future-kpis{grid-template-columns:1fr}.simp-future-card{padding:14px}.sfb-row{grid-template-columns:1fr;gap:5px}.sfb-row strong{text-align:left}.simp-future-head h3{font-size:17px}.sfs-grid{grid-template-columns:1fr 1fr}}
+</style>
+
+<script id="ql-simulado-futuro-v69-24-js">
+(function(){
+  const KEY='ql_simp_futuro_v1';
+  function brl(v){try{return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v)||0)}catch(e){return 'R$ '+(Number(v)||0).toFixed(2).replace('.',',')}}
+  function pct(v){return (Number(v)||0).toFixed(1).replace('.',',')+'%'}
+  function num(id,def){const el=document.getElementById(id);const v=parseFloat(el&&el.value);return isFinite(v)?v:def;}
+  function set(id,txt){const el=document.getElementById(id);if(el)el.textContent=txt;}
+  function setw(id,w){const el=document.getElementById(id);if(el)el.style.width=Math.max(0,Math.min(100,w))+'%';}
+  const SCENARIOS={
+    conservador:{label:'Conservador',fr:6,fo:7,inad:9,note:'Menor impacto imediato, bom para começar a transição sem choque na cota.'},
+    equilibrado:{label:'Equilibrado',fr:8,fo:8,inad:9,note:'Recomposição gradual, com proteção melhor sem salto brusco.'},
+    ideal:{label:'Ideal 2027',fr:10,fo:10,inad:10,note:'Padrão forte para previsibilidade, fundos mais sólidos e margem para inadimplência.'}
+  };
+  window.simFutureApplyScenario=function(key){
+    const sc=SCENARIOS[key]; if(!sc)return;
+    [['simp-fut-fr',sc.fr],['simp-fut-fo',sc.fo],['simp-fut-inad',sc.inad]].forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.value=v;});
+    set('simp-fut-fr-target-val',pct(sc.fr));set('simp-fut-fo-target-val',pct(sc.fo));set('simp-fut-inad-target-val',pct(sc.inad));
+    try{localStorage.setItem(KEY+'_scenario',key)}catch(e){}
+    simFutureSave();renderFuturePlan();
+    if(typeof showToast==='function')showToast('Cenário '+sc.label+' aplicado.','success',1800);
+  };
+  function renderScenarioCards(base,curFr,curFo,curInad){
+    const selected=(()=>{try{return localStorage.getItem(KEY+'_scenario')||''}catch(e){return ''}})();
+    const rateio=base.extras&&base.extras.rateio||0;
+    const cotaAtual=calcCota(base.desp,base.n,base.nPag,curFr,curFo,curInad,rateio);
+    Object.entries(SCENARIOS).forEach(([key,sc])=>{
+      const cota=calcCota(base.desp,base.n,base.nPag,sc.fr,sc.fo,sc.inad,rateio);
+      const impact=cota-cotaAtual;
+      set('sfs-'+key+'-target','FR '+pct(sc.fr)+' · FO '+pct(sc.fo)+' · Inad. '+pct(sc.inad));
+      set('sfs-'+key+'-unit',(impact>=0?'+':'')+brl(impact));
+      set('sfs-'+key+'-cota',brl(cota));
+      set('sfs-'+key+'-note',sc.note);
+      const card=document.querySelector('[data-sf-scenario="'+key+'"]');
+      if(card)card.classList.toggle('is-selected',selected===key);
+    });
+  }
+  window.simFutureSave=function(){
+    try{localStorage.setItem(KEY,JSON.stringify({ano:num('simp-fut-ano',2027),fr:num('simp-fut-fr',10),fo:num('simp-fut-fo',10),inad:num('simp-fut-inad',10)}));}catch(e){}
+  };
+  function load(){
+    let cfg={ano:2027,fr:10,fo:10,inad:10};
+    try{cfg=Object.assign(cfg,JSON.parse(localStorage.getItem(KEY)||'{}')||{})}catch(e){}
+    [['simp-fut-ano',cfg.ano],['simp-fut-fr',cfg.fr],['simp-fut-fo',cfg.fo],['simp-fut-inad',cfg.inad]].forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.value=v;});
+    set('simp-fut-fr-target-val',pct(cfg.fr));set('simp-fut-fo-target-val',pct(cfg.fo));set('simp-fut-inad-target-val',pct(cfg.inad));
+  }
+  function getBase(){
+    const c=window._lastCalc||{};
+    const fonte=window._simFonte||'app';
+    const useManual=fonte==='manual';
+    const manDesp=num('simp-manual-desp',0), manCota=num('simp-manual-cota',0), manN=num('simp-manual-n',1);
+    const appCotaAtual=parseFloat(document.getElementById('cota_atual')?.value)||0;
+    const appN=parseFloat(document.getElementById('n_unidades')?.value)||1;
+    const appNPag=parseFloat(document.getElementById('n_pagantes')?.value)||appN;
+    const appDesp=(c.totDesp||0)>0?c.totDesp:(typeof calcDespMensal==='function'?calcDespMensal():0);
+    const extras=(typeof simExtrasMensais==='function'?simExtrasMensais():{total:0,rateio:0});
+    const desp=(useManual?manDesp:(appDesp||manDesp))+(extras.total||0);
+    const cotaAtual=useManual?manCota:(appCotaAtual||c.cotaAtual||manCota||0);
+    const n=useManual?(manN||1):(appN>0?appN:(c.n||manN||1));
+    const nPag=useManual?n:Math.max(1,Math.min(appNPag>0?appNPag:n,n));
+    return {desp,cotaAtual,n,nPag,extras};
+  }
+  function calcCota(desp,n,nPag,fr,fo,inad,rateio){
+    if(nPag<=0)return 0;
+    const r=rateio||0;
+    const fator=(1+fr/100+fo/100)/(inad<100?1-inad/100:1);
+    return fator*((desp-r)/nPag+r/n);
+  }
+  window.renderFuturePlan=function(){
+    const card=document.getElementById('simp-future-card');if(!card)return;
+    const b=getBase();
+    const curFr=num('simp-fr',parseFloat(document.getElementById('fundo_reserva')?.value)||0);
+    const curFo=num('simp-fo',parseFloat(document.getElementById('fundo_obras')?.value)||0);
+    const curInad=num('simp-inad',parseFloat(document.getElementById('inadimplencia')?.value)||0);
+    const futFr=num('simp-fut-fr',10), futFo=num('simp-fut-fo',10), futInad=num('simp-fut-inad',10), ano=num('simp-fut-ano',2027);
+    set('simp-fut-fr-now',pct(curFr));set('simp-fut-fo-now',pct(curFo));set('simp-fut-inad-now',pct(curInad));
+    const dFr=futFr-curFr,dFo=futFo-curFo,dIn=futInad-curInad;
+    const dtxt=v=>(v>=0?'+':'')+v.toFixed(1).replace('.',',')+' p.p.';
+    set('simp-fut-fr-delta',dtxt(dFr));set('simp-fut-fo-delta',dtxt(dFo));set('simp-fut-inad-delta',dtxt(dIn));
+    if(!(b.desp>0&&b.nPag>0)){
+      ['simp-fut-impact-unit','simp-fut-new-cota','simp-fut-impact-year','simp-fut-impact-total','simp-fut-fr-money','simp-fut-fo-money','simp-fut-inad-money','sfs-conservador-unit','sfs-conservador-cota','sfs-equilibrado-unit','sfs-equilibrado-cota','sfs-ideal-unit','sfs-ideal-cota'].forEach(id=>set(id,'—'));
+      set('simp-fut-note','Preencha as despesas e unidades para liberar o Planejamento Futuro.');return;
+    }
+    renderScenarioCards(b,curFr,curFo,curInad);
+    const cotaAtualCenario=calcCota(b.desp,b.n,b.nPag,curFr,curFo,curInad,b.extras.rateio);
+    const cotaFutura=calcCota(b.desp,b.n,b.nPag,futFr,futFo,futInad,b.extras.rateio);
+    const impactoUn=cotaFutura-cotaAtualCenario;
+    const impactoTotal=impactoUn*b.nPag;
+    const anualUn=impactoUn*12;
+    set('simp-fut-impact-unit',(impactoUn>=0?'+':'')+brl(impactoUn));
+    set('simp-fut-new-cota',brl(cotaFutura));
+    set('simp-fut-impact-year',(anualUn>=0?'+':'')+brl(anualUn));
+    set('simp-fut-impact-total',(impactoTotal>=0?'+':'')+brl(impactoTotal));
+    function comp(fr,fo,ina){return calcCota(b.desp,b.n,b.nPag,fr,fo,ina,b.extras.rateio)}
+    const impFr=(comp(futFr,curFo,curInad)-comp(curFr,curFo,curInad))*b.nPag;
+    const impFo=(comp(curFr,futFo,curInad)-comp(curFr,curFo,curInad))*b.nPag;
+    const impIn=(comp(curFr,curFo,futInad)-comp(curFr,curFo,curInad))*b.nPag;
+    const max=Math.max(Math.abs(impFr),Math.abs(impFo),Math.abs(impIn),1);
+    set('simp-fut-fr-money',(impFr>=0?'+':'')+brl(impFr)+'/mês');
+    set('simp-fut-fo-money',(impFo>=0?'+':'')+brl(impFo)+'/mês');
+    set('simp-fut-inad-money',(impIn>=0?'+':'')+brl(impIn)+'/mês');
+    setw('simp-fut-fr-bar',Math.abs(impFr)/max*100);setw('simp-fut-fo-bar',Math.abs(impFo)/max*100);setw('simp-fut-inad-bar',Math.abs(impIn)/max*100);
+    const baseTxt=`Hoje o cenário trabalha com FR ${pct(curFr)}, FO ${pct(curFo)} e inadimplência ${pct(curInad)}. Para ${ano}, a meta configurada é FR ${pct(futFr)}, FO ${pct(futFo)} e inadimplência ${pct(futInad)}.`;
+    const impactTxt=impactoUn>=0?`A cota precisaria subir cerca de <strong>${brl(impactoUn)}</strong> por unidade/mês, chegando a <strong>${brl(cotaFutura)}</strong>.`:`A meta futura reduziria a cota estimada em <strong>${brl(Math.abs(impactoUn))}</strong> por unidade/mês, chegando a <strong>${brl(cotaFutura)}</strong>.`;
+    const leitura=Math.abs(impactoUn)<1?'A diferença é praticamente neutra no valor por unidade.':impactoUn>0?'Esse é um cenário de recomposição planejada: melhora a proteção de caixa, mas precisa ser comunicado como reforço gradual.':'Esse cenário alivia a cota, mas deve ser validado para não reduzir margem de segurança.';
+    set('simp-fut-note','');
+    const note=document.getElementById('simp-fut-note');if(note)note.innerHTML=`<strong>Leitura executiva:</strong> ${baseTxt} ${impactTxt} ${leitura}`;
+  };
+  const old=window.renderSimulacoes;
+  if(typeof old==='function'&&!old.__qlFuturePlan){
+    window.renderSimulacoes=function(){const ret=old.apply(this,arguments);try{window.renderFuturePlan();}catch(e){console.warn('Planejamento Futuro',e)}return ret;};
+    window.renderSimulacoes.__qlFuturePlan=true;
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',()=>{load();setTimeout(()=>window.renderFuturePlan(),350)},{once:true});}
+  else{load();setTimeout(()=>window.renderFuturePlan(),350);}
+})();
+</script>
+
+
+<style id="ql-inad-mobile-3x4-v69-26">
+/* Inadimplência — mobile: grade mensal 4 linhas x 3 meses */
+@media(max-width:760px){
+  #page-inadimplencia #hist-grade{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:9px!important;
+    margin-bottom:14px!important;
+  }
+  #page-inadimplencia .hist-card-risk{
+    min-width:0!important;
+    padding:9px 6px!important;
+    border-radius:13px!important;
+  }
+  #page-inadimplencia .hist-card-risk > div:first-child{
+    align-items:flex-start!important;
+    gap:4px!important;
+    margin-bottom:6px!important;
+  }
+  #page-inadimplencia .hist-card-risk > div:first-child > div:first-child{
+    font-size:10px!important;
+    letter-spacing:.03em!important;
+  }
+  #page-inadimplencia .hist-card-risk [id^="hist_risk_"]{
+    font-size:7.5px!important;
+    letter-spacing:.02em!important;
+    max-width:46px!important;
+    text-align:right!important;
+    line-height:1.1!important;
+  }
+  #page-inadimplencia .hist-card-risk input{
+    min-height:30px!important;
+    padding:6px 4px!important;
+    font-size:12px!important;
+    border-radius:9px!important;
+  }
+  #page-inadimplencia .hist-card-risk input[id^="hist_m"]{
+    font-size:14px!important;
+    min-height:32px!important;
+  }
+  #page-inadimplencia .hist-card-risk label{
+    font-size:7.5px!important;
+    letter-spacing:.04em!important;
+  }
+  #page-inadimplencia .hist-card-risk [id^="hist_bar_"]{
+    width:18px!important;
+  }
+  #page-inadimplencia .hist-card-risk [id^="hist_valor_"]{
+    font-size:10.5px!important;
+    line-height:1.15!important;
+    word-break:break-word!important;
+  }
+  #page-inadimplencia .hist-card-risk [id^="hist_pct_"]{
+    font-size:10px!important;
+    line-height:1.15!important;
+  }
+  #page-inadimplencia .hist-card-risk [id^="hist_unid_"]{
+    font-size:8.5px!important;
+  }
+  #page-inadimplencia .hist-card-risk [id^="hist_pag_"]{
+    font-size:7.8px!important;
+    line-height:1.15!important;
+  }
+  #page-inadimplencia .hist-card-risk::after,
+  #page-inadimplencia .hist-month-tooltip{
+    display:none!important;
+  }
+}
+@media(max-width:390px){
+  #page-inadimplencia #hist-grade{gap:7px!important;}
+  #page-inadimplencia .hist-card-risk{padding:8px 5px!important;}
+  #page-inadimplencia .hist-card-risk input{font-size:11px!important;}
+  #page-inadimplencia .hist-card-risk input[id^="hist_m"]{font-size:13px!important;}
+}
+</style>
 
 </body>
 
