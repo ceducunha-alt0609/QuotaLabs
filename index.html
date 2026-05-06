@@ -47,6 +47,93 @@ document.documentElement.setAttribute('data-role', QL_ROLE);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 <style>
+/* ══ TIRA DE 3 COTAS ════════════════════════════════════════════ */
+.db-cotas-strip{
+  display:grid;grid-template-columns:1fr auto 1fr auto 1fr;
+  align-items:center;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r);padding:0;overflow:visible;
+  margin-bottom:14px;
+}
+.db-cs-cell{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;padding:16px 12px;text-align:center;position:relative;
+  transition:background .18s;border-radius:var(--r);
+}
+.db-cs-cell:hover{background:var(--bg3);}
+.db-cs-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;font-weight:500;display:flex;align-items:center;gap:4px;}
+.db-cs-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;padding:2px 8px;border-radius:20px;margin-bottom:2px;}
+.db-cs-badge-sug{background:rgba(47,129,247,.14);color:var(--blue2);border:1px solid rgba(47,129,247,.25);}
+.db-cs-badge-proj{background:rgba(63,185,80,.13);color:var(--green);border:1px solid rgba(63,185,80,.25);}
+.db-cs-val{font-family:'DM Serif Display',serif;font-size:22px;font-weight:600;color:var(--text);line-height:1;}
+.db-cs-val-sug{color:var(--blue2);}
+.db-cs-val-proj{color:var(--green);}
+.db-cs-sub{font-size:10px;color:var(--text3);margin-top:2px;line-height:1.3;}
+.db-cs-divider{width:1px;height:52px;background:var(--border);flex-shrink:0;}
+.db-cs-vig .db-cs-val{color:var(--text2);}
+.db-cs-sug::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:3px;border-radius:0 3px 3px 0;background:var(--blue2);opacity:.7;}
+.db-cs-proj::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:3px;border-radius:0 3px 3px 0;background:var(--green);opacity:.7;}
+
+/* ── Tooltip ⓘ premium ── */
+.db-cs-info{
+  position:relative;display:inline-flex;align-items:center;cursor:default;
+  color:var(--text3);transition:color .15s;flex-shrink:0;
+}
+.db-cs-info svg{width:13px;height:13px;display:block;transition:color .15s;}
+.db-cs-info:hover{color:var(--blue2);}
+.db-cs-info-proj:hover{color:var(--green);}
+.db-cs-tooltip{
+  position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);
+  width:220px;
+  background:linear-gradient(135deg,rgba(13,22,44,.97),rgba(10,18,38,.99));
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:12px;
+  padding:10px 13px;
+  font-size:11.5px;line-height:1.6;
+  color:rgba(255,255,255,.82);
+  font-family:'DM Sans',sans-serif;
+  font-weight:400;letter-spacing:.01em;
+  box-shadow:0 16px 40px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.04) inset;
+  pointer-events:none;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .18s ease, transform .18s ease;
+  transform:translateX(-50%) translateY(4px);
+  z-index:999;
+  text-transform:none;font-style:normal;
+  white-space:normal;text-align:left;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+/* arrow */
+.db-cs-tooltip::after{
+  content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  border:6px solid transparent;border-top-color:rgba(13,22,44,.97);
+}
+/* posicionamentos */
+.db-cs-tooltip-right{left:auto;right:0;transform:translateX(0) translateY(4px);}
+.db-cs-tooltip-right::after{left:auto;right:18px;transform:none;}
+.db-cs-info:hover .db-cs-tooltip{
+  opacity:1;visibility:visible;
+  transform:translateX(-50%) translateY(0);
+}
+.db-cs-info:hover .db-cs-tooltip-right{
+  transform:translateX(0) translateY(0);
+}
+[data-theme="light"] .db-cs-tooltip{
+  background:linear-gradient(135deg,#1a2744,#0f1e3d);
+  border-color:rgba(255,255,255,.08);
+}
+
+/* mobile */
+@media(max-width:640px){
+  .db-cotas-strip{grid-template-columns:1fr;border-radius:16px;overflow:hidden;}
+  .db-cs-divider{width:80%;height:1px;margin:0 auto;}
+  .db-cs-sug::before,.db-cs-proj::before{display:none;}
+  .db-cs-tooltip{width:180px;}
+}
+[data-theme="light"] .db-cotas-strip{box-shadow:0 2px 8px rgba(15,23,42,.06);}
+
 /* ══ RESUMO MENSAL ══════════════════════════════════════════════ */
 .rm-step{display:none}.rm-step.rm-active{display:block}
 .rm-logo{font-size:11px;letter-spacing:.1em;color:var(--text2);text-transform:uppercase;margin-bottom:1.2rem}
@@ -3488,6 +3575,45 @@ body.ql-lock-scroll{overflow:hidden;}
       </div>
     </div>
 
+    <!-- TIRA DE 3 COTAS -->
+    <div class="db-cotas-strip" id="db-cotas-strip">
+      <div class="db-cs-cell db-cs-vig">
+        <div class="db-cs-label">
+          Cota vigente
+          <span class="db-cs-info" data-tip="Valor cobrado atualmente por unidade, conforme cadastro. Serve como referência para avaliar o quanto a cota está defasada em relação às despesas reais do condomínio.">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M8 7v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="4.5" r=".8" fill="currentColor"/></svg>
+            <span class="db-cs-tooltip db-cs-tooltip-center">Valor cobrado atualmente por unidade, conforme cadastro. Serve como referência para avaliar o quanto a cota está defasada em relação às despesas reais do condomínio.</span>
+          </span>
+        </div>
+        <div class="db-cs-val" id="db-strip-vig">—</div>
+        <div class="db-cs-sub">referência atual</div>
+      </div>
+      <div class="db-cs-divider"></div>
+      <div class="db-cs-cell db-cs-sug">
+        <div class="db-cs-badge db-cs-badge-sug">
+          Sugerida
+          <span class="db-cs-info db-cs-info-sug" data-tip="Cota calculada com as despesas e encargos reais do condomínio — o valor mínimo necessário para equilibrar as contas sem déficit.">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M8 7v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="4.5" r=".8" fill="currentColor"/></svg>
+            <span class="db-cs-tooltip db-cs-tooltip-center">Cota calculada com as despesas e encargos reais do condomínio — o valor mínimo necessário para equilibrar as contas sem déficit.</span>
+          </span>
+        </div>
+        <div class="db-cs-val db-cs-val-sug" id="db-strip-sug">—</div>
+        <div class="db-cs-sub" id="db-strip-sug-delta">calculada com encargos atuais</div>
+      </div>
+      <div class="db-cs-divider"></div>
+      <div class="db-cs-cell db-cs-proj">
+        <div class="db-cs-badge db-cs-badge-proj">
+          Ideal
+          <span class="db-cs-info db-cs-info-proj" data-tip="Cota com percentuais ajustados pela idade da edificação, conforme recomendações da NBR 5674:2012 (manutenção) e NBR 16747:2020 (inspeção predial). Garante margem de segurança para imprevistos e obras futuras.">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M8 7v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="4.5" r=".8" fill="currentColor"/></svg>
+            <span class="db-cs-tooltip db-cs-tooltip-right">Cota com percentuais ajustados pela idade da edificação, conforme recomendações da NBR 5674:2012 (manutenção) e NBR 16747:2020 (inspeção predial). Garante margem de segurança para imprevistos e obras futuras.</span>
+          </span>
+        </div>
+        <div class="db-cs-val db-cs-val-proj" id="db-strip-proj">—</div>
+        <div class="db-cs-sub" id="db-strip-proj-delta">FR 10% · FO 10% · Inad. 10%</div>
+      </div>
+    </div>
+
     <!-- ÍNDICE DE SAÚDE DO CONDOMÍNIO -->
     <section class="db-health db-c" id="db-health-card" data-glow-tone="success" data-glow-level="normal" aria-label="Índice de Saúde do Condomínio">
       <div class="db-health-main">
@@ -5051,13 +5177,22 @@ body.ql-lock-scroll{overflow:hidden;}
     <div class="dpanel on" id="dtab-geral">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
         <div style="grid-column:1/-1">
-          <div class="field"><label>Nome do condomínio</label><input type="text" id="condo_nome" value="Edificio Primavera" oninput="dirty();calcular()"></div>
+          <div style="display:grid;grid-template-columns:1fr 140px;gap:12px;align-items:start">
+            <div class="field"><label>Nome do condomínio</label><input type="text" id="condo_nome" value="Edificio Primavera" oninput="dirty();calcular()"></div>
+            <div class="field">
+              <label>Ano de construção</label>
+              <input type="number" inputmode="numeric" id="ano_construcao" placeholder="ex: 1981" min="1900" max="2025" step="1" oninput="dirty();qlAtualizaIdadePredial();calcular()">
+            </div>
+          </div>
+          <div id="idade-predial-hint" style="font-size:10.5px;line-height:1.5;margin-top:6px;display:none"></div>
         </div>
-        <div class="field"><label>Nº total de unidades <span style="font-size:10px;color:var(--text3);font-weight:400">(rateio)</span></label><input type="number" inputmode="decimal" id="n_unidades" value="80" min="1" oninput="dirty();calcular()"></div>
+        <div class="field"><label>Nº total de unidades <span style="font-size:10px;color:var(--text3);font-weight:400">(rateio)</span></label><input type="number" inputmode="decimal" id="n_unidades" value="80" min="1" oninput="dirty();calcular()"><div style="font-size:10px;color:var(--text3);margin-top:4px;line-height:1.4">Fonte única — usada em inadimplência, colapso e simulações.</div></div>
         <div class="field"><label>Unidades pagantes <span style="font-size:10px;color:var(--text3);font-weight:400">(cobrança)</span></label><input type="number" inputmode="decimal" id="n_pagantes" value="80" min="1" oninput="dirty();calcular()"><div style="font-size:10px;color:var(--text3);margin-top:4px;line-height:1.4">Síndico/subsíndico isentos? Informe aqui o nº de unidades que efetivamente pagam a cota.</div></div>
-        <div class="field"><label>Cota vigente (R$)</label><input type="number" inputmode="decimal" id="cota_atual" value="850" min="0" step="10" oninput="dirty();calcular()"></div>
-        <div style="grid-column:1/-1;font-size:10.5px;color:var(--text3);line-height:1.45;margin-top:-4px;">Base oficial centralizada: altere o total de unidades uma vez aqui ou no Histórico Real. Inadimplência, colapso e calculadoras passam a usar a mesma base automaticamente.</div>
-        <div class="field" style="grid-column:1/-1"><label>Competência</label><input type="text" id="competencia" placeholder="ex: Janeiro/2026" oninput="dirty();calcular()"></div>
+        <div style="grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start">
+          <div class="field"><label>Cota vigente (R$)</label><input type="number" inputmode="decimal" id="cota_atual" value="850" min="0" step="10" oninput="dirty();calcular()"></div>
+          <div class="field"><label>Competência</label><input type="text" id="competencia" placeholder="ex: Janeiro/2026" oninput="dirty();calcular()"></div>
+        </div>
+
       </div>
 
       <div class="slabel" style="margin-top:18px">Modo de rateio</div>
@@ -6547,6 +6682,35 @@ function renderSimulacoes(){
     kCotaRec.textContent=cotaRec>0?_simFmt(cotaRec):'--';
     if(recCard){recCard.style.borderColor='rgba(99,153,34,.45)';recCard.style.background='rgba(99,153,34,.06)';}
   } else if(recCard){recCard.style.borderColor='';recCard.style.background='';}
+
+  // ── Atualiza tira de 3 cotas no dashboard ──
+  (function(){
+    const vigente=window._dbCotaAtual||cotaAtual||0;
+    const sEl=document.getElementById('db-strip-sug');
+    const pEl=document.getElementById('db-strip-proj');
+    const sDelta=document.getElementById('db-strip-sug-delta');
+    const pDelta=document.getElementById('db-strip-proj-delta');
+    function pct(v){if(!vigente||!v)return null;return ((v-vigente)/vigente*100);}
+    function fmtPct(v){if(v===null)return null;return (v>=0?'+':'')+v.toFixed(1)+'%';}
+    if(sEl){
+      if(cotaCalcOk>0){
+        sEl.textContent=_simFmt(cotaCalcOk);
+        const p=pct(cotaCalcOk);
+        if(sDelta&&p!==null)sDelta.textContent=fmtPct(p)+' vs vigente';
+      } else {sEl.textContent='—';if(sDelta)sDelta.textContent='calculada com encargos atuais';}
+    }
+    if(pEl&&totDesp_eff>0){
+      const cotaRec2=simCotaPag(totDesp_eff,n,nPag,10,10,10,extras.rateio);
+      if(cotaRec2>0){
+        pEl.textContent=_simFmt(cotaRec2);
+        const p=pct(cotaRec2);
+        if(pDelta&&p!==null)pDelta.textContent=fmtPct(p)+' vs vigente';
+      } else {pEl.textContent='—';if(pDelta)pDelta.textContent='FR 10% · FO 10% · Inad. 10%';}
+    } else if(pEl&&!totDesp_eff){pEl.textContent='—';}
+    // mostrar strip só quando há dados
+    const strip=document.getElementById('db-cotas-strip');
+    if(strip)strip.style.opacity=(cotaCalcOk>0||vigente>0)?'1':'0.4';
+  })();
   if(kSaldo&&totDesp_eff>0){const isDeficit=saldoAtual<0;kSaldo.textContent=_simFmt(Math.abs(saldoAtual));kSaldo.style.color=isDeficit?'var(--red)':'var(--green)';kSaldo.style.fontSize=Math.abs(saldoAtual)>9999?'21px':'26px';if(kSaldoS)kSaldoS.textContent=isDeficit?'deficit atual / mes':'superavit atual / mes';if(kSaldoLbl)kSaldoLbl.textContent=isDeficit?'Deficit mensal':'Superavit mensal';if(kSaldoCard){kSaldoCard.style.borderColor=isDeficit?'rgba(248,81,73,.5)':'rgba(63,185,80,.4)';kSaldoCard.style.background=isDeficit?'rgba(248,81,73,.06)':'rgba(63,185,80,.06)';}}
 
   // Cenarios Ano 1
@@ -8917,6 +9081,8 @@ function exportJSON(){
       frSaldo:document.getElementById('fr_saldo').value,frTaxa:document.getElementById('fr_taxa').value,
       modoRateio:document.getElementById('modo_rateio').value,
     },
+    ghToken:getGHToken()||'',
+    ghGistId:getGistID()||'',
     indices:{ipca:document.getElementById('idx_ipca').value,igpm:document.getElementById('idx_igpm').value,inpc:document.getElementById('idx_inpc').value,ipcfipe:document.getElementById('idx_ipcfipe').value,sm:document.getElementById('idx_sm').value,custom:document.getElementById('idx_custom').value,customNome:document.getElementById('idx_custom_nome').value},
     despesas:[...despesas],historico:[...historico],despComp:[...despComp],tiposUnidade:[...tiposUnidade],rateios:[...rateios],
     exportedAt:new Date().toISOString(),
@@ -9088,7 +9254,7 @@ function buildAppData(){
   return {
     version: 4,
     exportedAt: new Date().toISOString(),
-    config:{condoNome:document.getElementById('condo_nome').value,nUnidades:document.getElementById('n_unidades').value,nPagantes:document.getElementById('n_pagantes')?.value||document.getElementById('n_unidades').value,cotaAtual:document.getElementById('cota_atual').value,competencia:document.getElementById('competencia').value,inadimplencia:document.getElementById('inadimplencia').value,fundoReserva:document.getElementById('fundo_reserva').value,fundoObras:document.getElementById('fundo_obras').value,frSaldo:document.getElementById('fr_saldo').value,frTaxa:document.getElementById('fr_taxa').value,modoRateio:document.getElementById('modo_rateio').value,tickerPrefs:getTickerPrefs()},
+    config:{condoNome:document.getElementById('condo_nome').value,nUnidades:document.getElementById('n_unidades').value,nPagantes:document.getElementById('n_pagantes')?.value||document.getElementById('n_unidades').value,cotaAtual:document.getElementById('cota_atual').value,competencia:document.getElementById('competencia').value,anoConstrucao:document.getElementById('ano_construcao')?.value||'',inadimplencia:document.getElementById('inadimplencia').value,fundoReserva:document.getElementById('fundo_reserva').value,fundoObras:document.getElementById('fundo_obras').value,frSaldo:document.getElementById('fr_saldo').value,frTaxa:document.getElementById('fr_taxa').value,modoRateio:document.getElementById('modo_rateio').value,tickerPrefs:getTickerPrefs()},
     indices:{ipca:document.getElementById('idx_ipca').value,igpm:document.getElementById('idx_igpm').value,inpc:document.getElementById('idx_inpc').value,ipcfipe:document.getElementById('idx_ipcfipe').value,sm:document.getElementById('idx_sm').value,custom:document.getElementById('idx_custom').value,customNome:document.getElementById('idx_custom_nome').value},
     despesas:[...despesas],historico:[...historico],despComp:[...despComp],tiposUnidade:[...tiposUnidade],rateios:[...rateios],
   };
@@ -9096,8 +9262,8 @@ function buildAppData(){
 function applyAppData(d){
   if(!d || !d.config || !d.despesas) throw new Error('Formato inválido.');
   const cfg=d.config||{};
-  ['condo_nome','n_unidades','n_pagantes','cota_atual','competencia'].forEach(id=>{
-    const key={condo_nome:'condoNome',n_unidades:'nUnidades',n_pagantes:'nPagantes',cota_atual:'cotaAtual',competencia:'competencia'}[id];
+  ['condo_nome','n_unidades','n_pagantes','cota_atual','competencia','ano_construcao'].forEach(id=>{
+    const key={condo_nome:'condoNome',n_unidades:'nUnidades',n_pagantes:'nPagantes',cota_atual:'cotaAtual',competencia:'competencia',ano_construcao:'anoConstrucao'}[id];
     if(cfg[key]!=null) document.getElementById(id).value=cfg[key];
   });
   if(cfg.inadimplencia){document.getElementById('inadimplencia').value=cfg.inadimplencia;['inadimpl_lbl','inadimpl_val'].forEach(id=>{const el=document.getElementById(id); if(el) el.textContent=parseFloat(cfg.inadimplencia).toFixed(1)+'%';});}
@@ -9109,13 +9275,16 @@ function applyAppData(d){
   if(cfg.tickerPrefs) setTickerPrefs(cfg.tickerPrefs);
   try{ qlApplyUnitsConfig(cfg.nUnidades||80, cfg.nPagantes||cfg.nUnidades||80, {recalc:false}); }catch(e){}
   if(d.indices) Object.entries(d.indices).forEach(([k,v])=>{const el=document.getElementById('idx_'+k); if(el) el.value=v;});
+  // Restaura token GitHub — evita evicção pelo ITP do iOS
+  if(d.ghToken){ try{ localStorage.setItem(GH_TOKEN_KEY, d.ghToken); const el=document.getElementById('gh-token'); if(el) el.placeholder='Token salvo · cole para atualizar'; }catch(e){} }
+  if(d.ghGistId){ try{ localStorage.setItem(GH_GIST_KEY, d.ghGistId); const el=document.getElementById('gh-gist-id'); if(el) el.value=d.ghGistId; }catch(e){} }
   despesas.length=0; (d.despesas||[]).forEach(x=>despesas.push(x));
   historico.length=0; (d.historico||[]).forEach(x=>historico.push(x));
   despComp.length=0; (d.despComp||[]).forEach(x=>despComp.push(x));
   tiposUnidade.length=0; (d.tiposUnidade||[]).forEach(x=>tiposUnidade.push(x));
   rateios.length=0; (d.rateios||[]).forEach(x=>rateios.push(x));
   renderDespesas();renderHistorico();renderDespComp();renderTipos();renderRateios();toggleRateio();
-  autoSave(); calcular();
+  autoSave(); calcular(); qlAtualizaIdadePredial();
 }
 function autoSave(){
   clearTimeout(_autoSaveTimer);
@@ -9125,6 +9294,9 @@ function _doAutoSave(){
   try{
     const snap=buildAppData();
     localStorage.setItem(STORAGE_KEY,JSON.stringify(snap));
+    // Re-toca token GitHub a cada save — evita evicção iOS ITP (7 dias sem acesso)
+    const _ghTok=getGHToken(); if(_ghTok) localStorage.setItem(GH_TOKEN_KEY,_ghTok);
+    const _ghGist=getGistID(); if(_ghGist) localStorage.setItem(GH_GIST_KEY,_ghGist);
     saved();
     saveSnapshot(_lastCalc);
     if(typeof scheduleSupabaseAutoSync==='function') scheduleSupabaseAutoSync();
@@ -11092,6 +11264,29 @@ function animateCounter(el, targetNum, formatter, duration=600){
   }
   requestAnimationFrame(step);
 }
+// ── Lógica de idade predial ──
+function qlIdadePredial(){
+  const anoVal = parseInt(document.getElementById('ano_construcao')?.value)||0;
+  if(!anoVal || anoVal < 1900) return null;
+  const idade = new Date().getFullYear() - anoVal;
+  if(idade <= 0) return null;
+  let perfil;
+  if(idade <= 15)      perfil={label:'Edificação nova',      fr:10, fo:10, cor:'var(--green)',  desc:'Infraestrutura jovem — percentuais padrão adequados (NBR 5674:2012).'};
+  else if(idade <= 30) perfil={label:'Manutenção ativa',     fr:10, fo:15, cor:'var(--teal)',   desc:'Sistemas em ciclo de revisão — FO elevado para 15% conforme NBR 5674:2012.'};
+  else if(idade <= 50) perfil={label:'Infraestrutura madura',fr:12, fo:18, cor:'var(--amber)',  desc:'NBR 5674:2012 e NBR 16747:2020 classificam edificações acima de 30 anos como manutenção intensiva — FR 12% e FO 18% recomendados.'};
+  else                 perfil={label:'Alta criticidade',      fr:15, fo:20, cor:'var(--red)',    desc:'Acima de 50 anos: NBR 16747:2020 exige laudo de inspeção predial periódico — FR 15% e FO 20% para cobrir manutenções críticas.'};
+  return {idade, anoVal, ...perfil};
+}
+function qlAtualizaIdadePredial(){
+  const p = qlIdadePredial();
+  const hint = document.getElementById('idade-predial-hint');
+  if(!hint) return;
+  if(!p){hint.style.display='none';return;}
+  hint.style.display='block';
+  hint.style.color=p.cor;
+  hint.innerHTML=`<strong>${p.label} · ${p.idade} anos</strong> — ${p.desc} <span style="opacity:.6">FR ${p.fr}% · FO ${p.fo}%</span>`;
+}
+
 function renderDashboard(c){
   if(!c||!c.cota) return;
 
@@ -11103,6 +11298,58 @@ function renderDashboard(c){
   se('db-competencia-val', c.competencia||'—');
   se('db-gauge-atual', fmt(c.cotaAtual||0));
   se('db-timestamp', new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}));
+  // ── Tira de 3 cotas ──
+  window._dbCotaAtual = c.cotaAtual||0;
+  se('db-strip-vig', c.cotaAtual>0 ? fmt(c.cotaAtual) : '—');
+  qlAtualizaIdadePredial();
+  // Sugerida = cota calculada com encargos do app (já em c.cota)
+  const _stripSug = c.cota||0;
+  // Ideal = FR/FO ajustados pela idade predial, inad 10%
+  const _stripNPag = Math.max(1, c.nPag||c.n||1);
+  const _stripN    = Math.max(1, c.n||1);
+  const _stripDesp = c.totDesp||0;
+  const _stripRat  = c.rateioMensal||0;
+  const _idade     = qlIdadePredial();
+  const _idealFR   = _idade ? _idade.fr/100 : 0.10;
+  const _idealFO   = _idade ? _idade.fo/100 : 0.10;
+  const _idealInad = 0.10;
+  const _stripProj = _stripDesp>0
+    ? ((1+_idealFR+_idealFO)/(1-_idealInad))*((_stripDesp-_stripRat*_stripN)/_stripNPag+_stripRat)
+    : 0;
+  function _dbPct(v){if(!(c.cotaAtual>0)||!v)return '';const p=((v-c.cotaAtual)/c.cotaAtual*100);return ' · '+(p>=0?'+':'')+p.toFixed(1)+'% vs vigente';}
+  const sugEl=document.getElementById('db-strip-sug');
+  const sugDelta=document.getElementById('db-strip-sug-delta');
+  if(sugEl){sugEl.textContent=_stripSug>0?fmt(_stripSug):'—';}
+  if(sugDelta){sugDelta.textContent=_stripSug>0?'necessária para equilibrar'+_dbPct(_stripSug):'calculada com encargos atuais';}
+  const projEl=document.getElementById('db-strip-proj');
+  const projDelta=document.getElementById('db-strip-proj-delta');
+  if(projEl){projEl.textContent=_stripProj>0?fmt(_stripProj):'—';}
+  // label e tooltip dinâmicos com dados de idade
+  const _frLabel=(_idealFR*100).toFixed(0), _foLabel=(_idealFO*100).toFixed(0);
+  const _idadeLabel=_idade?` · ${_idade.label} (${_idade.idade} anos)`:'';
+  if(projDelta){projDelta.textContent=_stripProj>0?`FR ${_frLabel}% · FO ${_foLabel}% · Inad. 10%${_dbPct(_stripProj)}`:`FR ${_frLabel}% · FO ${_foLabel}% · Inad. 10%`;}
+  // atualiza tooltip da cota Ideal dinamicamente
+  const _projTip=document.querySelector('#db-cotas-strip .db-cs-proj .db-cs-tooltip');
+  if(_projTip){
+    const base=`Cota com Fundo de Reserva ${_frLabel}%, Fundo de Obras ${_foLabel}% e inadimplência estimada em 10%.`;
+    const extra=_idade?` Percentuais ajustados para edificações de ${_idade.idade} anos — ${_idade.desc}`:'  Garante margem de segurança para imprevistos e obras futuras.';
+    _projTip.textContent=base+extra;
+  }
+  // badge de idade — abaixo da strip, não sobreposto
+  let _ageBadge=document.getElementById('db-strip-age-badge');
+  if(!_ageBadge){
+    _ageBadge=document.createElement('div');_ageBadge.id='db-strip-age-badge';
+    _ageBadge.style.cssText='font-size:10px;font-weight:600;letter-spacing:.04em;text-align:center;padding:4px 0 2px;display:none;';
+    const strip2=document.getElementById('db-cotas-strip');
+    if(strip2&&strip2.parentNode) strip2.parentNode.insertBefore(_ageBadge, strip2.nextSibling);
+  }
+  if(_idade){
+    _ageBadge.textContent=`${_idade.idade} anos · ${_idade.label} — ${_idade.desc}`;
+    _ageBadge.style.color=_idade.cor;
+    _ageBadge.style.display='block';
+  } else {_ageBadge.style.display='none';}
+  const strip=document.getElementById('db-cotas-strip');
+  if(strip)strip.style.opacity=(_stripSug>0||c.cotaAtual>0)?'1':'0.4';
 
   // delta pill
   const pill = document.getElementById('db-delta-pill');
@@ -18573,9 +18820,9 @@ function rmLoadDemo(){
     radial-gradient(circle at 88% 12%,rgba(210,153,34,.11),transparent 30%),
     linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.018)),var(--bg2);
   box-shadow:0 18px 42px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.05);
-  overflow:hidden;position:relative;
+  overflow:visible;position:relative;
 }
-.simp-future-card::before{content:'';position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--amber),var(--blue2));opacity:.86;}
+.simp-future-card::before{content:'';position:absolute;left:0;right:0;top:0;height:3px;border-radius:22px 22px 0 0;background:linear-gradient(90deg,var(--teal),var(--amber),var(--blue2));opacity:.86;z-index:0;}
 .simp-future-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px;position:relative;z-index:1;}
 .simp-future-kicker{font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:5px;}
 .simp-future-head h3{margin:0;font-size:19px;line-height:1.1;color:var(--text);letter-spacing:-.025em;}
@@ -18583,12 +18830,12 @@ function rmLoadDemo(){
 .simp-future-year{display:flex;flex-direction:column;gap:5px;min-width:112px;}
 .simp-future-year label{font-size:10px;text-transform:uppercase;letter-spacing:.10em;color:var(--text3);font-weight:800;}
 .simp-future-year input{background:var(--bg3);border:1px solid var(--border);border-radius:12px;color:var(--text);padding:8px 10px;font-weight:800;text-align:center;}
-.simp-future-controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px;}
+.simp-future-controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px;position:relative;z-index:1;}
 .simp-future-control{padding:12px;border-radius:17px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));box-shadow:inset 0 1px 0 rgba(255,255,255,.04);}
 .simp-future-control.reserve{border-color:rgba(57,197,207,.22)}.simp-future-control.works{border-color:rgba(63,185,80,.20)}.simp-future-control.inad{border-color:rgba(248,81,73,.20)}
 .sfc-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:9px;}
 .sfc-top span{font-size:11px;font-weight:800;color:var(--text2);}.sfc-top strong{font-size:11px;color:var(--text);font-weight:900;white-space:nowrap;}
-.simp-future-control input{width:100%;accent-color:var(--teal);}.simp-future-control.works input{accent-color:var(--green)}.simp-future-control.inad input{accent-color:var(--red)}
+.simp-future-control input[type=range]{width:100%;accent-color:var(--teal);cursor:pointer;position:relative;z-index:2;}.simp-future-control.works input{accent-color:var(--green)}.simp-future-control.inad input{accent-color:var(--red)}
 .sfc-delta{margin-top:7px;font-size:11px;font-weight:800;color:var(--text3);}
 .simp-future-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-bottom:12px;}
 .sfk{padding:12px;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.022));}
