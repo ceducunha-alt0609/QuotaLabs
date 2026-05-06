@@ -3418,6 +3418,16 @@ body.ql-lock-scroll{overflow:hidden;}
         <div class="nav-tools-sub">atalhos rápidos</div>
       </div>
 
+      <button class="nav-action nav-tool-action nav-tool-sync" onclick="qlSincronizarApp()" type="button" data-ql-sync-app="1">
+        <span class="nav-tool-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.5 6.2"/><path d="M3 12A9 9 0 0 1 18.5 5.8"/><path d="M18 2v4h4"/><path d="M6 22v-4H2"/></svg>
+        </span>
+        <span class="nav-tool-copy">
+          <span class="nav-label nav-tool-label">Sincronizar app</span>
+          <span class="nav-tool-meta">buscar última versão publicada</span>
+        </span>
+      </button>
+
       <button class="nav-action nav-tool-action nav-tool-ai" onclick="abrirIA()" type="button">
         <span class="nav-tool-icon-wrap">
           <svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 012 2v2a2 2 0 01-2 2 2 2 0 01-2-2V4a2 2 0 012-2z"/><path d="M12 16a2 2 0 012 2v2a2 2 0 01-2 2 2 2 0 01-2-2v-2a2 2 0 012-2z"/><path d="M2 12a2 2 0 012-2h2a2 2 0 012 2 2 2 0 01-2 2H4a2 2 0 01-2-2z"/><path d="M16 12a2 2 0 012-2h2a2 2 0 012 2 2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
@@ -3437,6 +3447,7 @@ body.ql-lock-scroll{overflow:hidden;}
           <span class="nav-tool-meta">tema, preferências e ajustes</span>
         </span>
       </button>
+
     </div>
   </div>
 </nav>
@@ -4176,6 +4187,11 @@ body.ql-lock-scroll{overflow:hidden;}
     <div class="chart-card">
       <div class="cttlh">Composição por categoria — barras</div>
       <div id="chart-comp"></div>
+    </div>
+    <div class="chart-card" id="card-centros-custo">
+      <div class="cttlh">Para onde vai a cota — centros de custo</div>
+      <div class="cc-brief" style="margin-bottom:10px"><strong>Leitura rápida:</strong> agrupa as despesas por destino do dinheiro para facilitar prestação de contas e identificação dos maiores pesos do orçamento.</div>
+      <div id="chart-centros-custo" class="cc-bars"></div>
     </div>
     <div class="chart-card">
       <div class="cttlh">Comparativo despesas ano anterior × atual</div>
@@ -5071,8 +5087,8 @@ body.ql-lock-scroll{overflow:hidden;}
     <div class="dpanel" id="dtab-despesas">
       <div class="card cb">
         <div class="card-hdr"><span class="cdot" style="background:var(--blue)"></span><span class="cttl" style="color:var(--blue)">Despesas mensais</span></div>
-        <div class="col-hdr" style="grid-template-columns:18px 1fr 85px 70px 76px 28px;border-color:var(--bbd)">
-          <span></span><span>Descrição</span><span style="text-align:right">Valor R$</span><span style="text-align:right">Período</span><span style="text-align:center">Natureza</span><span></span>
+        <div class="col-hdr" style="grid-template-columns:18px minmax(160px,1.3fr) 90px 78px 96px minmax(150px,1fr) 28px;border-color:var(--bbd)">
+          <span></span><span>Descrição</span><span style="text-align:right">Valor R$</span><span style="text-align:right">Período</span><span style="text-align:center">Natureza</span><span>Centro de custo</span><span></span>
         </div>
         <div id="despesas-list"></div>
         <button class="btn-add" onclick="addDespesa()">+ adicionar despesa</button>
@@ -5080,6 +5096,26 @@ body.ql-lock-scroll{overflow:hidden;}
           <span style="font-size:11px;color:var(--text2)">Total mensal</span>
           <span id="total_desp_display" style="font-size:14px;font-weight:600;color:var(--blue2)">R$ 0,00</span>
         </div>
+      </div>
+
+      <div class="card cc-card" style="margin-top:12px;border-color:var(--bbd)">
+        <div class="card-hdr"><span class="cdot" style="background:var(--amber)"></span><span class="cttl" style="color:var(--amber)">Centros de custo</span></div>
+        <div class="cc-brief" id="cc-brief"><strong>Leitura rápida:</strong> classifique as despesas para saber onde está indo o dinheiro.</div>
+        <div class="cc-top3" id="cc-top3"></div>
+        <div class="cc-bars" id="cc-bars"></div>
+        <div class="cc-analysis" id="cc-analysis"></div>
+      </div>
+
+      <div class="card cc-budget-card" style="margin-top:12px;border-color:var(--bbd)">
+        <div class="card-hdr"><span class="cdot" style="background:var(--green)"></span><span class="cttl" style="color:var(--green)">Controle de tetos mensais</span></div>
+        <div class="cc-brief" id="cc-budget-brief"><strong>Leitura rápida:</strong> defina um teto mensal por centro de custo e acompanhe se o gasto atual está dentro, em atenção ou acima do limite.</div>
+        <div class="cc-budget-actions">
+          <button type="button" class="cc-budget-btn" onclick="qlAutoPreencherTetos()">Sugerir tetos pela média atual</button>
+          <button type="button" class="cc-budget-btn report" onclick="qlGerarRelatorioTetosCentros()">Gerar relatório</button>
+          <button type="button" class="cc-budget-btn ghost" onclick="qlLimparTetos()">Limpar tetos</button>
+        </div>
+        <div id="cc-budget-summary" class="cc-budget-summary"></div>
+        <div id="cc-budget-list" class="cc-budget-list"></div>
       </div>
 
       <div class="slabel" style="margin-top:14px">Comparativo ano anterior × atual</div>
@@ -5989,14 +6025,14 @@ else qlInitUnitsConfig();
 
 // ── STATE ──
 const despesas = [
-  {desc:'Portaria / segurança', valor:8000, tipo:'mensal', natureza:'fixa'},
-  {desc:'Limpeza e conservação', valor:4500, tipo:'mensal', natureza:'fixa'},
-  {desc:'Manutenção elevadores', valor:1800, tipo:'mensal', natureza:'fixa'},
-  {desc:'Energia áreas comuns', valor:2200, tipo:'mensal', natureza:'variavel'},
-  {desc:'Água e esgoto', valor:3000, tipo:'mensal', natureza:'variavel'},
-  {desc:'Administração', valor:1200, tipo:'mensal', natureza:'fixa'},
-  {desc:'Seguro predial (anual)', valor:9600, tipo:'anual', natureza:'fixa'},
-  {desc:'AVCB / Bombeiros (semestral)', valor:2400, tipo:'semestral', natureza:'fixa'},
+  {desc:'Portaria / segurança', valor:8000, tipo:'mensal', natureza:'fixa', centro:'pessoal'},
+  {desc:'Limpeza e conservação', valor:4500, tipo:'mensal', natureza:'fixa', centro:'limpeza'},
+  {desc:'Manutenção elevadores', valor:1800, tipo:'mensal', natureza:'fixa', centro:'manutencao'},
+  {desc:'Energia áreas comuns', valor:2200, tipo:'mensal', natureza:'variavel', centro:'consumo'},
+  {desc:'Água e esgoto', valor:3000, tipo:'mensal', natureza:'variavel', centro:'consumo'},
+  {desc:'Administração', valor:1200, tipo:'mensal', natureza:'fixa', centro:'administrativo'},
+  {desc:'Seguro predial (anual)', valor:9600, tipo:'anual', natureza:'fixa', centro:'contratos'},
+  {desc:'AVCB / Bombeiros (semestral)', valor:2400, tipo:'semestral', natureza:'fixa', centro:'seguranca'},
 ];
 const rateios = [
   {desc:'Reforma da fachada', valor:80000, parcelas:12, tipo:'por_unidade'},
@@ -6105,6 +6141,78 @@ function toggleRateio(){
   calcular();
 }
 
+
+// ── CENTROS DE CUSTO ─────────────────────────────────────────────
+const CENTROS_CUSTO = [
+  {id:'pessoal',        label:'Pessoal e encargos',          cor:'#2f81f7', ico:'👥'},
+  {id:'contratos',      label:'Contratos fixos',             cor:'#8b5cf6', ico:'📄'},
+  {id:'consumo',        label:'Consumo e utilidades',        cor:'#39c5cf', ico:'💡'},
+  {id:'manutencao',     label:'Manutenção predial',          cor:'#d29922', ico:'🛠️'},
+  {id:'seguranca',      label:'Segurança e tecnologia',      cor:'#f97316', ico:'🛡️'},
+  {id:'limpeza',        label:'Limpeza e conservação',       cor:'#3fb950', ico:'🧹'},
+  {id:'fundos',         label:'Fundos e reservas',           cor:'#58a6ff', ico:'🏦'},
+  {id:'obras',          label:'Obras e melhorias',           cor:'#a371f7', ico:'🏗️'},
+  {id:'inadimplencia',  label:'Inadimplência / perdas',      cor:'#f85149', ico:'⚠️'},
+  {id:'administrativo', label:'Administrativo e assembleia',  cor:'#94a3b8', ico:'🧾'},
+  {id:'outros',         label:'Outros',                       cor:'#64748b', ico:'📦'},
+];
+function qlCentroById(id){return CENTROS_CUSTO.find(c=>c.id===id)||CENTROS_CUSTO[CENTROS_CUSTO.length-1];}
+function qlGuessCentro(desc=''){
+  const s=String(desc||'').toLowerCase();
+  if(/portaria|porteiro|zelador|zeladoria|sal[aá]rio|folha|encargo|13|f[eé]rias|benef[ií]cio/.test(s))return 'pessoal';
+  if(/administra|contador|contabilidade|seguro|sistema|contrato|licen[cç]a|honor[aá]rio/.test(s))return 'contratos';
+  if(/[áa]gua|energia|luz|g[aá]s|internet|telefone|esgoto|sabesp|enel/.test(s))return 'consumo';
+  if(/manuten|l[aâ]mpada|cimento|cano|ferrament|bomba|hidr[aá]ul|el[eé]tric|elevador|port[aã]o|pe[cç]a|material/.test(s))return 'manutencao';
+  if(/cftv|c[aâ]mera|interfone|controle|acesso|alarme|seguran[cç]a|bombeiro|avcb/.test(s))return 'seguranca';
+  if(/limpeza|conserva|produto|dedet|jardin|saco|lixeira|higien/.test(s))return 'limpeza';
+  if(/fundo|reserva|provis/.test(s))return 'fundos';
+  if(/obra|pintura|reforma|impermeabil|fachada|benfeitoria/.test(s))return 'obras';
+  if(/inadimpl|perda|cobran/.test(s))return 'inadimplencia';
+  if(/cart[oó]rio|correio|banco|taxa|assembleia|documento|impress/.test(s))return 'administrativo';
+  return 'outros';
+}
+function qlEnsureCentros(){
+  try{despesas.forEach(d=>{if(!d.centro)d.centro=qlGuessCentro(d.desc);});}catch(e){}
+}
+function qlCentroOptions(sel){
+  return CENTROS_CUSTO.map(c=>`<option value="${c.id}"${(sel||'')===c.id?' selected':''}>${c.ico} ${c.label}</option>`).join('');
+}
+function qlCentroValorMensal(d){return typeof getDespesaMensalValor==='function'?getDespesaMensalValor(d):(d.tipo==='anual'?(+d.valor||0)/12:d.tipo==='semestral'?(+d.valor||0)/6:(+d.valor||0));}
+function qlCalcCentros(){
+  qlEnsureCentros();
+  const total = despesas.reduce((s,d)=>s+qlCentroValorMensal(d),0)||0;
+  const map = new Map(CENTROS_CUSTO.map(c=>[c.id,{...c,valor:0,itens:0}]));
+  despesas.forEach(d=>{const id=d.centro||qlGuessCentro(d.desc);const c=map.get(id)||map.get('outros');c.valor+=qlCentroValorMensal(d);c.itens++;});
+  const rows=[...map.values()].filter(c=>c.valor>0).sort((a,b)=>b.valor-a.valor).map(c=>({...c,pct:total>0?c.valor/total*100:0}));
+  return {total,rows};
+}
+function qlRenderCentrosCusto(){
+  const calc=qlCalcCentros();
+  const bars=document.getElementById('cc-bars');
+  const brief=document.getElementById('cc-brief');
+  const top=document.getElementById('cc-top3');
+  const an=document.getElementById('cc-analysis');
+  const chart=document.getElementById('chart-centros-custo');
+  const max=Math.max(...calc.rows.map(r=>r.valor),1);
+  const html=calc.rows.map(r=>`<div class="cc-row" title="${r.label}: ${fmt(r.valor)} / mês">
+    <div class="cc-row-main"><span class="cc-ico">${r.ico}</span><span class="cc-name">${r.label}</span><span class="cc-pct">${r.pct.toFixed(1)}%</span></div>
+    <div class="cc-track"><div class="cc-fill" style="width:${Math.max(3,r.valor/max*100).toFixed(1)}%;background:${r.cor}"></div></div>
+    <div class="cc-meta"><span>${r.itens} item${r.itens===1?'':'s'}</span><strong style="color:${r.cor}">${fmt(r.valor)}</strong></div>
+  </div>`).join('') || '<div class="cc-empty">Cadastre despesas para visualizar os centros de custo.</div>';
+  if(bars)bars.innerHTML=html;
+  if(chart)chart.innerHTML=html;
+  if(top){const trio=calc.rows.slice(0,3);top.innerHTML=trio.map(r=>`<div class="cc-mini"><span>${r.ico} ${r.label}</span><strong style="color:${r.cor}">${fmt(r.valor)}</strong><small>${r.pct.toFixed(1)}% das despesas</small></div>`).join('')||'<div class="cc-empty">Sem despesas cadastradas.</div>';}
+  if(brief){const first=calc.rows[0];const second=calc.rows[1];brief.innerHTML=first?`<strong>Leitura rápida:</strong> o maior centro de custo é <b>${first.label}</b>, com ${fmt(first.valor)}/mês (${first.pct.toFixed(1)}%). ${second?`Em seguida vem <b>${second.label}</b>, com ${second.pct.toFixed(1)}%.`:''}`:'<strong>Leitura rápida:</strong> cadastre e classifique despesas para enxergar para onde vai a cota.';}
+  if(an){
+    const top3=calc.rows.slice(0,3).reduce((s,r)=>s+r.pct,0);
+    let txt='Classifique cada despesa para transformar o orçamento em uma leitura por destino do dinheiro.';
+    if(calc.rows.length){
+      txt=`Os 3 maiores centros concentram ${top3.toFixed(1)}% das despesas mensais. Isso ajuda a explicar em assembleia onde está o peso real da cota e onde faz sentido negociar, controlar ou provisionar.`;
+    }
+    an.innerHTML=txt;
+  }
+}
+
 // ── DRAG & DROP for despesas ──
 let dragSrcIdx = null;
 function onDragStart(e,i){dragSrcIdx=i;e.currentTarget.classList.add('dragging');e.dataTransfer.effectAllowed='move';}
@@ -6121,12 +6229,13 @@ function onDrop(e,i){
 
 // ── RENDER INPUTS ──
 function renderDespesas(){
+  qlEnsureCentros();
   const el=document.getElementById('despesas-list');
   el.innerHTML='';
   despesas.forEach((d,i)=>{
     const r=document.createElement('div');
     r.className='exp-row';
-    r.style.gridTemplateColumns='18px 1fr 85px 70px 76px 28px';
+    r.style.gridTemplateColumns='18px minmax(160px,1.3fr) 90px 78px 96px minmax(150px,1fr) 28px';
     r.draggable=true;
     r.addEventListener('dragstart',e=>onDragStart(e,i));
     r.addEventListener('dragend',e=>onDragEnd(e));
@@ -6135,6 +6244,8 @@ function renderDespesas(){
     const tipoColor=d.tipo==='anual'?'var(--amber)':d.tipo==='semestral'?'var(--purple)':'var(--text3)';
     const nat=d.natureza||'fixa';
     const natColor=nat==='fixa'?'var(--blue)':'var(--amber)';
+    if(!d.centro)d.centro=qlGuessCentro(d.desc);
+    const cc=qlCentroById(d.centro);
     r.innerHTML=`<span class="drag-handle" title="Arrastar para reordenar">⠿</span>
       <input type="text" value="${d.desc}" oninput="despesas[${i}].desc=this.value" placeholder="Descrição">
       <input type="number" inputmode="decimal" value="${d.valor}" min="0" step="50" oninput="if(this.value===''||this.value==='-')return;const _v=parseFloat(this.value);if(isNaN(_v))return;despesas[${i}].valor=_v;dirty();calcularDebounced()" onchange="despesas[${i}].valor=parseFloat(this.value)||0;dirty();calcularDebounced()" style="text-align:right">
@@ -6147,11 +6258,14 @@ function renderDespesas(){
         <option value="fixa"${nat==='fixa'?' selected':''}>🔒 Fixa</option>
         <option value="variavel"${nat==='variavel'?' selected':''}>📈 Variável</option>
       </select>
+      <select class="cc-select" onchange="despesas[${i}].centro=this.value;dirty();calcular();renderDespesas()" style="font-size:11px;padding:7px 4px;color:${cc.cor}" title="Centro de custo">
+        ${qlCentroOptions(d.centro)}
+      </select>
       <button class="btn-rm" onclick="removeDespesa(${i})">×</button>`;
     el.appendChild(r);
   });
 }
-function addDespesa(){despesas.push({desc:'Nova despesa',valor:0,tipo:'mensal',natureza:'fixa'});renderDespesas();calcular();}
+function addDespesa(){despesas.push({desc:'Nova despesa',valor:0,tipo:'mensal',natureza:'fixa',centro:'outros'});renderDespesas();calcular();}
 function removeDespesa(i){despesas.splice(i,1);renderDespesas();calcular();}
 function moveDespesa(i,dir){
   const j=i+dir;
@@ -7462,17 +7576,41 @@ function getDespesaMensalValor(item){
 
 function getTickerIcon(desc){
   const d = String(desc || '').toLowerCase();
-  if(d.includes('água') || d.includes('esgoto') || d.includes('hidrául')) return '💧';
+  if(d.includes('assessoria jurid') || d.includes('jurídic') || d.includes('juridic') || d.includes('advoc')) return '⚖️';
+  if(d.includes('extintor')) return '🧯';
+  if(d.includes('comunicação') || d.includes('comunicacao')) return '📱';
+  if(d.includes('telefonia') || d.includes('telefone') || d.includes('telefoni')) return '📞';
+  if(d.includes('papelaria') || d.includes('caneta') || d.includes('material de escritório') || d.includes('material de escritorio')) return '🖊️';
+  if(d.includes('dedet') || d.includes('barata') || d.includes('praga')) return '☣️';
+  if(d.includes('para raio') || d.includes('pararraio') || d.includes('para-raio')) return '⚡';
+  if((d.includes('material') && d.includes('limpeza')) || d.includes('rodo') || d.includes('balde')) return '🧹';
+  if(d.includes('insumo') && (d.includes('jard') || d.includes('terra') || d.includes('paisag'))) return '🪴';
+  if((d.includes('jard') || d.includes('paisag')) && (d.includes('terra') || d.includes('adubo') || d.includes('substrato') || d.includes('insumo'))) return '🪴';
+  if((d.includes('manutenção') || d.includes('manutencao')) && (d.includes('bomba') || d.includes('rolamento'))) return '⚙️';
+  if((d.includes('manutenção') || d.includes('manutencao')) && (d.includes('portão') || d.includes('portao'))) return '🚪';
+  if((d.includes('manutenção') || d.includes('manutencao')) && (d.includes('telhado') || d.includes('telha') || d.includes('calha'))) return '🏠';
+  if((d.includes('manutenção') || d.includes('manutencao')) && (d.includes('hidrául') || d.includes('hidraul') || d.includes('tubo') || d.includes('cano'))) return '🚰';
+  if((d.includes('manutenção') || d.includes('manutencao')) && (d.includes('elétr') || d.includes('eletr') || d.includes('lamp') || d.includes('lâmp'))) return '💡';
+  if((d.includes('material') && (d.includes('manutenção') || d.includes('manutencao'))) || d.includes('colher de pedreiro') || d.includes('pedreiro')) return '🧱';
+  if(d.includes('ferramenta') || d.includes('alicate')) return '🛠️';
+  if(d.includes('água') || d.includes('agua') || d.includes('esgoto') || d.includes('hidr') || d.includes('bomba') || d.includes('caixa')) return '💧';
+  if(d.includes('luz') || d.includes('energia') || d.includes('elétr') || d.includes('eletr') || d.includes('lamp') || d.includes('refletor')) return '💡';
+  if(d.includes('gás') || d.includes('gas')) return '🔥';
   if(d.includes('pint')) return '🎨';
-  if(d.includes('serralh') || d.includes('metal')) return '🔧';
-  if(d.includes('alven')) return '🧱';
-  if(d.includes('energia')) return '⚡';
-  if(d.includes('portaria') || d.includes('segurança')) return '🛡️';
-  if(d.includes('limpeza')) return '🧼';
-  if(d.includes('admin')) return '🧾';
-  if(d.includes('seguro')) return '📄';
+  if(d.includes('serralh') || d.includes('metal') || d.includes('portão') || d.includes('portao')) return '🚪';
+  if(d.includes('alven') || d.includes('cimento') || d.includes('obra') || d.includes('reforma')) return '🧱';
+  if(d.includes('portaria') || d.includes('segurança') || d.includes('seguranca') || d.includes('cftv') || d.includes('câmera') || d.includes('camera') || d.includes('interfone')) return '🛡️';
+  if(d.includes('limpeza') || d.includes('conserv') || d.includes('higien')) return '🧹';
+  if(d.includes('admin') || d.includes('contador') || d.includes('contabil') || d.includes('contábil') || d.includes('síndico') || d.includes('sindico')) return '🧾';
+  if(d.includes('seguro') || d.includes('apólice') || d.includes('apolice')) return '📄';
   if(d.includes('elevador')) return '🛗';
-  return '•';
+  if(d.includes('internet') || d.includes('sistema')) return '📡';
+  if(d.includes('jard') || d.includes('paisag')) return '🌿';
+  if(d.includes('material') || d.includes('manutenção') || d.includes('manutencao')) return '🔨';
+  if(d.includes('fundo') || d.includes('reserva')) return '🏦';
+  if(d.includes('inadimpl')) return '⚠️';
+  if(d.includes('taxa') || d.includes('banco') || d.includes('tarifa')) return '🏦';
+  return '📌';
 }
 
 function getTickerPrefs(){
@@ -7559,18 +7697,18 @@ function renderTickerReal(calcData){
   const origem = (Number.isFinite(cotaManualAtiva) && cotaManualAtiva > 0)
     ? 'Cota simulada'
     : 'Cota vigente';
-  html.push(`<span class="neutral">🎯 ${origem}: ${fmt(cotaCenario)}</span>`);
+  html.push(`<span class="neutral ticker-pill-cota">🎯 ${origem}: ${fmt(cotaCenario)}</span>`);
 
   const saldo = arrecAtual - orcamento;
   const totalClass = saldo > 0 ? 'total-positive' : saldo < 0 ? 'total-negative' : 'total-neutral';
   const label = saldo > 0 ? 'Superávit projetado' : saldo < 0 ? 'Déficit projetado' : 'Empate projetado';
-  html.push(`<span class="${totalClass}">∑ Total ${fmt(orcamento)} · ${label} ${fmt(Math.abs(saldo))}</span>`);
+  html.push(`<span class="${totalClass} ticker-pill-total">📊 Total ${fmt(orcamento)} · ${label} ${fmt(Math.abs(saldo))}</span>`);
 
   if(calcData && arrecAtual > 0){
     const deltaPct = ((calcData.total - arrecAtual) / arrecAtual) * 100;
     if(deltaPct > prefs.alertThreshold){
       const extra = calcData.total - arrecAtual;
-      html.push(`<span class="alert-ticker">▲ Ajuste no cenário +${deltaPct.toFixed(1)}% · +${fmt(extra)} / mês</span>`);
+      html.push(`<span class="alert-ticker ticker-pill-alert">⚠️ Ajuste no cenário +${deltaPct.toFixed(1)}% · +${fmt(extra)} / mês</span>`);
     }
   }
 
@@ -7584,16 +7722,16 @@ function renderTickerReal(calcData){
     }
     if(prefs.showPercent) parts.push(`${item.pctOrc.toFixed(1)}% do orçamento`);
 
-    let cls = item.pctOrc >= 18 ? 'negative' : item.pctOrc >= 8 ? 'neutral' : 'positive';
-    if(typeof item.variacao === 'number' && isFinite(item.variacao)){
-      if(item.variacao >= 10) cls='negative';
-      else if(item.variacao <= -3) cls='positive';
-    }
-    html.push(`<span class="${cls}">${parts.join(' · ')}</span>`);
+    // Cor do ticker baseada no percentual da despesa sobre o orçamento.
+    // O limite configurado em Demonstrativos deve mandar na cor principal:
+    // acima do limite = vermelho; abaixo do limite = verde.
+    // A variação mensal continua aparecendo no texto, mas não sobrescreve a cor.
+    let cls = item.pctOrc >= (Number(prefs.alertThreshold)||10) ? 'negative' : 'positive';
+    html.push(`<span class="${cls}" data-pct-orc="${item.pctOrc.toFixed(2)}" data-alert-threshold="${Number(prefs.alertThreshold)||10}">${parts.join(' · ')}</span>`);
   });
 
   if(!html.length){
-    html.push('<span class="neutral">• Configure em Demonstrativos o que deve aparecer na faixa</span>');
+    html.push('<span class="neutral">⚙️ Configure em Demonstrativos o que deve aparecer na faixa</span>');
   }
 
   track.innerHTML = html.join('');
@@ -8130,6 +8268,7 @@ function calcular(){
   document.getElementById('m_inadimpl').textContent=fmtS(inadV);
   document.getElementById('m_total').textContent=fmtS(total);
   document.getElementById('total_desp_display').textContent=fmt(totDesp);
+  if(typeof qlRenderCentrosCusto==='function') qlRenderCentrosCusto();
 
   // BREAKDOWN
   const items=[
@@ -13537,6 +13676,10 @@ function restaurarUltimo(){
         <span class="mmi-icon"><svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 012 2v2a2 2 0 01-2 2 2 2 0 01-2-2V4a2 2 0 012-2z"/><path d="M12 16a2 2 0 012 2v2a2 2 0 01-2 2 2 2 0 01-2-2v-2a2 2 0 012-2z"/><path d="M2 12a2 2 0 012-2h2a2 2 0 012 2 2 2 0 01-2 2H4a2 2 0 01-2-2z"/><path d="M16 12a2 2 0 012-2h2a2 2 0 012 2 2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></span>
         <span class="mmi-copy"><strong>Assistente IA</strong><small>apoio inteligente e sugestões</small></span>
       </button>
+      <button class="mobile-more-item sync" type="button" onclick="closeMobileMore();qlSincronizarApp();updateBNav('mais')" data-ql-sync-app="1">
+        <span class="mmi-icon"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.5 6.2"/><path d="M3 12A9 9 0 0 1 18.5 5.8"/><path d="M18 2v4h4"/><path d="M6 22v-4H2"/></svg></span>
+        <span class="mmi-copy"><strong>Sincronizar app</strong><small>buscar última versão publicada</small></span>
+      </button>
       <button class="mobile-more-item mobile-more-danger" type="button" onclick="closeMobileMore();document.getElementById('ql-user-logout')?.click();updateBNav('mais')">
         <span class="mmi-icon"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span>
         <span class="mmi-copy"><strong>Sair</strong><small>encerrar sessão</small></span>
@@ -18683,6 +18826,365 @@ function rmLoadDemo(){
 }
 </style>
 
+
+<style id="ql-centros-custo-v69-27">
+/* Centros de custo — classificação e leitura executiva */
+.cc-card{position:relative;overflow:hidden;}
+.cc-brief{font-size:11.5px;line-height:1.55;color:var(--text2);padding:10px 11px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.018));border-radius:14px;margin-bottom:10px;}
+.cc-brief strong{color:var(--text);}
+.cc-top3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px;}
+.cc-mini{padding:10px 11px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);min-width:0;}
+.cc-mini span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cc-mini strong{display:block;margin-top:5px;font-size:14px;font-weight:900;letter-spacing:-.02em;}
+.cc-mini small{display:block;margin-top:3px;font-size:10px;color:var(--text3);}
+.cc-bars{display:grid;gap:8px;}
+.cc-row{padding:10px 11px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.014));box-shadow:inset 0 1px 0 rgba(255,255,255,.035);}
+.cc-row-main,.cc-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.cc-ico{width:25px;height:25px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);flex:0 0 auto;}
+.cc-name{font-size:12px;font-weight:850;color:var(--text);min-width:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cc-pct{font-size:11px;font-weight:900;color:var(--text2);}
+.cc-track{height:8px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin:8px 0;box-shadow:inset 0 1px 2px rgba(0,0,0,.20);}
+.cc-fill{height:100%;border-radius:999px;box-shadow:0 0 12px rgba(255,255,255,.05);}
+.cc-meta{font-size:10.5px;color:var(--text3);}
+.cc-meta strong{font-size:11.5px;font-weight:900;}
+.cc-analysis{margin-top:10px;padding:10px 11px;border-radius:14px;border:1px solid rgba(47,129,247,.16);background:rgba(47,129,247,.055);font-size:11.5px;line-height:1.55;color:var(--text2);}
+.cc-empty{padding:12px;border:1px dashed var(--border);border-radius:14px;color:var(--text3);font-size:12px;text-align:center;}
+.cc-select{min-width:0;}
+@media(max-width:900px){
+  .cc-top3{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .exp-row{grid-template-columns:1fr 90px!important;}
+  .exp-row .cc-select{display:none!important;}
+  .cc-row{padding:9px 10px;}
+  .cc-name{font-size:11.5px;}
+}
+[data-theme="light"] .cc-brief,[data-theme="light"] .cc-mini,[data-theme="light"] .cc-row{background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(247,250,252,.92))!important;border-color:rgba(15,23,42,.08)!important;box-shadow:0 8px 18px rgba(15,23,42,.05), inset 0 1px 0 rgba(255,255,255,.84)!important;}
+[data-theme="light"] .cc-brief,[data-theme="light"] .cc-analysis{color:#475569!important;}
+[data-theme="light"] .cc-brief strong,[data-theme="light"] .cc-name{color:#0f172a!important;}
+[data-theme="light"] .cc-mini span,[data-theme="light"] .cc-mini small,[data-theme="light"] .cc-meta{color:#64748b!important;}
+[data-theme="light"] .cc-track{background:rgba(15,23,42,.08)!important;box-shadow:inset 0 1px 2px rgba(15,23,42,.08)!important;}
+[data-theme="light"] .cc-ico{background:rgba(255,255,255,.94)!important;border-color:rgba(15,23,42,.08)!important;}
+[data-theme="light"] .cc-analysis{background:rgba(37,99,235,.055)!important;border-color:rgba(37,99,235,.14)!important;}
+</style>
+
+
+<style id="ql-budget-centros-v69-28">
+/* Controle de tetos mensais por centro de custo */
+.cc-budget-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px}
+.cc-budget-btn{border:1px solid rgba(63,185,80,.26);background:linear-gradient(135deg,rgba(63,185,80,.12),rgba(255,255,255,.03));color:var(--green);border-radius:12px;padding:8px 10px;font-size:11px;font-weight:850;cursor:pointer;font-family:var(--font-body);transition:.16s ease}
+.cc-budget-btn:hover{transform:translateY(-1px);box-shadow:0 10px 20px rgba(0,0,0,.10)}
+.cc-budget-btn.ghost{border-color:var(--border);background:transparent;color:var(--text2)}
+.cc-budget-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0 0 12px}
+.cc-budget-kpi{padding:10px 11px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));border:1px solid var(--border);box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.cc-budget-kpi span{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.09em;color:var(--text3);font-weight:900;margin-bottom:5px}
+.cc-budget-kpi strong{display:block;font-size:15px;color:var(--text);font-weight:950;letter-spacing:-.02em}
+.cc-budget-list{display:grid;gap:9px}
+.cc-budget-row{display:grid;grid-template-columns:minmax(170px,1.1fr) 116px 96px 92px;gap:10px;align-items:center;padding:10px;border-radius:15px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));border:1px solid var(--border);position:relative;overflow:hidden}
+.cc-budget-row::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:99px;background:var(--cc-color,var(--blue2));opacity:.92}
+.cc-budget-main{display:flex;align-items:center;gap:9px;min-width:0;padding-left:3px}
+.cc-budget-ico{width:30px;height:30px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.055);border:1px solid var(--border);flex:0 0 auto}
+.cc-budget-name{min-width:0}.cc-budget-name strong{display:block;font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cc-budget-name small{display:block;font-size:10px;color:var(--text3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc-budget-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:11px;color:var(--text);padding:8px 9px;font-size:12px;text-align:right;font-family:var(--font-body)}
+.cc-budget-input:focus{outline:none;border-color:rgba(56,139,253,.38);box-shadow:0 0 0 3px rgba(56,139,253,.10)}
+.cc-budget-values{font-size:11px;text-align:right;line-height:1.35}.cc-budget-values strong{display:block;color:var(--text);font-size:12px}.cc-budget-values span{color:var(--text3)}
+.cc-budget-barbox{display:grid;gap:5px}.cc-budget-track{height:8px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(0,0,0,.20)}.cc-budget-fill{height:100%;border-radius:99px;transition:width .32s ease;background:var(--green)}
+.cc-budget-status{display:inline-flex;justify-content:center;align-items:center;border-radius:999px;padding:5px 7px;font-size:10px;font-weight:950;text-transform:uppercase;letter-spacing:.05em;border:1px solid var(--border);white-space:nowrap}
+.cc-budget-status.green{color:var(--green);background:var(--gbg);border-color:var(--gbd)}.cc-budget-status.amber{color:var(--amber);background:var(--abg);border-color:var(--abd)}.cc-budget-status.red{color:var(--red);background:var(--rbg);border-color:var(--rbd)}.cc-budget-status.blue{color:var(--blue2);background:var(--bbg);border-color:var(--bbd)}
+.cc-budget-empty{padding:12px;border:1px dashed var(--border);border-radius:14px;color:var(--text3);font-size:12px;line-height:1.5}
+[data-theme="light"] .cc-budget-row,[data-theme="light"] .cc-budget-kpi{background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(247,250,252,.90));border-color:rgba(15,23,42,.08);box-shadow:0 8px 18px rgba(15,23,42,.05),inset 0 1px 0 rgba(255,255,255,.85)}
+[data-theme="light"] .cc-budget-ico{background:rgba(255,255,255,.94);border-color:rgba(15,23,42,.08)}
+[data-theme="light"] .cc-budget-input{background:#fff;color:#0f172a;border-color:rgba(15,23,42,.10)}
+[data-theme="light"] .cc-budget-track{background:rgba(15,23,42,.08);box-shadow:inset 0 1px 2px rgba(15,23,42,.08)}
+@media(max-width:760px){.cc-budget-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.cc-budget-row{grid-template-columns:1fr;gap:8px}.cc-budget-values{text-align:left}.cc-budget-status{justify-self:start}.cc-budget-input{text-align:left}.cc-budget-actions{display:grid;grid-template-columns:1fr}.cc-budget-btn{width:100%}}
+</style>
+<script id="ql-budget-centros-v69-28-js">
+(function(){
+  const KEY='ql_tetos_centros_custo_v1';
+  function money(v){try{return typeof fmt==='function'?fmt(Number(v)||0):new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v)||0)}catch(e){return 'R$ '+(Number(v)||0).toFixed(2)}}
+  function load(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){return {}}}
+  function save(data){try{localStorage.setItem(KEY,JSON.stringify(data||{}))}catch(e){}}
+  function centerRows(){
+    if(typeof qlCalcCentros!=='function'||typeof CENTROS_CUSTO==='undefined')return {total:0,rows:[]};
+    const calc=qlCalcCentros();
+    const map=new Map((calc.rows||[]).map(r=>[r.id,r]));
+    return {total:calc.total||0,rows:CENTROS_CUSTO.map(c=>({...(map.get(c.id)||c),valor:(map.get(c.id)||{}).valor||0,itens:(map.get(c.id)||{}).itens||0,pct:calc.total>0?(((map.get(c.id)||{}).valor||0)/(calc.total||1)*100):0}))};
+  }
+  window.qlSalvarTetoCentro=function(id,val){
+    const data=load();
+    const n=Math.max(0,Number(val)||0);
+    if(n>0)data[id]=n; else delete data[id];
+    save(data);render();
+    try{if(typeof dirty==='function')dirty();}catch(e){}
+  };
+  window.qlAutoPreencherTetos=function(){
+    const calc=centerRows();
+    const data=load();
+    calc.rows.forEach(r=>{ if(r.valor>0 && !data[r.id]) data[r.id]=Math.ceil((r.valor*1.10)/50)*50; });
+    save(data);render();
+    try{if(typeof showToast==='function')showToast('Tetos sugeridos com 10% de margem sobre o gasto atual.','success',2400);}catch(e){}
+  };
+  window.qlLimparTetos=function(){
+    if(!confirm('Limpar todos os tetos mensais por centro de custo?'))return;
+    save({});render();
+  };
+  function statusFor(real,teto){
+    if(!teto||teto<=0)return {cls:'blue',txt:'sem teto',fill:'var(--blue2)',pct:0,diff:0};
+    const pct=real/teto*100;
+    if(pct>100)return {cls:'red',txt:'estourou',fill:'var(--red)',pct,diff:real-teto};
+    if(pct>=80)return {cls:'amber',txt:'atenção',fill:'var(--amber)',pct,diff:teto-real};
+    return {cls:'green',txt:'dentro',fill:'var(--green)',pct,diff:teto-real};
+  }
+  function render(){
+    const list=document.getElementById('cc-budget-list');
+    const brief=document.getElementById('cc-budget-brief');
+    const summary=document.getElementById('cc-budget-summary');
+    if(!list && !summary && !brief)return;
+    const budgets=load();
+    const calc=centerRows();
+    const rows=calc.rows.filter(r=>r.valor>0 || (budgets[r.id]||0)>0);
+    const totalReal=rows.reduce((s,r)=>s+(Number(r.valor)||0),0);
+    const totalTeto=rows.reduce((s,r)=>s+(Number(budgets[r.id])||0),0);
+    const excedidos=rows.filter(r=>budgets[r.id]>0 && r.valor>budgets[r.id]);
+    const atencao=rows.filter(r=>{const teto=budgets[r.id]||0;return teto>0 && r.valor<=teto && r.valor/teto>=.8;});
+    if(summary){summary.innerHTML=`
+      <div class="cc-budget-kpi"><span>Realizado</span><strong>${money(totalReal)}</strong></div>
+      <div class="cc-budget-kpi"><span>Teto planejado</span><strong>${totalTeto?money(totalTeto):'—'}</strong></div>
+      <div class="cc-budget-kpi"><span>Saldo / excedente</span><strong style="color:${totalTeto&&totalReal>totalTeto?'var(--red)':'var(--green)'}">${totalTeto?money(Math.abs(totalTeto-totalReal)):'—'}</strong></div>
+      <div class="cc-budget-kpi"><span>Alertas</span><strong style="color:${excedidos.length?'var(--red)':atencao.length?'var(--amber)':'var(--green)'}">${excedidos.length?excedidos.length+' estourado(s)':atencao.length?atencao.length+' em atenção':'ok'}</strong></div>`;}
+    if(brief){
+      if(!rows.length)brief.innerHTML='<strong>Leitura rápida:</strong> classifique as despesas e defina tetos para acompanhar o orçamento mensal por centro de custo.';
+      else if(excedidos.length){const r=excedidos[0];brief.innerHTML=`<strong>Leitura rápida:</strong> ${r.label} ultrapassou o teto mensal em <b>${money(r.valor-(budgets[r.id]||0))}</b>. Priorize revisão, justificativa ou remanejamento.`;}
+      else if(atencao.length){const r=atencao[0];brief.innerHTML=`<strong>Leitura rápida:</strong> ${r.label} já consumiu ${(r.valor/(budgets[r.id]||1)*100).toFixed(0)}% do teto. Ainda está dentro, mas merece acompanhamento.`;}
+      else if(totalTeto){brief.innerHTML='<strong>Leitura rápida:</strong> os centros com teto definido estão dentro do limite planejado. Mantenha a conferência mensal para criar histórico real.';}
+      else brief.innerHTML='<strong>Leitura rápida:</strong> defina tetos mensais para transformar os centros de custo em controle de orçamento, não apenas classificação.';
+    }
+    if(list){
+      list.innerHTML=rows.map(r=>{
+        const teto=Number(budgets[r.id])||0;const st=statusFor(Number(r.valor)||0,teto);const pct=Math.min(130,st.pct||0);
+        const diffTxt=teto?((r.valor>teto?'Excedente ':'Disponível ')+money(Math.abs((r.valor||0)-teto))):'Defina um teto mensal';
+        return `<div class="cc-budget-row" style="--cc-color:${r.cor}">
+          <div class="cc-budget-main"><span class="cc-budget-ico">${r.ico}</span><span class="cc-budget-name"><strong>${r.label}</strong><small>${r.itens||0} item${(r.itens||0)===1?'':'s'} · realizado ${money(r.valor||0)}</small></span></div>
+          <input class="cc-budget-input" type="number" min="0" step="50" value="${teto||''}" placeholder="Teto R$" onchange="qlSalvarTetoCentro('${r.id}',this.value)" oninput="if(this.value==='')return;">
+          <div class="cc-budget-barbox"><div class="cc-budget-track"><div class="cc-budget-fill" style="width:${Math.max(teto?4:0,pct>100?100:pct).toFixed(1)}%;background:${st.fill}"></div></div><div class="cc-budget-values"><strong>${teto?Math.round(st.pct||0)+'% usado':'—'}</strong><span>${diffTxt}</span></div></div>
+          <span class="cc-budget-status ${st.cls}">${st.txt}</span>
+        </div>`;
+      }).join('')||'<div class="cc-budget-empty">Cadastre despesas para liberar o controle de tetos mensais.</div>';
+    }
+  }
+  window.qlRenderTetosCentros=render;
+  const oldRender=window.qlRenderCentrosCusto;
+  if(typeof oldRender==='function'&&!oldRender.__tetosHook){window.qlRenderCentrosCusto=function(){const ret=oldRender.apply(this,arguments);try{render();}catch(e){}return ret};window.qlRenderCentrosCusto.__tetosHook=true;}
+  const oldDespesas=window.renderDespesas;
+  if(typeof oldDespesas==='function'&&!oldDespesas.__tetosHook){window.renderDespesas=function(){const ret=oldDespesas.apply(this,arguments);try{render();}catch(e){}return ret};window.renderDespesas.__tetosHook=true;}
+  const oldCalc=window.calcular;
+  if(typeof oldCalc==='function'&&!oldCalc.__tetosHook){window.calcular=function(){const ret=oldCalc.apply(this,arguments);try{render();}catch(e){}return ret};window.calcular.__tetosHook=true;}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(render,300),{once:true});else setTimeout(render,300);
+})();
+</script>
+
+
+<style id="ql-relatorio-tetos-centros-v69-29">
+/* Relatório de Centros de Custo e Tetos Mensais */
+.cc-budget-btn.report{
+  border-color:rgba(56,139,253,.30)!important;
+  background:linear-gradient(135deg,rgba(56,139,253,.14),rgba(255,255,255,.035))!important;
+  color:var(--blue2)!important;
+}
+.cc-budget-btn.report:hover{box-shadow:0 10px 20px rgba(56,139,253,.12)!important;}
+[data-theme="light"] .cc-budget-btn.report{background:linear-gradient(135deg,rgba(37,99,235,.08),rgba(255,255,255,.92))!important;border-color:rgba(37,99,235,.16)!important;color:#1d4ed8!important;}
+</style>
+<script id="ql-relatorio-tetos-centros-v69-31-js">
+(function(){
+  const BUDGET_KEY='ql_tetos_centros_custo_v1';
+  function esc(s){return String(s??'').replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
+  function money(v){try{return typeof fmt==='function'?fmt(Number(v)||0):new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'}).format(Number(v)||0)}catch(e){return 'R$ '+(Number(v)||0).toFixed(2).replace('.',',')}}
+  function loadBudgets(){try{return JSON.parse(localStorage.getItem(BUDGET_KEY)||'{}')||{}}catch(e){return {}}}
+  function centerRows(){
+    if(typeof qlCalcCentros!=='function'||typeof CENTROS_CUSTO==='undefined')return {total:0,rows:[]};
+    const calc=qlCalcCentros();
+    const map=new Map((calc.rows||[]).map(r=>[r.id,r]));
+    const rows=CENTROS_CUSTO.map(c=>{
+      const r=map.get(c.id)||{};
+      const valor=Number(r.valor)||0;
+      return {...c,valor,itens:Number(r.itens)||0,pct:(calc.total>0?valor/(calc.total||1)*100:0)};
+    });
+    return {total:Number(calc.total)||0,rows};
+  }
+  function status(real,teto){
+    if(!teto||teto<=0)return {txt:'Sem teto',cls:'blue',pct:0,diff:0,saldoLabel:'Definir teto'};
+    const pct=real/teto*100;
+    if(pct>100)return {txt:'Estourou',cls:'red',pct,diff:real-teto,saldoLabel:'Excedente'};
+    if(pct>=80)return {txt:'Atenção',cls:'amber',pct,diff:teto-real,saldoLabel:'Disponível'};
+    return {txt:'Dentro',cls:'green',pct,diff:teto-real,saldoLabel:'Disponível'};
+  }
+  function buildData(){
+    const budgets=loadBudgets();
+    const calc=centerRows();
+    const rows=calc.rows.map(r=>{const teto=Number(budgets[r.id])||0;const st=status(r.valor,teto);return {...r,teto,...st};}).filter(r=>r.valor>0||r.teto>0);
+    const totalReal=rows.reduce((s,r)=>s+r.valor,0);
+    const totalTeto=rows.reduce((s,r)=>s+r.teto,0);
+    const excedidos=rows.filter(r=>r.teto>0&&r.valor>r.teto);
+    const atencao=rows.filter(r=>r.teto>0&&r.valor<=r.teto&&r.valor/r.teto>=.8);
+    const semTeto=rows.filter(r=>!r.teto&&r.valor>0);
+    rows.sort((a,b)=>b.valor-a.valor || ((b.teto?b.valor/b.teto:0)-(a.teto?a.valor/a.teto:0)));
+    return {rows,totalReal,totalTeto,excedidos,atencao,semTeto};
+  }
+  function leitura(d){
+    if(!d.rows.length)return 'Ainda não há despesas classificadas para gerar o relatório.';
+    const top3=d.rows.slice(0,3);
+    const topTotal=top3.reduce((s,r)=>s+(Number(r.valor)||0),0);
+    const topPct=d.totalReal>0?Math.round(topTotal/d.totalReal*100):0;
+    const nomes=top3.map(r=>r.label).join(', ');
+    let base=`Os 3 maiores centros de custo (${nomes}) concentram ${money(topTotal)}, equivalente a ${topPct}% do realizado mensal.`;
+    if(d.excedidos.length){const r=d.excedidos[0];return `${base} Ponto crítico: ${r.label} excedeu o teto em ${money(r.valor-r.teto)}.`;}
+    if(d.atencao.length){const r=d.atencao[0];return `${base} Atenção: ${r.label} já utilizou ${Math.round(r.pct)}% do teto mensal.`;}
+    if(d.semTeto.length){return `${base} Além disso, ${d.semTeto.length} centro(s) possuem despesa realizada sem teto definido.`;}
+    return `${base} Os centros com teto definido estão dentro do orçamento mensal planejado.`;
+  }
+  window.qlGerarRelatorioTetosCentros=function(){
+    try{
+      const d=buildData();
+      const now=new Date();
+      const condo=(document.getElementById('condo_nome')?.value||document.getElementById('condo-name')?.textContent||'Condomínio').trim();
+      const comp=(document.getElementById('competencia')?.value||document.getElementById('db-competencia-val')?.textContent||'Competência atual').trim();
+      const saldo=d.totalTeto?d.totalTeto-d.totalReal:0;
+      const totalStatus = !d.totalTeto ? {txt:'Sem teto', cls:'blue'} : saldo < 0 ? {txt:'Estourou', cls:'red'} : Math.abs(saldo) <= (d.totalTeto*0.20) ? {txt:'Atenção', cls:'amber'} : {txt:'Dentro', cls:'green'};
+      const rows=d.rows.map(r=>{
+        const bar=Math.min(120, r.teto? r.valor/r.teto*100 : 0);
+        const color=r.cls==='red'?'#dc2626':r.cls==='amber'?'#b45309':r.cls==='green'?'#15803d':'#2563eb';
+        const saldoText = r.teto ? `${money(Math.abs(r.diff))}<small>${esc(r.saldoLabel)}</small>` : '—<small>Definir teto</small>';
+        return `<tr>
+          <td class="cell-centro"><b>${esc(r.label)}</b><small>${esc(r.itens)} item(ns)</small></td>
+          <td class="num">${money(r.valor)}</td>
+          <td class="num">${r.teto?money(r.teto):'—'}</td>
+          <td class="num ${r.cls}">${saldoText}</td>
+          <td class="cell-uso"><div class="bar"><span style="width:${Math.min(100,bar)}%;background:${color}"></span></div><small>${r.teto?Math.round(r.pct)+'% usado':'sem teto'}</small></td>
+          <td class="cell-status"><span class="status ${r.cls}">${esc(r.txt)}</span></td>
+        </tr>`;
+      }).join('') || '<tr><td colspan="6">Sem dados para exibir.</td></tr>';
+      const totalRow = `<tr class="total-row">
+          <td class="cell-centro"><b>Total geral</b><small>${d.rows.length} centro(s) no relatório</small></td>
+          <td class="num"><b>${money(d.totalReal)}</b></td>
+          <td class="num"><b>${d.totalTeto?money(d.totalTeto):'—'}</b></td>
+          <td class="num ${totalStatus.cls}"><b>${d.totalTeto?money(Math.abs(saldo)):'—'}</b><small>${esc(saldo<0?'Excedente':'Disponível')}</small></td>
+          <td class="cell-uso"><div class="bar total"><span style="width:${d.totalTeto?Math.min(100,(d.totalReal/d.totalTeto)*100):0}%;background:${totalStatus.cls==='red'?'#dc2626':totalStatus.cls==='amber'?'#b45309':totalStatus.cls==='green'?'#15803d':'#2563eb'}"></span></div><small>${d.totalTeto?Math.round((d.totalReal/d.totalTeto)*100)+'% usado':'sem teto'}</small></td>
+          <td class="cell-status"><span class="status ${totalStatus.cls}">${esc(totalStatus.txt)}</span></td>
+        </tr>`;
+      const html=`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Relatório de Centros de Custo e Tetos Mensais</title>
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap');
+        @page{size:A4;margin:11mm}
+        *{box-sizing:border-box}
+        body{font-family:'Merriweather',Georgia,serif;color:#0f172a;background:#fff;margin:0;font-size:11.2px;line-height:1.46;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+        .cover{position:relative;overflow:hidden;border:1px solid #d8e1ed;border-radius:20px;padding:20px 20px 18px;margin-bottom:12px;background:radial-gradient(circle at 8% 0%,rgba(180,83,9,.075),transparent 34%),radial-gradient(circle at 92% 10%,rgba(37,99,235,.07),transparent 36%),linear-gradient(145deg,#ffffff,#f7fafc);box-shadow:0 10px 26px rgba(15,23,42,.055),inset 0 1px 0 rgba(255,255,255,.9)}
+        .cover:before{content:'';position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,#b45309,#d99b2b,#2563eb);opacity:.92}
+        .kicker{font-family:'Merriweather',Georgia,serif;font-size:9.2px;text-transform:uppercase;letter-spacing:.16em;font-weight:900;color:#a85b0c;margin-bottom:4px}
+        .title{font-family:'Merriweather',Georgia,serif;font-size:23.5px;font-weight:900;letter-spacing:-.04em;margin:4px 0 7px;line-height:1.18;color:#0f172a}
+        .sub{color:#475569;line-height:1.55;max-width:690px;font-size:10.8px}
+        .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:12px 0 13px}
+        .kpi{position:relative;overflow:hidden;border:1px solid #dfe7f1;border-radius:16px;padding:11px 11px 10px;background:linear-gradient(180deg,#ffffff,#f9fbfd);box-shadow:0 8px 18px rgba(15,23,42,.045),inset 0 1px 0 rgba(255,255,255,.86)}
+        .kpi:before{content:'';position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,rgba(180,83,9,.34),rgba(37,99,235,.22));opacity:.75}
+        .kpi span{display:block;font-size:8.6px;text-transform:uppercase;letter-spacing:.09em;color:#64748b;font-weight:900;margin-bottom:5px}
+        .kpi strong{font-family:'Merriweather',Georgia,serif;font-size:15px;font-weight:900;letter-spacing:-.02em;color:#0f172a}
+        .note{border:1px solid #bdd7ff;background:linear-gradient(180deg,#eff6ff,#f8fbff);border-radius:16px;padding:11px 12px;line-height:1.58;margin-bottom:12px;color:#1e293b;box-shadow:inset 0 1px 0 rgba(255,255,255,.72)}
+        .note b{color:#0f172a;font-weight:900}
+        table{width:100%;border-collapse:separate;border-spacing:0 7px;table-layout:fixed}
+        thead th{text-align:left;font-size:8.1px;text-transform:uppercase;letter-spacing:.09em;color:#64748b;padding:0 8px 1px;font-weight:900}
+        thead th:nth-child(1){width:29%}
+        thead th:nth-child(2){width:14%}
+        thead th:nth-child(3){width:14%}
+        thead th:nth-child(4){width:17%}
+        thead th:nth-child(5){width:16%}
+        thead th:nth-child(6){width:10%}
+        thead th:nth-child(5),thead th:nth-child(6){text-align:center}
+        td{background:linear-gradient(180deg,#ffffff,#fbfdff);border-top:1px solid #e1e8f1;border-bottom:1px solid #e1e8f1;padding:9px 8px;vertical-align:middle;box-shadow:0 3px 8px rgba(15,23,42,.018)}
+        td:first-child{border-left:1px solid #e1e8f1;border-radius:13px 0 0 13px}
+        td:last-child{border-right:1px solid #e1e8f1;border-radius:0 13px 13px 0}
+        .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+        .cell-centro{text-align:left}
+        .cell-centro b{font-weight:900;color:#0f172a;letter-spacing:-.01em}
+        .cell-status{text-align:center}
+        .cell-uso{text-align:center}
+        td small{display:block;color:#64748b;font-size:9.1px;margin-top:3px;line-height:1.35}
+        .cell-uso .bar{margin-left:auto;margin-right:auto}.bar{height:8px;border-radius:99px;background:#e2e8f0;overflow:hidden;min-width:94px;margin-bottom:4px;box-shadow:inset 0 1px 2px rgba(15,23,42,.08)}
+        .bar.total{background:#dbe5f1}
+        .bar span{display:block;height:100%;border-radius:99px;box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+        .status{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:5px 8px;font-size:8.4px;font-weight:900;text-transform:uppercase;letter-spacing:.065em;min-width:74px;border:1px solid transparent}
+        .status.green{color:#15803d;background:#dcfce7;border-color:#bbf7d0}.status.amber{color:#a95a08;background:#fef3c7;border-color:#fde68a}.status.red{color:#b91c1c;background:#fee2e2;border-color:#fecaca}.status.blue{color:#1d4ed8;background:#dbeafe;border-color:#bfdbfe}
+        .red{color:#dc2626}.amber{color:#b45309}.green{color:#15803d}.blue{color:#2563eb}
+        .total-row td{background:linear-gradient(180deg,#fffcf5,#fff7e8);border-top:1px solid #efc983;border-bottom:1px solid #efc983;box-shadow:0 7px 16px rgba(180,83,9,.055)}
+        .total-row td:first-child{border-left-color:#efc983}.total-row td:last-child{border-right-color:#efc983}
+        .total-row b{font-size:12.1px}.total-row .cell-centro b{font-size:12.6px;color:#7c3f00}
+        .footer{margin-top:14px;color:#64748b;font-size:9.4px;border-top:1px solid #e2e8f0;padding-top:8px;display:flex;justify-content:space-between;gap:12px}
+        @media print{button{display:none!important}.cover,.kpi,.note,td{break-inside:avoid}body{font-size:11px}.grid{gap:7px}.kpi{padding:9px 10px}.title{font-size:22px}}
+      </style></head><body>
+        <section class="cover"><div class="kicker">QuotaLab · controle orçamentário</div><div class="title">Relatório de Centros de Custo e Tetos Mensais</div><div class="sub">${esc(condo)} · ${esc(comp)} · Emitido em ${now.toLocaleDateString('pt-BR')} às ${now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</div></section>
+        <section class="grid"><div class="kpi"><span>Realizado</span><strong>${money(d.totalReal)}</strong></div><div class="kpi"><span>Teto planejado</span><strong>${d.totalTeto?money(d.totalTeto):'—'}</strong></div><div class="kpi"><span>${saldo<0?'Excedente total':'Saldo disponível'}</span><strong class="${saldo<0?'red':'green'}">${d.totalTeto?money(Math.abs(saldo)):'—'}</strong></div><div class="kpi"><span>Alertas</span><strong class="${d.excedidos.length?'red':d.atencao.length?'amber':'green'}">${d.excedidos.length?d.excedidos.length+' estourado(s)':d.atencao.length?d.atencao.length+' em atenção':'ok'}</strong></div></section>
+        <div class="note"><b>Leitura executiva:</b> ${esc(leitura(d))}</div>
+        <table><thead><tr><th>Centro</th><th class="num">Realizado</th><th class="num">Teto</th><th class="num">Saldo / excedente</th><th>Uso</th><th>Status</th></tr></thead><tbody>${rows}${totalRow}</tbody></table>
+        <div class="footer"><span>QuotaLab · Centros de Custo</span><span>Documento gerado localmente no navegador</span></div>
+        <script>setTimeout(()=>window.print(),450)<\/script>
+      
+<style id="ql-sync-visible-top-v69-46">
+/* Garante que Sincronizar app apareça no topo do bloco Ferramentas */
+.nav-tools-card{padding:9px 9px 8px!important;}
+.nav-tools-head{padding-bottom:7px!important;}
+.nav-tool-action{padding:7px 8px!important;gap:9px!important;}
+.nav-tool-action + .nav-tool-action{margin-top:5px!important;}
+.nav-tool-sync{order:-1!important;}
+.nav-tool-sync .nav-tool-label{color:var(--blue2)!important;}
+.nav-tool-sync .nav-tool-meta{color:var(--text3)!important;}
+.nav-tool-sync .nav-tool-icon-wrap{background:linear-gradient(180deg, rgba(56,139,253,.16), rgba(56,139,253,.07))!important;border-color:rgba(56,139,253,.18)!important;}
+[data-theme="light"] .nav-tool-sync .nav-tool-label{color:#1d4ed8!important;}
+@media(max-height:760px){
+  .nav-tools-card{padding:8px!important;}
+  .nav-tool-meta{display:none!important;}
+  .nav-tool-action{align-items:center!important;}
+}
+</style>
+
+
+<style id="ql-ticker-icons-v69-47">
+/* Ticker — ícones padronizados em todos os itens */
+.ticker span{
+  min-height:26px;
+  align-items:center!important;
+}
+.ticker span::first-letter{
+  line-height:1;
+}
+.ticker .ticker-pill-total,
+.ticker .ticker-pill-cota,
+.ticker .ticker-pill-alert{
+  font-weight:750;
+}
+[data-theme="light"] .ticker span{
+  background:rgba(255,255,255,.74);
+  border-color:rgba(15,23,42,.06);
+}
+[data-theme="light"] .ticker .total-positive,
+[data-theme="light"] .ticker .total-negative,
+[data-theme="light"] .ticker .total-neutral,
+[data-theme="light"] .ticker .alert-ticker{
+  color:#fff!important;
+}
+</style>
+
+</body></html>`;
+      const w=window.open('','_blank');
+      if(!w){
+        const blob=new Blob([html],{type:'text/html;charset=utf-8'});
+        const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='relatorio-centros-tetos.html';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+        try{if(typeof showToast==='function')showToast('Pop-up bloqueado. Relatório baixado em HTML.','warning',3500);}catch(e){}
+        return;
+      }
+      w.document.open();w.document.write(html);w.document.close();
+    }catch(e){console.error(e);try{if(typeof showToast==='function')showToast('Erro ao gerar relatório: '+e.message,'error',3500)}catch(_){alert('Erro ao gerar relatório: '+e.message)}}
+  };
+})();
+</script>
+
 </body>
 
 <!-- AJUSTE PONTUAL: remove o ticker SOMENTE do PDF/ impressão do Rateio Inteligente -->
@@ -19852,6 +20354,65 @@ input:focus,select:focus,textarea:focus{
     }
     if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',mark,{once:true});
     else mark();
+  }catch(e){}
+})();
+</script>
+
+<style id="ql-sync-app-v69-45">
+.nav-tool-sync{
+  background:linear-gradient(135deg, rgba(56,139,253,.08), rgba(255,255,255,.02))!important;
+  border:1px solid rgba(56,139,253,.14)!important;
+}
+.nav-tool-sync:hover{
+  background:linear-gradient(135deg, rgba(56,139,253,.13), rgba(255,255,255,.035))!important;
+  border-color:rgba(56,139,253,.23)!important;
+}
+.nav-tool-sync .nav-tool-icon-wrap{color:var(--blue2)!important;}
+.nav-tool-sync .nav-tool-icon-wrap svg,
+.mobile-more-item.sync .mmi-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;}
+.mobile-more-item.sync .mmi-icon{color:var(--blue2)!important;}
+[data-theme="light"] .nav-tool-sync{
+  background:linear-gradient(135deg, rgba(37,99,235,.06), rgba(255,255,255,.92))!important;
+  border-color:rgba(37,99,235,.13)!important;
+}
+</style>
+<script id="ql-sync-app-v69-45-js">
+(function(){
+  function toast(msg,type){try{if(typeof showToast==='function')showToast(msg,type||'info',3200);else console.log(msg)}catch(e){console.log(msg)}}
+  async function clearAppCaches(){
+    if(!('caches' in window)) return 0;
+    const keys=await caches.keys();
+    await Promise.all(keys.map(k=>caches.delete(k)));
+    return keys.length;
+  }
+  async function refreshServiceWorker(){
+    if(!('serviceWorker' in navigator)) return 0;
+    const regs=await navigator.serviceWorker.getRegistrations();
+    await Promise.all(regs.map(async r=>{try{await r.update()}catch(e){}}));
+    return regs.length;
+  }
+  window.qlSincronizarApp = async function(){
+    const btns=[...document.querySelectorAll('[data-ql-sync-app]')];
+    btns.forEach(b=>{b.disabled=true;b.style.opacity='.65';});
+    try{
+      toast('Buscando última versão publicada...', 'info');
+      try{await clearAppCaches();}catch(e){console.warn(e)}
+      try{await refreshServiceWorker();}catch(e){console.warn(e)}
+      try{sessionStorage.setItem('ql_sync_reload','1');}catch(e){}
+      const url=new URL(location.href);
+      url.searchParams.set('v', Date.now().toString());
+      setTimeout(()=>location.replace(url.toString()),350);
+    }catch(e){
+      console.error(e);
+      toast('Não foi possível sincronizar automaticamente. Atualize a página manualmente.', 'error');
+      btns.forEach(b=>{b.disabled=false;b.style.opacity='';});
+    }
+  };
+  try{
+    if(sessionStorage.getItem('ql_sync_reload')==='1'){
+      sessionStorage.removeItem('ql_sync_reload');
+      setTimeout(()=>toast('App sincronizado com a versão mais recente disponível.', 'success'),900);
+    }
   }catch(e){}
 })();
 </script>
