@@ -360,6 +360,131 @@ document.documentElement.setAttribute('data-role', QL_ROLE);
   [data-theme="snow"] .db-tech-title,[data-theme="claro-neve"] .db-tech-title,[data-theme="light"] .db-tech-title{font-size:24px!important;}
 }
 
+
+
+/* Ajuste V41 — cards técnicos compactos com tooltip: PC hover | mobile toque */
+.db-tech-panel{overflow:visible!important;}
+.db-tech-grid{overflow:visible!important;}
+.db-tech-mini{
+  overflow:visible!important;
+  cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+}
+.db-tech-mini:hover,
+.db-tech-mini:focus-visible,
+.db-tech-mini.is-open{
+  transform:translateY(-3px);
+  border-color:color-mix(in srgb,currentColor 38%,transparent)!important;
+  box-shadow:0 18px 38px rgba(15,23,42,.14),0 0 0 1px color-mix(in srgb,currentColor 14%,transparent),inset 0 1px 0 rgba(255,255,255,.92)!important;
+  outline:none;
+}
+.db-tech-mini::after{
+  content:'ⓘ';
+  position:absolute;
+  right:12px;
+  top:10px;
+  width:22px;
+  height:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:900;
+  color:currentColor;
+  background:color-mix(in srgb,currentColor 10%,transparent);
+  border:1px solid color-mix(in srgb,currentColor 18%,transparent);
+}
+.db-tech-mini .db-tech-mini-note{
+  position:absolute!important;
+  left:12px!important;
+  right:12px!important;
+  bottom:calc(100% + 12px)!important;
+  z-index:80!important;
+  margin:0!important;
+  padding:12px 13px!important;
+  border-radius:14px!important;
+  font-size:12.5px!important;
+  line-height:1.45!important;
+  color:#eaf2ff!important;
+  background:linear-gradient(135deg,rgba(8,15,31,.98),rgba(13,22,44,.98))!important;
+  border:1px solid rgba(255,255,255,.14)!important;
+  box-shadow:0 18px 46px rgba(0,0,0,.32)!important;
+  opacity:0!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+  transform:translateY(8px) scale(.98)!important;
+  transition:opacity .16s ease, transform .16s ease, visibility .16s ease!important;
+  min-width:220px!important;
+  max-width:min(320px, calc(100vw - 40px))!important;
+}
+.db-tech-mini .db-tech-mini-note::after{
+  content:'';
+  position:absolute;
+  left:28px;
+  top:100%;
+  border:7px solid transparent;
+  border-top-color:rgba(8,15,31,.98);
+}
+.db-tech-mini:hover .db-tech-mini-note,
+.db-tech-mini:focus-visible .db-tech-mini-note,
+.db-tech-mini.is-open .db-tech-mini-note{
+  opacity:1!important;
+  visibility:visible!important;
+  transform:translateY(0) scale(1)!important;
+}
+.db-tech-mini .db-tech-mini-note strong{color:currentColor!important;margin-bottom:4px!important;}
+/* deixa os cards apenas com ícone, título e valor */
+.db-tech-mini{min-height:118px!important;padding:13px 14px 12px!important;}
+.db-tech-mini::before{display:none!important;}
+.db-tech-mini-ico{width:38px!important;height:38px!important;border-radius:14px!important;margin-bottom:7px!important;}
+.db-tech-mini-ico svg{width:22px!important;height:22px!important;}
+.db-tech-mini-label{font-size:12.5px!important;margin-bottom:3px!important;padding-right:28px!important;}
+.db-tech-mini-val{font-size:28px!important;}
+.db-tech-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important;margin-bottom:10px!important;}
+.db-tech-cta{padding:10px 14px!important;border-radius:14px!important;}
+.db-tech-cta-ico{width:44px!important;height:44px!important;flex-basis:44px!important;}
+.db-tech-cta-ico svg{width:24px!important;height:24px!important;}
+.db-tech-copy{font-size:12.5px!important;line-height:1.42!important;}
+.db-tech-copy strong{font-size:15px!important;}
+[data-theme="claro-neve"] .db-tech-mini .db-tech-mini-note,
+[data-theme="snow"] .db-tech-mini .db-tech-mini-note,
+[data-theme="light"] .db-tech-mini .db-tech-mini-note{
+  color:#10213d!important;
+  background:linear-gradient(135deg,#ffffff,#f6f9ff)!important;
+  border-color:rgba(15,23,42,.12)!important;
+  box-shadow:0 18px 42px rgba(15,23,42,.16)!important;
+}
+[data-theme="claro-neve"] .db-tech-mini .db-tech-mini-note::after,
+[data-theme="snow"] .db-tech-mini .db-tech-mini-note::after,
+[data-theme="light"] .db-tech-mini .db-tech-mini-note::after{border-top-color:#ffffff!important;}
+@media(max-width:640px){
+  .db-tech-panel{padding:14px 12px!important;}
+  .db-tech-head{margin-bottom:10px!important;}
+  .db-tech-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important;margin-bottom:9px!important;}
+  .db-tech-mini{min-height:96px!important;padding:11px 10px 10px!important;border-radius:14px!important;}
+  .db-tech-mini-ico{width:32px!important;height:32px!important;border-radius:12px!important;margin-bottom:6px!important;}
+  .db-tech-mini-ico svg{width:19px!important;height:19px!important;}
+  .db-tech-mini-label{font-size:11.5px!important;line-height:1.15!important;padding-right:24px!important;}
+  .db-tech-mini-val{font-size:23px!important;}
+  .db-tech-mini::after{right:8px;top:8px;width:20px;height:20px;font-size:11px;}
+  .db-tech-mini .db-tech-mini-note{
+    position:fixed!important;
+    left:14px!important;
+    right:14px!important;
+    bottom:16px!important;
+    top:auto!important;
+    max-width:none!important;
+    min-width:0!important;
+    z-index:9999!important;
+    padding:14px 15px!important;
+    font-size:13px!important;
+    border-radius:16px!important;
+  }
+  .db-tech-mini .db-tech-mini-note::after{display:none!important;}
+  .db-tech-cta{display:none!important;}
+}
+
 /* ══ FIM PAINEL LEITURA TÉCNICA ════════════════════════════════ */
 
 /* ── EMBEDDED FONTS ── */
@@ -4360,25 +4485,25 @@ body.ql-lock-scroll{overflow:hidden;}
       <p class="db-tech-intro">Informações técnicas fundamentais para decisões responsáveis, planejamento de longo prazo e preservação do patrimônio coletivo.</p>
 
       <div class="db-tech-grid">
-        <div class="db-tech-mini db-tech-blue">
+        <div class="db-tech-mini db-tech-blue" tabindex="0" role="button" aria-label="Detalhes sobre idade estimada">
           <div class="db-tech-mini-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 21h16M7 21V8l5-3 5 3v13M10 21v-5h4v5M9 11h1M14 11h1"/></svg></div>
           <div class="db-tech-mini-label">Idade estimada</div>
           <div class="db-tech-mini-val" id="db-tech-age">—</div>
           <div class="db-tech-mini-note" id="db-tech-age-note"><strong>Construção informada</strong>Informe o ano de construção.</div>
         </div>
-        <div class="db-tech-mini db-tech-green">
+        <div class="db-tech-mini db-tech-green" tabindex="0" role="button" aria-label="Detalhes sobre Fundo de Reserva">
           <div class="db-tech-mini-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.6-2.8 8-7 10-4.2-2-7-5.4-7-10V6l7-3z"/><path d="M9 12l2 2 4-5"/></svg></div>
           <div class="db-tech-mini-label">Fundo de Reserva</div>
           <div class="db-tech-mini-val" id="db-tech-fr">—</div>
           <div class="db-tech-mini-note"><strong>Proteção para emergências</strong>Garante recursos imediatos, evitando rateios extras e preservando o equilíbrio financeiro do condomínio.</div>
         </div>
-        <div class="db-tech-mini db-tech-gold">
+        <div class="db-tech-mini db-tech-gold" tabindex="0" role="button" aria-label="Detalhes sobre Fundo de Obras">
           <div class="db-tech-mini-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h16M6 19v-5a6 6 0 0 1 12 0v5M10 8V5h4v3"/><path d="M8 14h8"/></svg></div>
           <div class="db-tech-mini-label">Fundo de Obras</div>
           <div class="db-tech-mini-val" id="db-tech-fo">—</div>
           <div class="db-tech-mini-note"><strong>Planejamento e conservação</strong>Permite intervenções e manutenções importantes, evitando desgastes estruturais e custos elevados.</div>
         </div>
-        <div class="db-tech-mini db-tech-purple">
+        <div class="db-tech-mini db-tech-purple" tabindex="0" role="button" aria-label="Detalhes sobre referência técnica">
           <div class="db-tech-mini-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 4h11v14H8z"/><path d="M5 7h11v14H5z"/><path d="M8 11h5M8 15h5"/></svg></div>
           <div class="db-tech-mini-label">Referência técnica</div>
           <div class="db-tech-mini-val" style="font-size:34px">NBR</div>
@@ -20227,7 +20352,39 @@ function rmLoadDemo(){
       <style>
         @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap');
         @page{size:A4;margin:11mm}*{box-sizing:border-box}body,table,th,td,div,span,small,b,strong{font-family:'Merriweather',Georgia,serif!important}body{font-family:'Merriweather',Georgia,serif;color:#0f172a;background:#fff;margin:0;font-size:11.2px;line-height:1.46;-webkit-print-color-adjust:exact;print-color-adjust:exact}.cover{position:relative;overflow:hidden;border:1px solid #d8e1ed;border-radius:20px;padding:20px 20px 18px;margin-bottom:12px;background:radial-gradient(circle at 8% 0%,rgba(180,83,9,.075),transparent 34%),radial-gradient(circle at 92% 10%,rgba(37,99,235,.07),transparent 36%),linear-gradient(145deg,#ffffff,#f7fafc);box-shadow:0 10px 26px rgba(15,23,42,.055),inset 0 1px 0 rgba(255,255,255,.9)}.cover:before{content:'';position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,#b45309,#d99b2b,#2563eb);opacity:.92}.kicker{font-size:9.2px;text-transform:uppercase;letter-spacing:.16em;font-weight:900;color:#a85b0c;margin-bottom:4px}.title{font-size:23.5px;font-weight:900;letter-spacing:-.04em;margin:4px 0 7px;line-height:1.18;color:#0f172a}.sub{color:#475569;line-height:1.55;max-width:690px;font-size:10.8px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:12px 0 13px}.kpi{position:relative;overflow:hidden;border:1px solid #dfe7f1;border-radius:16px;padding:11px 11px 10px;background:linear-gradient(180deg,#ffffff,#f9fbfd);box-shadow:0 8px 18px rgba(15,23,42,.045),inset 0 1px 0 rgba(255,255,255,.86)}.kpi:before{content:'';position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,rgba(180,83,9,.34),rgba(37,99,235,.22));opacity:.75}.kpi span{display:block;font-size:8.6px;text-transform:uppercase;letter-spacing:.09em;color:#64748b;font-weight:900;margin-bottom:5px}.kpi strong{font-size:15px;font-weight:900;letter-spacing:-.02em;color:#0f172a}.note{border:1px solid #bdd7ff;background:linear-gradient(180deg,#eff6ff,#f8fbff);border-radius:16px;padding:11px 12px;line-height:1.58;margin-bottom:12px;color:#1e293b;box-shadow:inset 0 1px 0 rgba(255,255,255,.72)}.note b{color:#0f172a;font-weight:900}table{width:100%;border-collapse:separate;border-spacing:0 7px;table-layout:fixed}thead th{text-align:left;font-size:8.1px;text-transform:uppercase;letter-spacing:.09em;color:#64748b;padding:0 8px 1px;font-weight:900}thead th:nth-child(1){width:29%}thead th:nth-child(2){width:14%}thead th:nth-child(3){width:14%}thead th:nth-child(4){width:17%}thead th:nth-child(5){width:16%}thead th:nth-child(6){width:10%}thead th:nth-child(5),thead th:nth-child(6){text-align:center}td{background:linear-gradient(180deg,#ffffff,#fbfdff);border-top:1px solid #e1e8f1;border-bottom:1px solid #e1e8f1;padding:9px 8px;vertical-align:middle;box-shadow:0 3px 8px rgba(15,23,42,.018)}td:first-child{border-left:1px solid #e1e8f1;border-radius:13px 0 0 13px}td:last-child{border-right:1px solid #e1e8f1;border-radius:0 13px 13px 0}.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.cell-centro{text-align:left}.cell-centro b{font-weight:900;color:#0f172a;letter-spacing:-.01em}.cell-status{text-align:center}.cell-uso{text-align:center}td small{display:block;color:#64748b;font-size:9.1px;margin-top:3px;line-height:1.35}.comp{margin-top:5px;color:#475569;font-size:8.8px;line-height:1.45;max-width:100%;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.comp-label{font-weight:900;color:#334155}.cell-uso .bar{margin-left:auto;margin-right:auto}.bar{height:8px;border-radius:99px;background:#e2e8f0;overflow:hidden;min-width:94px;margin-bottom:4px;box-shadow:inset 0 1px 2px rgba(15,23,42,.08)}.bar.total{background:#dbe5f1}.bar span{display:block;height:100%;border-radius:99px;box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}.status{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:5px 8px;font-size:8.4px;font-weight:900;text-transform:uppercase;letter-spacing:.065em;min-width:74px;border:1px solid transparent}.status.green{color:#15803d;background:#dcfce7;border-color:#bbf7d0}.status.amber{color:#a95a08;background:#fef3c7;border-color:#fde68a}.status.red{color:#b91c1c;background:#fee2e2;border-color:#fecaca}.status.blue{color:#1d4ed8;background:#dbeafe;border-color:#bfdbfe}.red{color:#dc2626}.amber{color:#b45309}.green{color:#15803d}.blue{color:#2563eb}.total-row td{background:linear-gradient(180deg,#fffcf5,#fff7e8);border-top:1px solid #efc983;border-bottom:1px solid #efc983;box-shadow:0 7px 16px rgba(180,83,9,.055)}.total-row td:first-child{border-left-color:#efc983}.total-row td:last-child{border-right-color:#efc983}.total-row b{font-size:12.1px}.total-row .cell-centro b{font-size:12.6px;color:#7c3f00}.footer{margin-top:14px;color:#64748b;font-size:9.4px;border-top:1px solid #e2e8f0;padding-top:8px;display:flex;justify-content:space-between;gap:12px}@media print{button{display:none!important}.cover,.kpi,.note,td{break-inside:avoid}body{font-size:11px}.grid{gap:7px}.kpi{padding:9px 10px}.title{font-size:22px}}
-      </style></head><body><section class="cover"><div class="kicker">QuotaLab · controle orçamentário</div><div class="title">Relatório de Centros de Custo e Tetos Mensais</div><div class="sub">${esc(condo)} · ${esc(comp)} · Emitido em ${now.toLocaleDateString('pt-BR')} às ${now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</div></section><section class="grid"><div class="kpi"><span>Realizado</span><strong>${money(d.totalReal)}</strong></div><div class="kpi"><span>Teto planejado</span><strong>${d.totalTeto?money(d.totalTeto):'—'}</strong></div><div class="kpi"><span>${saldo<0?'Excedente total':'Saldo disponível'}</span><strong class="${saldo<0?'red':'green'}">${d.totalTeto?money(Math.abs(saldo)):'—'}</strong></div><div class="kpi"><span>Alertas</span><strong class="${d.excedidos.length?'red':d.atencao.length?'amber':'green'}">${d.excedidos.length?d.excedidos.length+' estourado(s)':d.atencao.length?d.atencao.length+' em atenção':'ok'}</strong></div></section><div class="note"><b>Leitura executiva:</b> ${esc(leitura(d))}</div><table><thead><tr><th>Centro</th><th class="num">Realizado</th><th class="num">Teto</th><th class="num">Saldo / excedente</th><th>Uso</th><th>Status</th></tr></thead><tbody>${rows}${totalRow}</tbody></table><div class="footer"><span>QuotaLab · Centros de Custo</span><span>Documento gerado localmente no navegador</span></div><script>window.addEventListener('load',function(){var p=document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve();p.then(function(){setTimeout(function(){try{window.focus();window.print();}catch(e){}},250);});});<\/script></body></html>`;
+      </style></head><body><section class="cover"><div class="kicker">QuotaLab · controle orçamentário</div><div class="title">Relatório de Centros de Custo e Tetos Mensais</div><div class="sub">${esc(condo)} · ${esc(comp)} · Emitido em ${now.toLocaleDateString('pt-BR')} às ${now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</div></section><section class="grid"><div class="kpi"><span>Realizado</span><strong>${money(d.totalReal)}</strong></div><div class="kpi"><span>Teto planejado</span><strong>${d.totalTeto?money(d.totalTeto):'—'}</strong></div><div class="kpi"><span>${saldo<0?'Excedente total':'Saldo disponível'}</span><strong class="${saldo<0?'red':'green'}">${d.totalTeto?money(Math.abs(saldo)):'—'}</strong></div><div class="kpi"><span>Alertas</span><strong class="${d.excedidos.length?'red':d.atencao.length?'amber':'green'}">${d.excedidos.length?d.excedidos.length+' estourado(s)':d.atencao.length?d.atencao.length+' em atenção':'ok'}</strong></div></section><div class="note"><b>Leitura executiva:</b> ${esc(leitura(d))}</div><table><thead><tr><th>Centro</th><th class="num">Realizado</th><th class="num">Teto</th><th class="num">Saldo / excedente</th><th>Uso</th><th>Status</th></tr></thead><tbody>${rows}${totalRow}</tbody></table><div class="footer"><span>QuotaLab · Centros de Custo</span><span>Documento gerado localmente no navegador</span></div><script>window.addEventListener('load',function(){var p=document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve();p.then(function(){setTimeout(function(){try{window.focus();window.print();}catch(e){}},250);});});<\/script>
+<script>
+/* V41 — tooltip dos cards técnicos no mobile via toque */
+(function(){
+  function closeAll(except){
+    document.querySelectorAll('.db-tech-mini.is-open').forEach(function(card){
+      if(card !== except) card.classList.remove('is-open');
+    });
+  }
+  document.addEventListener('click', function(ev){
+    var card = ev.target.closest && ev.target.closest('.db-tech-mini');
+    if(!card){ closeAll(); return; }
+    if(window.matchMedia && window.matchMedia('(hover: none), (max-width: 640px)').matches){
+      ev.preventDefault();
+      var willOpen = !card.classList.contains('is-open');
+      closeAll(card);
+      card.classList.toggle('is-open', willOpen);
+    }
+  }, true);
+  document.addEventListener('keydown', function(ev){
+    if(ev.key === 'Escape') closeAll();
+    if((ev.key === 'Enter' || ev.key === ' ') && ev.target && ev.target.classList && ev.target.classList.contains('db-tech-mini')){
+      ev.preventDefault();
+      var card = ev.target;
+      var willOpen = !card.classList.contains('is-open');
+      closeAll(card);
+      card.classList.toggle('is-open', willOpen);
+    }
+  });
+})();
+</script>
+
+</body></html>`;
       const w=window.open('','_blank');
       if(!w){
         const blob=new Blob([html],{type:'text/html;charset=utf-8'});
@@ -20346,6 +20503,38 @@ function rmLoadDemo(){
 </script>
 
 
+
+
+<script>
+/* V41 — tooltip dos cards técnicos no mobile via toque */
+(function(){
+  function closeAll(except){
+    document.querySelectorAll('.db-tech-mini.is-open').forEach(function(card){
+      if(card !== except) card.classList.remove('is-open');
+    });
+  }
+  document.addEventListener('click', function(ev){
+    var card = ev.target.closest && ev.target.closest('.db-tech-mini');
+    if(!card){ closeAll(); return; }
+    if(window.matchMedia && window.matchMedia('(hover: none), (max-width: 640px)').matches){
+      ev.preventDefault();
+      var willOpen = !card.classList.contains('is-open');
+      closeAll(card);
+      card.classList.toggle('is-open', willOpen);
+    }
+  }, true);
+  document.addEventListener('keydown', function(ev){
+    if(ev.key === 'Escape') closeAll();
+    if((ev.key === 'Enter' || ev.key === ' ') && ev.target && ev.target.classList && ev.target.classList.contains('db-tech-mini')){
+      ev.preventDefault();
+      var card = ev.target;
+      var willOpen = !card.classList.contains('is-open');
+      closeAll(card);
+      card.classList.toggle('is-open', willOpen);
+    }
+  });
+})();
+</script>
 
 </body>
 
