@@ -20730,7 +20730,17 @@ html,body{
   .main { overflow-y: visible !important; }
 }
 
-/* 6 ── Scrollbar global (página) com o mesmo estilo do sidebar */
+/* 6 ── Configurações mobile: rodapé acima da bottom-nav
+         No mobile a .settings-box vira height:100% (tela cheia).
+         O .sbox-foot cai exatamente atras do bottom-nav fixo (64px).
+         Solução: empurrar o footer para cima com padding-bottom. */
+@media(max-width:600px){
+  .sbox-foot {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 8px)) !important;
+  }
+}
+
+/* 7 ── Scrollbar global (página) com o mesmo estilo do sidebar */
 html {
   scrollbar-width: thin;
   scrollbar-color: rgba(224,170,58,.42) rgba(255,255,255,.04);
