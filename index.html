@@ -20979,6 +20979,71 @@ html::-webkit-scrollbar-corner { background: transparent; }
 }
 </style>
 
+<script id="ql-bottomnav-overlay-hide-v70">
+/* Esconde o bottom-nav mobile sempre que qualquer modal ou drawer
+   estiver aberto — evita que a barra cubra os botões de ação.
+   Estratégia: wrap das 4 funções originais (openModal / closeModal /
+   openDrawer / closeDrawer) sem alterar seu comportamento. */
+(function(){
+  function bnavEl(){ return document.getElementById('bottom-nav'); }
+
+  /* Verifica se ainda existe algum overlay aberto */
+  function anyOverlayOpen(){
+    const modals  = document.querySelectorAll('.settings-modal.on, .modal-bg.on, [id$="-overlay"].on, [id$="-modal"].on');
+    const drawer  = document.getElementById('drawer-dados');
+    return modals.length > 0 || (drawer && drawer.classList.contains('on'));
+  }
+
+  function hideBNav(){
+    const n = bnavEl();
+    if(n) n.style.display = 'none';
+  }
+  function showBNav(){
+    const n = bnavEl();
+    if(n && !anyOverlayOpen()) n.style.display = '';
+  }
+
+  /* Aguarda as funções originais estarem definidas, depois faz o wrap */
+  function patchFunctions(){
+    /* openModal */
+    const _openModal = window.openModal;
+    window.openModal = function(id){
+      if(_openModal) _openModal(id);
+      hideBNav();
+    };
+
+    /* closeModal */
+    const _closeModal = window.closeModal;
+    window.closeModal = function(id){
+      if(_closeModal) _closeModal(id);
+      /* pequeno delay para o .on ser removido antes de checar */
+      setTimeout(showBNav, 30);
+    };
+
+    /* openDrawer */
+    const _openDrawer = window.openDrawer;
+    window.openDrawer = function(){
+      if(_openDrawer) _openDrawer();
+      hideBNav();
+    };
+
+    /* closeDrawer */
+    const _closeDrawer = window.closeDrawer;
+    window.closeDrawer = function(){
+      if(_closeDrawer) _closeDrawer();
+      setTimeout(showBNav, 30);
+    };
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', patchFunctions, {once:true});
+  } else {
+    /* funções já definidas — patch imediato */
+    patchFunctions();
+  }
+})();
+</script>
+
 <!-- AJUSTE PONTUAL: remove o ticker SOMENTE do PDF/ impressão do Rateio Inteligente -->
 <style id="ql-rateio-print-sem-ticker">
   @media print{
