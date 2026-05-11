@@ -20740,6 +20740,22 @@ html,body{
   }
 }
 
+/* 6b ── Drawer (Dados do Condomínio) no mobile: altura corrigida
+          O drawer desliza de bottom:0, mas ticker(36px)+header(52px)
+          fixos ocupam 88px no topo — a borda do drawer sumia atrás deles.
+          Solução: limitar max-height ao espaço realmente visível.
+          + -webkit-overflow-scrolling:touch para iOS não travar o scroll. */
+@media(max-width:600px){
+  .drawer {
+    /* 100dvh desconta barra do browser; subtrai ticker + header mobile */
+    max-height: calc(100dvh - var(--ticker-h) - 52px - 8px) !important;
+  }
+  .drawer-body {
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 20px) !important;
+  }
+}
+
 /* 7 ── Scrollbar global (página) com o mesmo estilo do sidebar */
 html {
   scrollbar-width: thin;
