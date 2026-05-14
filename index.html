@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="QuotaLab">
 <meta name="theme-color" content="#061426">
-<link rel="manifest" href="manifest.webmanifest?v=131">
+<link rel="manifest" href="manifest.webmanifest?v=132">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
@@ -28,9 +28,9 @@ const QL_ROLE = 'admin'; // admin | conselho | assembleia
 document.documentElement.setAttribute('data-role', QL_ROLE);
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ql-build" content="v131-correcao-apple-inline-catch">
-<meta name="ql-version" content="131">
-<title>QuotaLab Admin — QuotaLab V131</title>
+<meta name="ql-build" content="v132-correcao-camadas-sidebar-janelas">
+<meta name="ql-version" content="132">
+<title>QuotaLab Admin — QuotaLab V132</title>
 
 <script id="ql-v131-correcao-apple-inline-catch">
 (function(){
@@ -88,8 +88,8 @@ document.documentElement.setAttribute('data-role', QL_ROLE);
 })();
 </script>
 <script id="ql-build-guard-v65">
-/* QuotaLab V131 — ciclo pronto para publicação */
-window.QL_BUILD = 'v131-correcao-apple-inline-catch';
+/* QuotaLab V132 — correção camadas sidebar/janelas */
+window.QL_BUILD = 'v132-correcao-camadas-sidebar-janelas';
 (function(){
   const KEY = 'ql_tech_errors_v65';
   function save(entry){
@@ -4717,6 +4717,109 @@ html[data-auto-resolved="light"] body :where(.badge,.pill,.tag,.chip)[class*="li
   }
   window.qlAuditDadosEssenciaisDashboardV122=audit;
   window.qlBaixarDadosEssenciaisDashboardV122=download;
+})();
+</script>
+
+
+<style id="ql-v132-camadas-sidebar-janelas-css">
+/* QuotaLab V132 — hierarquia de camadas: janelas/relatórios sempre acima do sidebar */
+:root{
+  --ql-z-sidebar:100;
+  --ql-z-header:400;
+  --ql-z-overlay:6400;
+  --ql-z-window:6410;
+  --ql-z-alert:6500;
+}
+.nav-sidebar{z-index:var(--ql-z-sidebar)!important;}
+.hdr{z-index:var(--ql-z-header)!important;}
+/* Overlays e janelas flutuantes ficam sempre acima do sidebar/header */
+.modal-bg,
+.settings-modal,
+#modal-comunicado,
+.drawer-overlay,
+.mobile-more-overlay,
+#share-overlay,
+.share-overlay,
+.ql-report-overlay,
+.report-overlay,
+.print-overlay{
+  z-index:var(--ql-z-overlay)!important;
+}
+.drawer,
+.modal-bg .modal,
+.settings-box,
+.comunicado-modal-inner,
+.mobile-more-sheet,
+.ql-report-modal,
+.report-modal,
+.print-modal,
+#print-doc{
+  z-index:var(--ql-z-window)!important;
+}
+/* Quando há janela aberta, o sidebar perde prioridade visual e clique */
+body:has(.modal-bg.on) .nav-sidebar,
+body:has(.settings-modal.on) .nav-sidebar,
+body:has(.drawer.on) .nav-sidebar,
+body:has(.drawer-overlay.on) .nav-sidebar,
+body:has(#modal-comunicado.on) .nav-sidebar,
+body:has(.mobile-more-overlay.open) .nav-sidebar,
+body:has(#share-overlay.on) .nav-sidebar,
+body:has(.ql-report-overlay.on) .nav-sidebar,
+body:has(.report-overlay.on) .nav-sidebar,
+body:has(.print-overlay.on) .nav-sidebar{
+  z-index:1!important;
+  pointer-events:none!important;
+}
+body:has(.modal-bg.on) .hdr,
+body:has(.settings-modal.on) .hdr,
+body:has(.drawer.on) .hdr,
+body:has(.drawer-overlay.on) .hdr,
+body:has(#modal-comunicado.on) .hdr,
+body:has(.ql-report-overlay.on) .hdr,
+body:has(.report-overlay.on) .hdr,
+body:has(.print-overlay.on) .hdr{
+  z-index:2!important;
+}
+@media print{
+  body[class*="printing-"] .nav-sidebar,
+  body[class*="printing-"] .hdr,
+  body[class*="printing-"] .bottom-nav,
+  body[class*="printing-"] .drawer,
+  body[class*="printing-"] .drawer-overlay,
+  body[class*="printing-"] .settings-modal,
+  body[class*="printing-"] .modal-bg,
+  body[class*="printing-"] #modal-comunicado{
+    display:none!important;
+  }
+}
+</style>
+<script id="ql-v132-camadas-sidebar-janelas">
+(function(){
+  'use strict';
+  var BUILD='v132-correcao-camadas-sidebar-janelas';
+  try{document.documentElement.setAttribute('data-ql-version','132-camadas-sidebar-janelas');}catch(e){}
+  function visible(el){
+    if(!el) return false;
+    var cs=getComputedStyle(el);
+    var r=el.getBoundingClientRect();
+    return cs.display!=='none' && cs.visibility!=='hidden' && r.width>0 && r.height>0;
+  }
+  function audit(){
+    var sidebar=document.querySelector('.nav-sidebar');
+    var header=document.querySelector('.hdr');
+    var windows=[].slice.call(document.querySelectorAll('.modal-bg.on,.settings-modal.on,.drawer.on,.drawer-overlay.on,#modal-comunicado.on,.mobile-more-overlay.open,.ql-report-overlay.on,.report-overlay.on,.print-overlay.on'));
+    var data={
+      build:BUILD,
+      sidebar:{exists:!!sidebar,zIndex:sidebar?getComputedStyle(sidebar).zIndex:null,visible:visible(sidebar)},
+      header:{exists:!!header,zIndex:header?getComputedStyle(header).zIndex:null,visible:visible(header)},
+      openWindows:windows.map(function(el){return {tag:el.tagName.toLowerCase(),id:el.id||'',className:String(el.className||''),zIndex:getComputedStyle(el).zIndex,visible:visible(el)};}),
+      manifest:[].slice.call(document.querySelectorAll('link[rel="manifest"]')).map(function(x){return x.getAttribute('href')||''}),
+      residues:[].slice.call(document.body?document.body.childNodes:[]).filter(function(n){return n.nodeType===3 && /const w=window\.open|w\.document\.write|Pop-up bloqueado|foram recolocados antes do fechamento real/.test(n.textContent||'');}).length
+    };
+    console.log('[QuotaLab V132] Camadas sidebar/janelas:',data);
+    return data;
+  }
+  window.qlAuditCamadasSidebarJanelasV132=audit;
 })();
 </script>
 
