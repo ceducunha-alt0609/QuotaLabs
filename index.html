@@ -7,16 +7,16 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="QuotaLab">
 <meta name="theme-color" content="#061426">
-<link rel="manifest" href="manifest.webmanifest?v=130">
+<link rel="manifest" href="manifest.webmanifest?v=131">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512x512.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" href="icons/icon-180x180.png">
 <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
 <link rel="apple-touch-icon" sizes="167x167" href="icons/icon-167x167.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png">
 <!-- iOS Splash Screens -->
 <link rel="apple-touch-startup-image" media="(device-width:390px) and (device-height:844px) and (-webkit-device-pixel-ratio:3)" href="splashes/splash-iphone.png">
 <link rel="apple-touch-startup-image" media="(device-width:430px) and (device-height:932px) and (-webkit-device-pixel-ratio:3)" href="splashes/splash-iphone-max.png">
@@ -28,15 +28,15 @@ const QL_ROLE = 'admin'; // admin | conselho | assembleia
 document.documentElement.setAttribute('data-role', QL_ROLE);
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ql-build" content="v130-ciclo-pronto-para-publicacao">
-<meta name="ql-version" content="130">
-<title>QuotaLab Admin — QuotaLab V130</title>
+<meta name="ql-build" content="v131-correcao-apple-inline-catch">
+<meta name="ql-version" content="131">
+<title>QuotaLab Admin — QuotaLab V131</title>
 
-<script id="ql-v130-ciclo-pronto-para-publicacao">
+<script id="ql-v131-correcao-apple-inline-catch">
 (function(){
   'use strict';
-  var BUILD='v130-ciclo-pronto-para-publicacao';
-  var VERSION='130';
+  var BUILD='v131-correcao-apple-inline-catch';
+  var VERSION='131';
   window.QL_BUILD=BUILD;
   window.QL_VERSION=VERSION;
   function qa(sel,root){try{return Array.prototype.slice.call((root||document).querySelectorAll(sel));}catch(e){return [];}}
@@ -58,7 +58,7 @@ document.documentElement.setAttribute('data-role', QL_ROLE);
     var data={
       build:BUILD,
       checkedAt:new Date().toISOString(),
-      pwa:{manifest:manifest,manifestV130:manifest.some(function(h){return /v=130/.test(h);}),swSupported:'serviceWorker' in navigator,standalone:!!(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches),assets:pwaAssets()},
+      pwa:{manifest:manifest,manifestV131:manifest.some(function(h){return /v=131/.test(h);}),swSupported:'serviceWorker' in navigator,standalone:!!(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches),assets:pwaAssets()},
       render:{splashVisivel:splashVisivel(),dashboardDetectado:dashboardDetectado(),bodyTextLength:bodyText().length,paginasVisiveis:qa('.page,[id^="page-"]').filter(visible).length},
       dashboard:{cardsCotas:cotas,tooltipsCotas:tooltips,dadosCondominioDetectado:criticalButtons().filter(function(x){return x.label==='Dados do Condomínio';})[0].found},
       operacao:{botoesCriticos:criticalButtons()},
@@ -66,7 +66,7 @@ document.documentElement.setAttribute('data-role', QL_ROLE);
       estrutura:{idsDuplicados:duplicateIds(),residuosVisiveis:visibleResidues(),head:!!document.head,body:!!document.body}
     };
     data.checklist=[
-      {item:'Manifest único V130',ok:data.pwa.manifest.length===1&&data.pwa.manifestV130},
+      {item:'Manifest único V131',ok:data.pwa.manifest.length===1&&data.pwa.manifestV131},
       {item:'Assets PWA principais declarados',ok:data.pwa.assets.icon192&&data.pwa.assets.icon512&&data.pwa.assets.appleTouch},
       {item:'Service Worker suportado',ok:data.pwa.swSupported},
       {item:'App renderizou após splash',ok:data.render.bodyTextLength>80&&!data.render.splashVisivel},
@@ -78,18 +78,18 @@ document.documentElement.setAttribute('data-role', QL_ROLE);
       {item:'Sem IDs duplicados',ok:data.estrutura.idsDuplicados.length===0},
       {item:'Sem resíduos técnicos visíveis',ok:data.estrutura.residuosVisiveis.length===0}
     ];
-    console.log('[QuotaLab V130] Pronto para publicação:',data);
+    console.log('[QuotaLab V131] Pronto para publicação:',data);
     return data;
   }
   function download(obj,name){var blob=new Blob([JSON.stringify(obj,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href);},1200);}
-  function baixar(){download(audit(),'quotalab-v130-pronto-para-publicacao.json');}
-  window.qlAuditProntoParaPublicacaoV130=audit;
-  window.qlBaixarProntoParaPublicacaoV130=baixar;
+  function baixar(){download(audit(),'quotalab-v131-assets-inline-corrigidos.json');}
+  window.qlAuditProntoParaPublicacaoV131=audit;
+  window.qlBaixarProntoParaPublicacaoV131=baixar;
 })();
 </script>
 <script id="ql-build-guard-v65">
-/* QuotaLab V130 — ciclo pronto para publicação */
-window.QL_BUILD = 'v130-ciclo-pronto-para-publicacao';
+/* QuotaLab V131 — ciclo pronto para publicação */
+window.QL_BUILD = 'v131-correcao-apple-inline-catch';
 (function(){
   const KEY = 'ql_tech_errors_v65';
   function save(entry){
@@ -21261,7 +21261,7 @@ function rmLoadDemo(){
         (code.match(/(^|[^\.\w$])([A-Za-z_$][\w$]*)\s*\(/g)||[]).forEach(raw=>{
           const m=raw.match(/([A-Za-z_$][\w$]*)\s*\($/); if(!m)return;
           const n=m[1];
-          if(!['if','for','while','switch','return','Math','Number','String','Date','parseFloat','parseInt','console','alert','confirm','setTimeout','setInterval'].includes(n)) names.push(n);
+          if(!['if','for','while','switch','return','Math','Number','String','Date','parseFloat','parseInt','console','alert','confirm','setTimeout','setInterval','try','catch','finally','then','else'].includes(n)) names.push(n);
         });
       });
     });
@@ -21287,7 +21287,7 @@ function rmLoadDemo(){
     checks.push({name:'Manifest único', ok:manifests.length===1, detail:manifests.join(', ')||'nenhum'});
     const swRegs = ('serviceWorker' in navigator) ? await navigator.serviceWorker.getRegistrations().catch(()=>[]) : [];
     checks.push({name:'Service Worker', ok:swRegs.length>0 || !!navigator.serviceWorker?.controller, detail:swRegs.length?swRegs.map(r=>r.scope).join(', '):(navigator.serviceWorker?.controller?'controlando':'não registrado nesta sessão')});
-    const files=['./manifest.webmanifest','./sw.js','./icons/icon-192x192.png','./icons/icon-512x512.png','./apple-touch-icon.png'];
+    const files=['./manifest.webmanifest','./sw.js','./icons/icon-192x192.png','./icons/icon-512x512.png','./icons/icon-180x180.png'];
     for(const f of files) checks.push({name:'Arquivo '+f.replace('./',''), ok:await fileOk(f), detail:''});
     const missing=inlineCalls();
     checks.push({name:'Chamadas inline', ok:missing.length===0, detail:missing.length?missing.join(', '):'sem funções faltando detectadas'});
