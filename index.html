@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="QuotaLab">
 <meta name="theme-color" content="#061426">
-<link rel="manifest" href="manifest.webmanifest?v=132">
+<link rel="manifest" href="manifest.webmanifest?v=133">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
@@ -28,9 +28,10 @@ const QL_ROLE = 'admin'; // admin | conselho | assembleia
 document.documentElement.setAttribute('data-role', QL_ROLE);
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ql-build" content="v132-correcao-camadas-sidebar-janelas">
+<meta name="ql-build" content="v133-final-oficial">
+<meta name="ql-final" content="v133-final-oficial">
 <meta name="ql-version" content="132">
-<title>QuotaLab Admin — QuotaLab V132</title>
+<title>QuotaLab Admin — QuotaLab V133 Final Oficial</title>
 
 <script id="ql-v131-correcao-apple-inline-catch">
 (function(){
@@ -88,8 +89,8 @@ document.documentElement.setAttribute('data-role', QL_ROLE);
 })();
 </script>
 <script id="ql-build-guard-v65">
-/* QuotaLab V132 — correção camadas sidebar/janelas */
-window.QL_BUILD = 'v132-correcao-camadas-sidebar-janelas';
+/* QuotaLab V133 — correção camadas sidebar/janelas */
+window.QL_BUILD = 'v133-final-oficial';
 (function(){
   const KEY = 'ql_tech_errors_v65';
   function save(entry){
@@ -4721,8 +4722,8 @@ html[data-auto-resolved="light"] body :where(.badge,.pill,.tag,.chip)[class*="li
 </script>
 
 
-<style id="ql-v132-camadas-sidebar-janelas-css">
-/* QuotaLab V132 — hierarquia de camadas: janelas/relatórios sempre acima do sidebar */
+<style id="ql-v133-final-oficial-camadas-css">
+/* QuotaLab V133 — hierarquia de camadas: janelas/relatórios sempre acima do sidebar */
 :root{
   --ql-z-sidebar:100;
   --ql-z-header:400;
@@ -4793,10 +4794,10 @@ body:has(.print-overlay.on) .hdr{
   }
 }
 </style>
-<script id="ql-v132-camadas-sidebar-janelas">
+<script id="ql-v133-final-oficial-camadas">
 (function(){
   'use strict';
-  var BUILD='v132-correcao-camadas-sidebar-janelas';
+  var BUILD='v133-final-oficial';
   try{document.documentElement.setAttribute('data-ql-version','132-camadas-sidebar-janelas');}catch(e){}
   function visible(el){
     if(!el) return false;
@@ -4816,10 +4817,10 @@ body:has(.print-overlay.on) .hdr{
       manifest:[].slice.call(document.querySelectorAll('link[rel="manifest"]')).map(function(x){return x.getAttribute('href')||''}),
       residues:[].slice.call(document.body?document.body.childNodes:[]).filter(function(n){return n.nodeType===3 && /const w=window\.open|w\.document\.write|Pop-up bloqueado|foram recolocados antes do fechamento real/.test(n.textContent||'');}).length
     };
-    console.log('[QuotaLab V132] Camadas sidebar/janelas:',data);
+    console.log('[QuotaLab V133] Camadas sidebar/janelas:',data);
     return data;
   }
-  window.qlAuditCamadasSidebarJanelasV132=audit;
+  window.qlAuditFinalOficialV133=audit;
 })();
 </script>
 
