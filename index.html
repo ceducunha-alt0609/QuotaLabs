@@ -28,10 +28,10 @@ const QL_ROLE = 'admin'; // admin | conselho | assembleia
 document.documentElement.setAttribute('data-role', QL_ROLE);
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ql-build" content="v133-3-config-mobile-safe">
+<meta name="ql-build" content="v133-4b-config-mobile-css-safe">
 <meta name="ql-final" content="v133-final-oficial">
 <meta name="ql-version" content="132">
-<title>QuotaLab Admin — QuotaLab V133.3 Config Mobile Safe</title>
+<title>QuotaLab Admin — QuotaLab V133.4B Config Mobile CSS Safe</title>
 
 <script id="ql-v131-correcao-apple-inline-catch">
 (function(){
@@ -24872,6 +24872,64 @@ html[data-auto-resolved="light"] body #drawer-dados .cttl{font-weight:900!import
   .settings-drawer,
   .config-drawer{
     bottom:calc(env(safe-area-inset-bottom, 0px) + 78px)!important;
+  }
+}
+
+
+/* QL V133.4B — Configurações mobile CSS seguro
+   Sem JavaScript novo. Evita tela branca.
+   Objetivo: afastar a janela da barra inferior e reduzir risco de toque acidental.
+*/
+@media (max-width:768px){
+  /* quando existir rodapé/ações dentro da janela de configurações, cria respiro inferior */
+  #settings-drawer,
+  #drawer-config,
+  #config-drawer,
+  .settings-drawer,
+  .config-drawer{
+    bottom:calc(env(safe-area-inset-bottom, 0px) + 96px)!important;
+    max-height:calc(100dvh - 116px)!important;
+    overflow:hidden!important;
+  }
+
+  #settings-drawer .drawer-body,
+  #settings-drawer .settings-body,
+  #settings-drawer .drawer-content,
+  #settings-drawer .settings-content,
+  #drawer-config .drawer-body,
+  #drawer-config .settings-body,
+  #drawer-config .drawer-content,
+  #drawer-config .settings-content,
+  #config-drawer .drawer-body,
+  #config-drawer .settings-body,
+  #config-drawer .drawer-content,
+  #config-drawer .settings-content,
+  .settings-drawer .drawer-body,
+  .settings-drawer .settings-body,
+  .settings-drawer .drawer-content,
+  .settings-drawer .settings-content,
+  .config-drawer .drawer-body,
+  .config-drawer .settings-body,
+  .config-drawer .drawer-content,
+  .config-drawer .settings-content{
+    max-height:calc(100dvh - 210px)!important;
+    overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch!important;
+    padding-bottom:28px!important;
+  }
+
+  /* esconde botões perigosos por texto/classe quando estiverem dentro da área de configuração */
+  #settings-drawer button[id*="reset" i],
+  #settings-drawer button[class*="reset" i],
+  #drawer-config button[id*="reset" i],
+  #drawer-config button[class*="reset" i],
+  #config-drawer button[id*="reset" i],
+  #config-drawer button[class*="reset" i],
+  .settings-drawer button[id*="reset" i],
+  .settings-drawer button[class*="reset" i],
+  .config-drawer button[id*="reset" i],
+  .config-drawer button[class*="reset" i]{
+    display:none!important;
   }
 }
 
