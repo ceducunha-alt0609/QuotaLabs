@@ -28,10 +28,10 @@ const QL_ROLE = 'admin'; // admin | conselho | assembleia
 document.documentElement.setAttribute('data-role', QL_ROLE);
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ql-build" content="v133-4b-config-mobile-css-safe">
+<meta name="ql-build" content="v133-5b-config-botoes-mobile-only">
 <meta name="ql-final" content="v133-final-oficial">
 <meta name="ql-version" content="132">
-<title>QuotaLab Admin — QuotaLab V133.4B Config Mobile CSS Safe</title>
+<title>QuotaLab Admin — QuotaLab V133.5B Config Botões Mobile Only</title>
 
 <script id="ql-v131-correcao-apple-inline-catch">
 (function(){
@@ -24930,6 +24930,26 @@ html[data-auto-resolved="light"] body #drawer-dados .cttl{font-weight:900!import
   .config-drawer button[id*="reset" i],
   .config-drawer button[class*="reset" i]{
     display:none!important;
+  }
+}
+
+
+/* QL V133.5B — Configurações: esconder ações perigosas SOMENTE no mobile
+   Desktop mantém Exportar estilo e Resetar tudo.
+*/
+@media (max-width:768px){
+  #settings-modal button[onclick="exportCustomization()"],
+  #settings-modal button[onclick="resetAllCustom()"]{
+    display:none!important;
+  }
+
+  #settings-modal .sbox-foot{
+    gap:10px!important;
+    padding-bottom:calc(env(safe-area-inset-bottom, 0px) + 14px)!important;
+  }
+
+  #settings-modal .sbox-foot .mbtn{
+    min-height:48px!important;
   }
 }
 
