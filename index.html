@@ -28,10 +28,10 @@ const QL_ROLE = 'admin'; // admin | conselho | assembleia
 document.documentElement.setAttribute('data-role', QL_ROLE);
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ql-build" content="v136b-sync-sem-cores-estavel">
+<meta name="ql-build" content="v133-final-oficial">
 <meta name="ql-final" content="v133-final-oficial">
 <meta name="ql-version" content="132">
-<title>QuotaLab Admin — QuotaLab V136B Sync Sem Cores Estável</title>
+<title>QuotaLab Admin — QuotaLab V133 Final Oficial</title>
 
 <script id="ql-v131-correcao-apple-inline-catch">
 (function(){
@@ -11184,159 +11184,18 @@ async function buscarIndices(){
 }
 let _autoSaveTimer=null;
 let _sbSyncTimer=null;
-
-/* QL V135 — Sincronização total controlada: fundos, campos extras e chaves locais do app */
-function qlSyncIsSensitiveIdV135(id){
-  return /(token|apikey|api-key|api_key|secret|password|senha|sb-key|sb-url|gh-token|rm-apikey|ia-api-key|share-url)/i.test(String(id||''));
-}
-function qlSyncShouldMirrorKeyV135(key){
-  key=String(key||'');
-  if(!key)return false;
-  if(key==='condocalc_v3')return false; // evita espelhar o snapshot dentro dele mesmo
-  if(/(token|apikey|api-key|api_key|secret|password|senha|auth|demo|tech_errors|cloud_pending|last_cloud_sync|gh|pages_url)/i.test(key))return false;
-
-  // V136B: não sincroniza aparência/cores/tema.
-  // Isso evita que uma personalização visual corrompida seja espalhada entre dispositivos.
-  if(/^cdc_/.test(key))return false;
-  if(/(theme|style|custom|color|cor|visual|layout|font|scrollbar)/i.test(key))return false;
-
-  // Mantém sincronização dos dados operacionais extras do QuotaLab.
-  if(/^ql_/.test(key))return true;
-  return false;
-}
-function qlCollectSyncLocalMirrorV135(){
-  const out={};
-  try{
-    for(let i=0;i<localStorage.length;i++){
-      const k=localStorage.key(i);
-      if(qlSyncShouldMirrorKeyV135(k)){
-        const v=localStorage.getItem(k);
-        if(v!=null)out[k]=v;
-      }
-    }
-  }catch(e){}
-  return out;
-}
-function qlApplySyncLocalMirrorV135(mirror){
-  if(!mirror || typeof mirror!=='object')return;
-  try{
-    Object.entries(mirror).forEach(([k,v])=>{
-      if(qlSyncShouldMirrorKeyV135(k) && v!=null){
-        localStorage.setItem(k,String(v));
-      }
-    });
-  }catch(e){}
-}
-function qlCollectSyncFormStateV135(){
-  const out={};
-  try{
-    document.querySelectorAll('input[id],select[id],textarea[id]').forEach(el=>{
-      const id=el.id;
-      if(!id || qlSyncIsSensitiveIdV135(id))return;
-      if(el.type==='file' || el.type==='password' || el.type==='button' || el.type==='submit' || el.type==='reset')return;
-      out[id]={
-        tag:el.tagName,
-        type:el.type||'',
-        value:el.type==='checkbox'?!!el.checked:el.value
-      };
-    });
-  }catch(e){}
-  return out;
-}
-function qlApplySyncFormStateV135(state){
-  if(!state || typeof state!=='object')return;
-  try{
-    Object.entries(state).forEach(([id,rec])=>{
-      if(qlSyncIsSensitiveIdV135(id))return;
-      const el=document.getElementById(id);
-      if(!el || !rec)return;
-      if(el.type==='checkbox')el.checked=!!rec.value;
-      else if(el.type!=='file' && rec.value!=null)el.value=rec.value;
-      try{el.dispatchEvent(new Event('input',{bubbles:true}));}catch(e){}
-      try{el.dispatchEvent(new Event('change',{bubbles:true}));}catch(e){}
-    });
-  }catch(e){}
-}
-function qlCollectFundosV135(){
-  let gestao=null,resumo=null;
-  try{gestao=JSON.parse(localStorage.getItem('ql_gestao_fundos_v1')||'null');}catch(e){gestao=null;}
-  try{resumo=JSON.parse(localStorage.getItem('ql_gestao_fundos_resumo')||'null');}catch(e){resumo=null;}
-  return {
-    gestao,
-    resumo,
-    frMeta:document.getElementById('fr_meta')?.value||'',
-    frHorizonte:document.getElementById('fr_horizonte')?.value||'',
-    frSaldo:document.getElementById('fr_saldo')?.value||'',
-    fundoReservaPct:document.getElementById('fundo_reserva')?.value||'',
-    fundoObrasPct:document.getElementById('fundo_obras')?.value||''
-  };
-}
-function qlApplyFundosV135(fundos){
-  if(!fundos || typeof fundos!=='object')return;
-  try{
-    if(fundos.gestao)localStorage.setItem('ql_gestao_fundos_v1',JSON.stringify(fundos.gestao));
-    if(fundos.resumo)localStorage.setItem('ql_gestao_fundos_resumo',JSON.stringify(fundos.resumo));
-    const set=(id,v)=>{const el=document.getElementById(id); if(el && v!=null && v!=='')el.value=v;};
-    set('fr_meta',fundos.frMeta);
-    set('fr_horizonte',fundos.frHorizonte);
-    set('fr_saldo',fundos.frSaldo);
-    set('fundo_reserva',fundos.fundoReservaPct);
-    set('fundo_obras',fundos.fundoObrasPct);
-  }catch(e){}
-}
-function qlPostSyncRenderV135(){
-  try{ if(typeof gfRender==='function')gfRender(); }catch(e){}
-  try{ if(typeof qlSyncFundoReservaDashboardV70==='function')qlSyncFundoReservaDashboardV70(); }catch(e){}
-  try{ if(typeof qlRenderFundsHistory==='function')qlRenderFundsHistory(); }catch(e){}
-  try{ if(typeof qlRenderFundosResumoV68==='function')qlRenderFundosResumoV68(); }catch(e){}
-}
-
 function buildAppData(){
   return {
-    version: 5,
+    version: 4,
     exportedAt: new Date().toISOString(),
-    config:{
-      condoNome:document.getElementById('condo_nome').value,
-      nUnidades:document.getElementById('n_unidades').value,
-      nPagantes:document.getElementById('n_pagantes')?.value||document.getElementById('n_unidades').value,
-      cotaAtual:document.getElementById('cota_atual').value,
-      competencia:document.getElementById('competencia').value,
-      anoConstrucao:document.getElementById('ano_construcao')?.value||'',
-      inadimplencia:document.getElementById('inadimplencia').value,
-      fundoReserva:document.getElementById('fundo_reserva').value,
-      fundoObras:document.getElementById('fundo_obras').value,
-      frSaldo:document.getElementById('fr_saldo').value,
-      frMeta:document.getElementById('fr_meta')?.value||'',
-      frHorizonte:document.getElementById('fr_horizonte')?.value||'',
-      frTaxa:document.getElementById('fr_taxa').value,
-      modoRateio:document.getElementById('modo_rateio').value,
-      tickerPrefs:getTickerPrefs()
-    },
-    indices:{
-      ipca:document.getElementById('idx_ipca').value,
-      igpm:document.getElementById('idx_igpm').value,
-      inpc:document.getElementById('idx_inpc').value,
-      ipcfipe:document.getElementById('idx_ipcfipe').value,
-      sm:document.getElementById('idx_sm').value,
-      custom:document.getElementById('idx_custom').value,
-      customNome:document.getElementById('idx_custom_nome').value
-    },
-    despesas:[...despesas],
-    historico:[...historico],
-    despComp:[...despComp],
-    tiposUnidade:[...tiposUnidade],
-    rateios:[...rateios],
-    fundos:qlCollectFundosV135(),
-    formState:qlCollectSyncFormStateV135(),
-    localMirror:qlCollectSyncLocalMirrorV135()
+    config:{condoNome:document.getElementById('condo_nome').value,nUnidades:document.getElementById('n_unidades').value,nPagantes:document.getElementById('n_pagantes')?.value||document.getElementById('n_unidades').value,cotaAtual:document.getElementById('cota_atual').value,competencia:document.getElementById('competencia').value,anoConstrucao:document.getElementById('ano_construcao')?.value||'',inadimplencia:document.getElementById('inadimplencia').value,fundoReserva:document.getElementById('fundo_reserva').value,fundoObras:document.getElementById('fundo_obras').value,frSaldo:document.getElementById('fr_saldo').value,frTaxa:document.getElementById('fr_taxa').value,modoRateio:document.getElementById('modo_rateio').value,tickerPrefs:getTickerPrefs()},
+    indices:{ipca:document.getElementById('idx_ipca').value,igpm:document.getElementById('idx_igpm').value,inpc:document.getElementById('idx_inpc').value,ipcfipe:document.getElementById('idx_ipcfipe').value,sm:document.getElementById('idx_sm').value,custom:document.getElementById('idx_custom').value,customNome:document.getElementById('idx_custom_nome').value},
+    despesas:[...despesas],historico:[...historico],despComp:[...despComp],tiposUnidade:[...tiposUnidade],rateios:[...rateios],
   };
 }
 function applyAppData(d){
   if(!d || !d.config || !d.despesas) throw new Error('Formato inválido.');
   const cfg=d.config||{};
-  qlApplySyncLocalMirrorV135(d.localMirror);
-  qlApplyFundosV135(d.fundos);
-  qlApplySyncFormStateV135(d.formState);
   ['condo_nome','n_unidades','n_pagantes','cota_atual','competencia','ano_construcao'].forEach(id=>{
     const key={condo_nome:'condoNome',n_unidades:'nUnidades',n_pagantes:'nPagantes',cota_atual:'cotaAtual',competencia:'competencia',ano_construcao:'anoConstrucao'}[id];
     if(cfg[key]!=null) document.getElementById(id).value=cfg[key];
@@ -11345,8 +11204,6 @@ function applyAppData(d){
   if(cfg.fundoReserva){document.getElementById('fundo_reserva').value=cfg.fundoReserva;['fr_lbl','fr_val'].forEach(id=>{const el=document.getElementById(id); if(el) el.textContent=parseFloat(cfg.fundoReserva).toFixed(1)+'%';});}
   if(cfg.fundoObras){document.getElementById('fundo_obras').value=cfg.fundoObras;['fo_lbl','fo_val'].forEach(id=>{const el=document.getElementById(id); if(el) el.textContent=parseFloat(cfg.fundoObras).toFixed(1)+'%';});}
   if(cfg.frSaldo!=null) document.getElementById('fr_saldo').value=cfg.frSaldo;
-  if(cfg.frMeta!=null && document.getElementById('fr_meta')) document.getElementById('fr_meta').value=cfg.frMeta;
-  if(cfg.frHorizonte!=null && document.getElementById('fr_horizonte')) document.getElementById('fr_horizonte').value=cfg.frHorizonte;
   if(cfg.frTaxa!=null){ document.getElementById('fr_taxa').value=cfg.frTaxa; if(typeof syncFrTaxa==='function') syncFrTaxa(); }
   if(cfg.modoRateio) document.getElementById('modo_rateio').value=cfg.modoRateio;
   if(cfg.tickerPrefs) setTickerPrefs(cfg.tickerPrefs);
@@ -11361,7 +11218,6 @@ function applyAppData(d){
   tiposUnidade.length=0; (d.tiposUnidade||[]).forEach(x=>tiposUnidade.push(x));
   rateios.length=0; (d.rateios||[]).forEach(x=>rateios.push(x));
   renderDespesas();renderHistorico();renderDespComp();renderTipos();renderRateios();toggleRateio();
-  qlPostSyncRenderV135();
   autoSave(); calcular(); qlAtualizaIdadePredial();
 }
 function autoSave(){
@@ -24862,19 +24718,28 @@ html[data-theme="claro-neve"] body #drawer-dados .cttl,
 html[data-theme="light"] body #drawer-dados .cttl,
 html[data-auto-resolved="light"] body #drawer-dados .cttl{font-weight:900!important;opacity:1!important;text-shadow:none!important;}
 
-
-/* QL V136B — Mobile: centraliza somente a janela Dados do Condomínio */
-@media (max-width:768px){
-  #drawer-dados.drawer{
-    left:50%!important;
-    right:auto!important;
-    width:calc(100vw - 24px)!important;
-    max-width:420px!important;
-    margin-left:0!important;
-    margin-right:0!important;
+/* QL V134 — Centralização mobile painel Dados do Condomínio */
+@media (max-width: 768px){
+  #btn-open-drawer,
+  .hdr-r #btn-open-drawer{
+    margin-inline:auto!important;
+    justify-content:center!important;
+    text-align:center!important;
+    width:min(100%, 320px)!important;
   }
-  #drawer-dados.drawer.on{
-    transform:translateX(-50%)!important;
+
+  .hdr-r{
+    width:100%!important;
+    display:flex!important;
+    justify-content:center!important;
+    align-items:center!important;
+  }
+
+  .drawer,
+  .drawer-card,
+  .condo-drawer,
+  #condoDrawer{
+    margin-inline:auto!important;
   }
 }
 
