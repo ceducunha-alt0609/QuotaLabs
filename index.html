@@ -28,10 +28,10 @@ const QL_ROLE = 'admin'; // admin | conselho | assembleia
 document.documentElement.setAttribute('data-role', QL_ROLE);
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ql-build" content="v133-final-oficial">
+<meta name="ql-build" content="v133-2-drawer-dados-mobile-full">
 <meta name="ql-final" content="v133-final-oficial">
 <meta name="ql-version" content="132">
-<title>QuotaLab Admin — QuotaLab V133 Final Oficial</title>
+<title>QuotaLab Admin — QuotaLab V133.2 Drawer Dados Mobile Full</title>
 
 <script id="ql-v131-correcao-apple-inline-catch">
 (function(){
@@ -24717,6 +24717,67 @@ html[data-theme="snow"] body #drawer-dados .cttl,
 html[data-theme="claro-neve"] body #drawer-dados .cttl,
 html[data-theme="light"] body #drawer-dados .cttl,
 html[data-auto-resolved="light"] body #drawer-dados .cttl{font-weight:900!important;opacity:1!important;text-shadow:none!important;}
+
+/* QL V133.2 — Mobile: Dados do Condomínio acima da barra inferior
+   Ajuste isolado: não altera cores, títulos, sync ou conteúdo interno.
+*/
+@media (max-width:768px){
+  #drawer-dados.drawer{
+    position:fixed!important;
+    top:calc(env(safe-area-inset-top, 0px) + 10px)!important;
+    left:10px!important;
+    right:10px!important;
+    bottom:calc(env(safe-area-inset-bottom, 0px) + 92px)!important;
+    width:auto!important;
+    max-width:none!important;
+    height:auto!important;
+    max-height:none!important;
+    margin:0!important;
+    transform:none!important;
+    border-radius:22px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    overflow:hidden!important;
+  }
+
+  #drawer-dados.drawer.on{
+    transform:none!important;
+  }
+
+  #drawer-dados .drawer-head{
+    flex:0 0 auto!important;
+  }
+
+  #drawer-dados .drawer-tabs{
+    flex:0 0 auto!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    white-space:nowrap!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+
+  #drawer-dados .drawer-body,
+  #drawer-dados .drawer-content,
+  #drawer-dados .drawer-main{
+    flex:1 1 auto!important;
+    min-height:0!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    -webkit-overflow-scrolling:touch!important;
+    padding-bottom:24px!important;
+  }
+}
+
+@media (max-width:420px){
+  #drawer-dados.drawer{
+    top:calc(env(safe-area-inset-top, 0px) + 8px)!important;
+    left:8px!important;
+    right:8px!important;
+    bottom:calc(env(safe-area-inset-bottom, 0px) + 86px)!important;
+    border-radius:20px!important;
+  }
+}
+
 </style>
 <script id="ql-v109-metadados-claro-neve-audit">
 (function(){
