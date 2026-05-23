@@ -28,10 +28,10 @@ const QL_ROLE = 'admin'; // admin | conselho | assembleia
 document.documentElement.setAttribute('data-role', QL_ROLE);
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="ql-build" content="v135-sync-total-fundos">
+<meta name="ql-build" content="v136b-sync-sem-cores-estavel">
 <meta name="ql-final" content="v133-final-oficial">
 <meta name="ql-version" content="132">
-<title>QuotaLab Admin — QuotaLab V135 Sync Total Fundos</title>
+<title>QuotaLab Admin — QuotaLab V136B Sync Sem Cores Estável</title>
 
 <script id="ql-v131-correcao-apple-inline-catch">
 (function(){
@@ -11194,8 +11194,14 @@ function qlSyncShouldMirrorKeyV135(key){
   if(!key)return false;
   if(key==='condocalc_v3')return false; // evita espelhar o snapshot dentro dele mesmo
   if(/(token|apikey|api-key|api_key|secret|password|senha|auth|demo|tech_errors|cloud_pending|last_cloud_sync|gh|pages_url)/i.test(key))return false;
+
+  // V136B: não sincroniza aparência/cores/tema.
+  // Isso evita que uma personalização visual corrompida seja espalhada entre dispositivos.
+  if(/^cdc_/.test(key))return false;
+  if(/(theme|style|custom|color|cor|visual|layout|font|scrollbar)/i.test(key))return false;
+
+  // Mantém sincronização dos dados operacionais extras do QuotaLab.
   if(/^ql_/.test(key))return true;
-  if(/^cdc_/.test(key))return true;
   return false;
 }
 function qlCollectSyncLocalMirrorV135(){
@@ -24856,97 +24862,19 @@ html[data-theme="claro-neve"] body #drawer-dados .cttl,
 html[data-theme="light"] body #drawer-dados .cttl,
 html[data-auto-resolved="light"] body #drawer-dados .cttl{font-weight:900!important;opacity:1!important;text-shadow:none!important;}
 
-/* QL V134 — Centralização mobile painel Dados do Condomínio */
-@media (max-width: 768px){
-  #btn-open-drawer,
-  .hdr-r #btn-open-drawer{
-    margin-inline:auto!important;
-    justify-content:center!important;
-    text-align:center!important;
-    width:min(100%, 320px)!important;
-  }
 
-  .hdr-r{
-    width:100%!important;
-    display:flex!important;
-    justify-content:center!important;
-    align-items:center!important;
-  }
-
-  .drawer,
-  .drawer-card,
-  .condo-drawer,
-  #condoDrawer{
-    margin-inline:auto!important;
-  }
-}
-
-
-/* QL V136 — Padronização refinada de títulos */
-:root{
-  --ql-title-size-main: clamp(22px, 2vw, 30px);
-  --ql-title-size-section: clamp(18px, 1.5vw, 24px);
-  --ql-title-size-card: clamp(15px, 1.1vw, 18px);
-}
-
-/* títulos gigantes → refinados */
-h1,
-.page-title,
-.section-title,
-.panel-title,
-.card-title,
-.dashboard-title,
-.drawer-title,
-.modal-title,
-.db-tech-title{
-  letter-spacing:-0.015em!important;
-  line-height:1.12!important;
-}
-
-/* títulos principais */
-h1,
-.page-title,
-.dashboard-title{
-  font-size:var(--ql-title-size-main)!important;
-  font-weight:700!important;
-}
-
-/* subtítulos e painéis */
-h2,
-.section-title,
-.panel-title,
-.drawer-title,
-.modal-title{
-  font-size:var(--ql-title-size-section)!important;
-  font-weight:700!important;
-}
-
-/* títulos menores/cards */
-h3,
-.card-title{
-  font-size:var(--ql-title-size-card)!important;
-  font-weight:700!important;
-}
-
-/* mobile mais elegante */
+/* QL V136B — Mobile: centraliza somente a janela Dados do Condomínio */
 @media (max-width:768px){
-  h1,
-  .page-title,
-  .dashboard-title{
-    font-size:22px!important;
+  #drawer-dados.drawer{
+    left:50%!important;
+    right:auto!important;
+    width:calc(100vw - 24px)!important;
+    max-width:420px!important;
+    margin-left:0!important;
+    margin-right:0!important;
   }
-
-  h2,
-  .section-title,
-  .panel-title,
-  .drawer-title,
-  .modal-title{
-    font-size:18px!important;
-  }
-
-  h3,
-  .card-title{
-    font-size:15px!important;
+  #drawer-dados.drawer.on{
+    transform:translateX(-50%)!important;
   }
 }
 
