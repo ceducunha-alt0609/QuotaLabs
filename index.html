@@ -8481,10 +8481,14 @@ body:has(.print-overlay.on) .hdr{
             </div>
             <button class="mbtn mbtn-ghost" onclick="supabaseDiagnose()" id="btn-sb-diagnose">Diagnosticar</button>
           </div>
-          <div id="sb-status" style="font-size:11px;color:var(--text3);padding:6px 0;display:none"></div>
-          <div style="font-size:10px;color:var(--text3);line-height:1.6;margin-top:4px">
-            Tabela esperada: <code>public.quotalab_sync</code> com chave primária <code>doc_key</code> e campo <code>payload jsonb</code>.
+          <div class="srow" style="align-items:flex-start">
+            <div>
+              <div class="srow-l">Limpar cache de config</div>
+              <div class="srow-s">Remove URL, chave e config salvas no navegador e recarrega os valores padrão</div>
+            </div>
+            <button class="mbtn mbtn-ghost" onclick="supabaseClearCache()" id="btn-sb-clear" style="color:var(--red);border-color:rgba(248,81,73,.30)">🗑 Limpar</button>
           </div>
+          <div id="sb-status" style="font-size:11px;color:var(--text3);padding:6px 0;display:none"></div>
         </div>
 
         <div class="sgroup">
@@ -11877,6 +11881,9 @@ function buildAppData(){
     config:{condoNome:document.getElementById('condo_nome').value,nUnidades:document.getElementById('n_unidades').value,nPagantes:document.getElementById('n_pagantes')?.value||document.getElementById('n_unidades').value,cotaAtual:document.getElementById('cota_atual').value,competencia:document.getElementById('competencia').value,anoConstrucao:document.getElementById('ano_construcao')?.value||'',inadimplencia:document.getElementById('inadimplencia').value,fundoReserva:document.getElementById('fundo_reserva').value,fundoObras:document.getElementById('fundo_obras').value,frSaldo:document.getElementById('fr_saldo').value,frTaxa:document.getElementById('fr_taxa').value,modoRateio:document.getElementById('modo_rateio').value,tickerPrefs:getTickerPrefs()},
     indices:{ipca:document.getElementById('idx_ipca').value,igpm:document.getElementById('idx_igpm').value,inpc:document.getElementById('idx_inpc').value,ipcfipe:document.getElementById('idx_ipcfipe').value,sm:document.getElementById('idx_sm').value,custom:document.getElementById('idx_custom').value,customNome:document.getElementById('idx_custom_nome').value},
     despesas:[...despesas],historico:[...historico],despComp:[...despComp],tiposUnidade:[...tiposUnidade],rateios:[...rateios],
+    gestaoFundos:(()=>{try{return JSON.parse(localStorage.getItem('ql_gestao_fundos_v1')||'null');}catch(e){return null;}})(),
+    capex:(()=>{try{return JSON.parse(localStorage.getItem('ql_capex_v1')||'null');}catch(e){return null;}})(),
+    colchao:(()=>{try{return JSON.parse(localStorage.getItem('ql_colchao_v1')||'null');}catch(e){return null;}})(),
   };
 }
 function applyAppData(d){
@@ -11898,6 +11905,20 @@ function applyAppData(d){
   // Restaura token GitHub — evita evicção pelo ITP do iOS
   if(d.ghToken){ try{ localStorage.setItem(GH_TOKEN_KEY, d.ghToken); const el=document.getElementById('gh-token'); if(el) el.placeholder='Token salvo · cole para atualizar'; }catch(e){} }
   if(d.ghGistId){ try{ localStorage.setItem(GH_GIST_KEY, d.ghGistId); const el=document.getElementById('gh-gist-id'); if(el) el.value=d.ghGistId; }catch(e){} }
+  // Restaura Gestão de Fundos
+  if(d.gestaoFundos){try{localStorage.setItem('ql_gestao_fundos_v1',JSON.stringify(d.gestaoFundos));}catch(e){}}
+  // Restaura CAPEX
+  if(d.capex){try{localStorage.setItem('ql_capex_v1',JSON.stringify(d.capex));gfcxItems=Array.isArray(d.capex)?[...d.capex]:[];gfCapexRender();}catch(e){}}
+  // Restaura Colchão
+  if(d.colchao){
+    try{
+      localStorage.setItem('ql_colchao_v1',JSON.stringify(d.colchao));
+      if(d.colchao.meta){gfcMeta=Number(d.colchao.meta)||2;document.querySelectorAll('.gf-cushion-pill').forEach((p,i)=>{p.classList.toggle('active',i+1===gfcMeta);});}
+      const ri=document.getElementById('gfc_receita'),ai=document.getElementById('gfc_aporte');
+      if(ri&&d.colchao.receita)ri.value=d.colchao.receita;
+      if(ai&&d.colchao.aporte)ai.value=d.colchao.aporte;
+    }catch(e){}
+  }
   despesas.length=0; (d.despesas||[]).forEach(x=>despesas.push(x));
   historico.length=0; (d.historico||[]).forEach(x=>historico.push(x));
   despComp.length=0; (d.despComp||[]).forEach(x=>despComp.push(x));
@@ -11905,6 +11926,8 @@ function applyAppData(d){
   rateios.length=0; (d.rateios||[]).forEach(x=>rateios.push(x));
   renderDespesas();renderHistorico();renderDespComp();renderTipos();renderRateios();toggleRateio();
   autoSave(); calcular(); qlAtualizaIdadePredial();
+  // Atualiza Gestão de Fundos se a página estiver ativa
+  setTimeout(()=>{try{if(typeof gfRender==='function')gfRender();}catch(e){}},200);
 }
 function autoSave(){
   clearTimeout(_autoSaveTimer);
@@ -16342,7 +16365,7 @@ async function githubPull(){
 // ── SUPABASE SYNC ──
 const SB_CFG_KEY = 'ql_sb_cfg';
 const SB_DEFAULT_URL = 'https://azvvfvjefkusapawuunf.supabase.co';
-const SB_DEFAULT_KEY = 'sb_publishable_Sl1z3c5-5ZIQ3I_SjY3Ikw_-YDKllrC';
+const SB_DEFAULT_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF6dnZmdmplZmt1c2FwYXd1dW5mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3MzIzMzksImV4cCI6MjA5MDMwODMzOX0.47No3quv-L8X01FSodh_oXwYrl0X_XQlbXS0UAtZADs';
 const SB_TABLE = 'quotalab_sync';
 const SB_SQL = `create table if not exists public.quotalab_sync (
   doc_key text primary key,
@@ -16441,6 +16464,28 @@ function saveSupabaseCfg(){
   sbStatus('✓ Configuração Supabase salva neste navegador.', 'success');
   showToast('Configuração Supabase salva.','success',2200);
   refreshCloudSyncPill();
+}
+function supabaseClearCache(){
+  try{
+    // Remove all Supabase-related localStorage keys
+    const keys = ['ql_sb_cfg','ql_supabase_cfg','ql_last_cloud_sync','ql_cloud_pending'];
+    keys.forEach(k=>{ try{ localStorage.removeItem(k); }catch(e){} });
+    // Also clear any key matching ql_sb_
+    Object.keys(localStorage).filter(k=>k.startsWith('ql_sb_')).forEach(k=>{
+      try{ localStorage.removeItem(k); }catch(e){}
+    });
+  }catch(e){}
+  // Reset fields to defaults
+  const byId=(id,val)=>{const el=document.getElementById(id);if(el)el.value=val||'';};
+  byId('sb-url', SB_DEFAULT_URL||'');
+  byId('sb-key', SB_DEFAULT_KEY||'');
+  byId('sb-doc-key','quotalab-main');
+  byId('sb-device-name','');
+  const autoEl=document.getElementById('sb-auto-sync');
+  if(autoEl) autoEl.checked=false;
+  setCloudSyncState('offline','Configure o Supabase para ativar');
+  sbStatus('✓ Cache limpo. Campos recarregados com os valores padrão.','success');
+  showToast('Cache do Supabase limpo com sucesso.','success',2400);
 }
 
 function copySupabaseSQL(){
@@ -25900,7 +25945,7 @@ html[data-auto-resolved="light"] body #drawer-dados .cttl{font-weight:900!import
   window.addEventListener('unhandledrejection',function(ev){var r=ev.reason;push('unhandledrejection',{message:r&&r.message?r.message:String(r||''),stack:r&&r.stack?short(r.stack,360):''});},true);
   function duplicateIds(){var seen=Object.create(null),dup=[];arr(document.querySelectorAll('[id]')).forEach(function(el){var id=el.id;if(!id)return;if(seen[id]&&dup.indexOf(id)<0)dup.push(id);seen[id]=1;});return dup;}
   function visibleResidues(){var body='';try{body=text(document.body).slice(-30000);}catch(e){}return RESIDUE_PATTERNS.filter(function(p){return body.indexOf(p)>=0;});}
-  function manifestInfo(){try{var links=arr(document.querySelectorAll('link[rel="manifest"]')).map(function(l){return l.getAttribute('href')||'';});return {count:links.length,hrefs:links,expectedVersion:EXPECTED_VERSION,ok:links.length===1 && /[?&]v=109(?:$|&)/.test(links[0]||'')};}catch(e){return {error:e.message};}}
+  function manifestInfo(){try{var links=arr(document.querySelectorAll('link[rel="manifest"]')).map(function(l){return l.getAttribute('href')||'';});return {count:links.length,hrefs:links,expectedVersion:EXPECTED_VERSION,ok:links.length===1 && new RegExp('[?&]v='+EXPECTED_VERSION+'(?:$|&)').test(links[0]||'')};}catch(e){return {error:e.message};}}
   function pwaInfo(){return {serviceWorkerSupported:!!navigator.serviceWorker,controller:!!(navigator.serviceWorker&&navigator.serviceWorker.controller),standalone:!!(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches),appleStandalone:!!navigator.standalone};}
   function visibleNumberIssues(){
     var out=[], bad=/(?:NaN|Infinity|-Infinity|undefined|null)/i;
@@ -25924,7 +25969,7 @@ html[data-auto-resolved="light"] body #drawer-dados .cttl{font-weight:900!import
     return cacheInfo().then(function(cache){base.cache=cache;try{console.info('[QuotaLab V103] auditoria marco estável / selo qualidade',base);}catch(e){}return base;});
   };
   window.qlBaixarDiagnosticoV103=function(){return window.qlAuditMarcoEstavelV103().then(function(r){downloadJson(r,'quotalab-diagnostico-v103-'+new Date().toISOString().slice(0,10)+'.json');try{if(typeof showToast==='function')showToast('Diagnóstico V103 baixado.','success',2600);}catch(e){}return r;});};
-  document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){try{window.qlAuditMarcoEstavelV103().then(function(r){var warn=[];if(!r.manifest.ok)warn.push('manifest não aponta para v109');if(r.duplicateIds.length)warn.push('IDs duplicados: '+r.duplicateIds.join(', '));if(r.visibleResidues.length)warn.push('resíduo técnico visível: '+r.visibleResidues.join(', '));if(r.visibleNumberIssues.length)warn.push('NaN/Infinity/undefined visível: '+r.visibleNumberIssues.length);if(r.storage.possibleBrokenJson.length)warn.push('JSON local possivelmente corrompido');if(r.layout.horizontalOverflow)warn.push('overflow horizontal detectado');if(warn.length)console.warn('[QuotaLab V103] pontos de atenção',warn,r);});}catch(e){}},1000);},{once:true});
+  document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){try{window.qlAuditMarcoEstavelV103().then(function(r){var warn=[];if(!r.manifest.ok)warn.push('manifest não aponta para v'+EXPECTED_VERSION);if(r.duplicateIds.length)warn.push('IDs duplicados: '+r.duplicateIds.join(', '));if(r.visibleResidues.length)warn.push('resíduo técnico visível: '+r.visibleResidues.join(', '));if(r.visibleNumberIssues.length)warn.push('NaN/Infinity/undefined visível: '+r.visibleNumberIssues.length);if(r.storage.possibleBrokenJson.length)warn.push('JSON local possivelmente corrompido');if(r.layout.horizontalOverflow)warn.push('overflow horizontal detectado');if(warn.length)console.warn('[QuotaLab V103] pontos de atenção',warn,r);});}catch(e){}},1000);},{once:true});
 })();
 </script>
 <!-- QL V103 TOPBAR DADOS CLARO NEVE CONTRASTE END -->
