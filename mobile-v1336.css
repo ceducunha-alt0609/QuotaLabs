@@ -1,0 +1,79 @@
+@media (max-width:700px){
+  :root{--ql-mobile-gutter:12px;--ql-mobile-nav-h:68px;}
+  html,body{max-width:100%;overflow-x:hidden;}
+  body{padding-bottom:calc(var(--ql-mobile-nav-h) + env(safe-area-inset-bottom,0px))!important;}
+  .layout,.content-area,.main,.page,[id^="page-"]{max-width:100%!important;min-width:0!important;}
+  .main{padding-left:var(--ql-mobile-gutter)!important;padding-right:var(--ql-mobile-gutter)!important;padding-bottom:18px!important;}
+
+  /* Ritmo visual mais consistente entre painéis */
+  .db-row,.db-row-3{gap:10px!important;}
+  .db-c,.db-panel,.db-health,.db-decision,.hero,.rm-card,.gf-panel,.rt-card{
+    border-radius:16px!important;
+  }
+  .db-c{padding:14px!important;}
+  .db-c-label{line-height:1.25!important;}
+
+  /* Hero do dashboard mais compacto sem perder hierarquia */
+  #page-dashboard .db-hero{padding:16px 14px!important;margin-bottom:14px!important;border-radius:18px!important;}
+  #page-dashboard .db-hero h1{font-size:clamp(22px,7vw,28px)!important;line-height:1.05!important;}
+  #page-dashboard .db-hero p{font-size:12.5px!important;line-height:1.5!important;}
+  #page-dashboard .db-hero-meta{gap:7px!important;}
+  #page-dashboard .db-hero-meta-item{padding:7px 9px!important;border-radius:11px!important;}
+
+  /* KPIs: mantém duas colunas, mas melhora respiro e leitura */
+  #page-dashboard .db-kpi-strip{gap:7px!important;}
+  #page-dashboard .db-kpi-item{min-width:0!important;padding:10px 9px!important;}
+  #page-dashboard .db-kpi-value{font-size:clamp(18px,5.6vw,22px)!important;line-height:1.05!important;}
+  #page-dashboard .db-kpi-label{font-size:9.5px!important;line-height:1.25!important;}
+
+  /* Tira de cotas: aparência de cards sequenciais no telefone */
+  .db-cotas-strip{border-radius:16px!important;margin-bottom:12px!important;}
+  .db-cs-cell{padding:13px 12px!important;}
+  .db-cs-val{font-size:21px!important;}
+  .db-cs-divider{width:calc(100% - 24px)!important;opacity:.75;}
+
+  /* Áreas clicáveis adequadas para toque */
+  button,.bnav-item,.mobile-more-item,.dtab,.mtab{touch-action:manipulation;}
+  .mobile-more-item{min-height:58px!important;padding:10px 11px!important;border-radius:15px!important;}
+  .mobile-more-item .mmi-icon{width:40px!important;height:40px!important;min-width:40px!important;}
+  .mobile-more-item .mmi-copy strong{line-height:1.2!important;}
+  .mobile-more-item .mmi-copy small{line-height:1.3!important;}
+
+  /* Barra inferior: área de toque maior e estado ativo mais nítido */
+  .bottom-nav{
+    height:calc(var(--ql-mobile-nav-h) + env(safe-area-inset-bottom,0px))!important;
+    padding:4px 5px env(safe-area-inset-bottom,0px)!important;
+    gap:2px!important;
+  }
+  .bnav-item{margin:3px 1px!important;min-height:56px!important;border-radius:15px!important;font-size:9.5px!important;gap:3px!important;}
+  .bnav-item svg{width:20px!important;height:20px!important;}
+  .bnav-item.active{box-shadow:inset 0 0 0 1px rgba(56,139,253,.10),inset 0 1px 0 rgba(255,255,255,.05)!important;}
+
+  /* Sheet "Mais": cabeçalho fixo e rolagem mais previsível */
+  .mobile-more-sheet{max-height:min(84dvh,760px)!important;padding:10px 10px calc(14px + env(safe-area-inset-bottom,0px))!important;}
+  .mobile-more-head{position:sticky;top:-10px;z-index:3;padding:10px 4px 11px!important;background:var(--bg2);}
+  .mobile-more-list{gap:7px!important;}
+
+  /* Configurações: preserva full-screen, mas melhora leitura */
+  #settings-modal .sbox-head{min-height:58px!important;padding-left:14px!important;padding-right:10px!important;}
+  #settings-modal .sbox-body{height:calc(100dvh - 58px)!important;max-height:calc(100dvh - 58px)!important;padding-left:12px!important;padding-right:12px!important;}
+  #settings-modal .modal-close{min-width:42px!important;min-height:42px!important;}
+
+  /* Tabelas continuam roláveis, sem alargar a página */
+  .rm-tw,.table-wrap,.unit-table,.fund-history-table,.simp-proj-table{max-width:100%!important;overscroll-behavior-x:contain;}
+  table{max-width:none;}
+
+  /* Campos e ações: evita elementos apertados no toque */
+  input,select,textarea{font-size:16px;}
+  .field-grid-2,.rm-fields{grid-template-columns:1fr!important;}
+
+  /* Tooltips: nunca ultrapassam o viewport */
+  .db-cs-tooltip{width:min(210px,calc(100vw - 32px))!important;max-width:calc(100vw - 32px)!important;}
+}
+@media (max-width:380px){
+  :root{--ql-mobile-gutter:9px;}
+  .bnav-item{font-size:9px!important;}
+  .bnav-item svg{width:19px!important;height:19px!important;}
+  #page-dashboard .db-kpi-strip{grid-template-columns:1fr 1fr!important;gap:6px!important;}
+  .mobile-more-item{padding-left:9px!important;padding-right:9px!important;}
+}
