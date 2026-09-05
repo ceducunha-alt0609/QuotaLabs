@@ -2,6 +2,16 @@
 (() => {
   let deferredPrompt = null;
 
+  function loadMobileRefinement() {
+    if (document.getElementById('qlMobileRefinoV1336')) return;
+    const link = document.createElement('link');
+    link.id = 'qlMobileRefinoV1336';
+    link.rel = 'stylesheet';
+    link.href = './mobile-v1336.css?v=1336-1';
+    link.media = '(max-width: 700px)';
+    document.head.appendChild(link);
+  }
+
   function readySW() {
     if (!('serviceWorker' in navigator)) return;
     window.addEventListener('load', () => {
@@ -63,5 +73,6 @@
     console.log('[QuotaLab] Aplicativo instalado.');
   });
 
+  loadMobileRefinement();
   readySW();
 })();
