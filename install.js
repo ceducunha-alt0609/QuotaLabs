@@ -34,10 +34,10 @@
       action.defer = true;
       document.head.appendChild(action);
     }
-    if (!document.getElementById('qlDashboardCardsRefinoV1348')) {
+    if (!document.getElementById('qlDashboardCardsRefinoV1349')) {
       const cards = document.createElement('script');
-      cards.id = 'qlDashboardCardsRefinoV1348';
-      cards.src = './dashboard-cards-refino-v1348.js?v=1348-1';
+      cards.id = 'qlDashboardCardsRefinoV1349';
+      cards.src = './dashboard-cards-refino-v1349.js?v=1349-1';
       cards.defer = true;
       document.head.appendChild(cards);
     }
