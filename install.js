@@ -13,12 +13,20 @@
   }
 
   function loadDesktopDashboardRefinement() {
-    if (document.getElementById('qlDashboardRefinoV1344')) return;
-    const script = document.createElement('script');
-    script.id = 'qlDashboardRefinoV1344';
-    script.src = './dashboard-refino-v1344.js?v=1344-1';
-    script.defer = true;
-    document.head.appendChild(script);
+    if (!document.getElementById('qlDashboardRefinoV1344')) {
+      const script = document.createElement('script');
+      script.id = 'qlDashboardRefinoV1344';
+      script.src = './dashboard-refino-v1344.js?v=1344-1';
+      script.defer = true;
+      document.head.appendChild(script);
+    }
+    if (!document.getElementById('qlDashboardTechRefinoV1345')) {
+      const tech = document.createElement('script');
+      tech.id = 'qlDashboardTechRefinoV1345';
+      tech.src = './dashboard-tech-refino-v1345.js?v=1345-1';
+      tech.defer = true;
+      document.head.appendChild(tech);
+    }
   }
 
   function readySW() {
