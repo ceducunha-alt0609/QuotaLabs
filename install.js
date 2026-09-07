@@ -27,6 +27,13 @@
       tech.defer = true;
       document.head.appendChild(tech);
     }
+    if (!document.getElementById('qlDashboardActionRefinoV1346')) {
+      const action = document.createElement('script');
+      action.id = 'qlDashboardActionRefinoV1346';
+      action.src = './dashboard-action-refino-v1346.js?v=1346-1';
+      action.defer = true;
+      document.head.appendChild(action);
+    }
   }
 
   function readySW() {
