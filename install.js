@@ -30,9 +30,16 @@
     if (!document.getElementById('qlDashboardActionRefinoV1346')) {
       const action = document.createElement('script');
       action.id = 'qlDashboardActionRefinoV1346';
-      action.src = './dashboard-action-refino-v1346.js?v=1346-1';
+      action.src = './dashboard-action-refino-v1346.js?v=1346-2';
       action.defer = true;
       document.head.appendChild(action);
+    }
+    if (!document.getElementById('qlDashboardCardsRefinoV1347')) {
+      const cards = document.createElement('script');
+      cards.id = 'qlDashboardCardsRefinoV1347';
+      cards.src = './dashboard-cards-refino-v1347.js?v=1347-1';
+      cards.defer = true;
+      document.head.appendChild(cards);
     }
   }
 
