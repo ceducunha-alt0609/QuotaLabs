@@ -12,6 +12,15 @@
     document.head.appendChild(link);
   }
 
+  function loadDesktopDashboardRefinement() {
+    if (document.getElementById('qlDashboardRefinoV134')) return;
+    const script = document.createElement('script');
+    script.id = 'qlDashboardRefinoV134';
+    script.src = './dashboard-refino-v134.js?v=134-1';
+    script.defer = true;
+    document.head.appendChild(script);
+  }
+
   function readySW() {
     if (!('serviceWorker' in navigator)) return;
     window.addEventListener('load', () => {
@@ -74,5 +83,6 @@
   });
 
   loadMobileRefinement();
+  loadDesktopDashboardRefinement();
   readySW();
 })();
