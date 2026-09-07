@@ -13,10 +13,10 @@
   }
 
   function loadDesktopDashboardRefinement() {
-    if (document.getElementById('qlDashboardRefinoV134')) return;
+    if (document.getElementById('qlDashboardRefinoV1341')) return;
     const script = document.createElement('script');
-    script.id = 'qlDashboardRefinoV134';
-    script.src = './dashboard-refino-v134.js?v=134-1';
+    script.id = 'qlDashboardRefinoV1341';
+    script.src = './dashboard-refino-v1341.js?v=1341-1';
     script.defer = true;
     document.head.appendChild(script);
   }
