@@ -16,7 +16,7 @@
     if (document.getElementById('qlDashboardRefinoV1341')) return;
     const script = document.createElement('script');
     script.id = 'qlDashboardRefinoV1341';
-    script.src = './dashboard-refino-v1341.js?v=1341-1';
+    script.src = './dashboard-refino-v1341.js?v=1342-2';
     script.defer = true;
     document.head.appendChild(script);
   }
@@ -24,8 +24,11 @@
   function readySW() {
     if (!('serviceWorker' in navigator)) return;
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js', { scope: './' })
-        .then(reg => console.log('[QuotaLab] Service Worker ativo:', reg.scope))
+      navigator.serviceWorker.register('./sw.js?v=1342-1', { scope: './', updateViaCache: 'none' })
+        .then(reg => {
+          reg.update().catch(() => undefined);
+          console.log('[QuotaLab] Service Worker ativo:', reg.scope);
+        })
         .catch(err => console.warn('[QuotaLab] Falha ao registrar Service Worker:', err));
     });
   }
