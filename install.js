@@ -13,50 +13,40 @@
   }
 
   function loadDesktopDashboardRefinement() {
-    if (document.getElementById('qlDashboardRefinoV1341')) return;
+    if (document.getElementById('qlDashboardRefinoV1343')) return;
     const script = document.createElement('script');
-    script.id = 'qlDashboardRefinoV1341';
-    script.src = './dashboard-refino-v1341.js?v=1342-2';
+    script.id = 'qlDashboardRefinoV1343';
+    script.src = './dashboard-refino-v1343.js?v=1343-1';
     script.defer = true;
     document.head.appendChild(script);
   }
 
   function readySW() {
     if (!('serviceWorker' in navigator)) return;
+    let reloadedForController = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (reloadedForController) return;
+      if (sessionStorage.getItem('ql_sw_reload_1343') === '1') return;
+      reloadedForController = true;
+      sessionStorage.setItem('ql_sw_reload_1343', '1');
+      location.reload();
+    });
+
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js?v=1342-1', { scope: './', updateViaCache: 'none' })
-        .then(reg => {
-          reg.update().catch(() => undefined);
-          console.log('[QuotaLab] Service Worker ativo:', reg.scope);
-        })
+      navigator.serviceWorker.register('./sw.js?v=1343-1', { scope: './', updateViaCache: 'none' })
+        .then(reg => reg.update().catch(() => undefined).then(() => console.log('[QuotaLab] Service Worker ativo:', reg.scope)))
         .catch(err => console.warn('[QuotaLab] Falha ao registrar Service Worker:', err));
     });
   }
 
   function createInstallButton() {
     if (document.getElementById('qlInstallBtn')) return;
-
     const btn = document.createElement('button');
     btn.id = 'qlInstallBtn';
     btn.type = 'button';
     btn.textContent = 'Instalar QuotaLab';
     btn.setAttribute('aria-label', 'Instalar QuotaLab no dispositivo');
-    btn.style.cssText = `
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 99999;
-      display: none;
-      border: 1px solid rgba(255,211,0,.75);
-      border-radius: 999px;
-      padding: 10px 14px;
-      background: #0a0a0f;
-      color: #ffd300;
-      font: 700 13px Merriweather, Georgia, serif;
-      box-shadow: 0 12px 30px rgba(0,0,0,.35);
-      cursor: pointer;
-    `;
-
+    btn.style.cssText = `position:fixed;right:18px;bottom:18px;z-index:99999;display:none;border:1px solid rgba(255,211,0,.75);border-radius:999px;padding:10px 14px;background:#0a0a0f;color:#ffd300;font:700 13px Merriweather,Georgia,serif;box-shadow:0 12px 30px rgba(0,0,0,.35);cursor:pointer;`;
     btn.addEventListener('click', async () => {
       if (!deferredPrompt) {
         alert('No celular: abra pelo Chrome/Edge e use “Adicionar à tela inicial”. No PC: use o ícone de instalação na barra do navegador.');
@@ -67,7 +57,6 @@
       deferredPrompt = null;
       btn.style.display = 'none';
     });
-
     document.body.appendChild(btn);
   }
 
