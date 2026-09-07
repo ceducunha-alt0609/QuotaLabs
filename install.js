@@ -34,10 +34,10 @@
       action.defer = true;
       document.head.appendChild(action);
     }
-    if (!document.getElementById('qlDashboardCardsRefinoV1349')) {
+    if (!document.getElementById('qlDashboardCardsRefinoV1350')) {
       const cards = document.createElement('script');
-      cards.id = 'qlDashboardCardsRefinoV1349';
-      cards.src = './dashboard-cards-refino-v1349.js?v=1349-1';
+      cards.id = 'qlDashboardCardsRefinoV1350';
+      cards.src = './dashboard-cards-refino-v1350.js?v=1350-1';
       cards.defer = true;
       document.head.appendChild(cards);
     }
@@ -48,14 +48,14 @@
     let reloadedForController = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (reloadedForController) return;
-      if (sessionStorage.getItem('ql_sw_reload_1344') === '1') return;
+      if (sessionStorage.getItem('ql_sw_reload_1350') === '1') return;
       reloadedForController = true;
-      sessionStorage.setItem('ql_sw_reload_1344', '1');
+      sessionStorage.setItem('ql_sw_reload_1350', '1');
       location.reload();
     });
 
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js?v=1344-1', { scope: './', updateViaCache: 'none' })
+      navigator.serviceWorker.register('./sw.js?v=1350-1', { scope: './', updateViaCache: 'none' })
         .then(reg => reg.update().catch(() => undefined).then(() => console.log('[QuotaLab] Service Worker ativo:', reg.scope)))
         .catch(err => console.warn('[QuotaLab] Falha ao registrar Service Worker:', err));
     });
