@@ -69,6 +69,13 @@
       overviewFunds.defer = true;
       document.head.appendChild(overviewFunds);
     }
+    if (!document.getElementById('qlOverviewInsightProjectionV1360')) {
+      const overviewIP = document.createElement('script');
+      overviewIP.id = 'qlOverviewInsightProjectionV1360';
+      overviewIP.src = './view-overview-insights-projection-v1360.js?v=1360-1';
+      overviewIP.defer = true;
+      document.head.appendChild(overviewIP);
+    }
   }
 
   function readySW() {
@@ -76,14 +83,14 @@
     let reloadedForController = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (reloadedForController) return;
-      if (sessionStorage.getItem('ql_sw_reload_1359') === '1') return;
+      if (sessionStorage.getItem('ql_sw_reload_1360') === '1') return;
       reloadedForController = true;
-      sessionStorage.setItem('ql_sw_reload_1359', '1');
+      sessionStorage.setItem('ql_sw_reload_1360', '1');
       location.reload();
     });
 
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js?v=1359-1', { scope: './', updateViaCache: 'none' })
+      navigator.serviceWorker.register('./sw.js?v=1360-1', { scope: './', updateViaCache: 'none' })
         .then(reg => reg.update().catch(() => undefined).then(() => console.log('[QuotaLab] Service Worker ativo:', reg.scope)))
         .catch(err => console.warn('[QuotaLab] Falha ao registrar Service Worker:', err));
     });
