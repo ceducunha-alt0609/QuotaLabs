@@ -55,10 +55,10 @@
       popover.defer = true;
       document.head.appendChild(popover);
     }
-    if (!document.getElementById('qlOverviewIndicatorsV1357')) {
+    if (!document.getElementById('qlOverviewIndicatorsV1358')) {
       const overviewIndicators = document.createElement('script');
-      overviewIndicators.id = 'qlOverviewIndicatorsV1357';
-      overviewIndicators.src = './view-overview-indicators-v1357.js?v=1357-1';
+      overviewIndicators.id = 'qlOverviewIndicatorsV1358';
+      overviewIndicators.src = './view-overview-indicators-v1358.js?v=1358-1';
       overviewIndicators.defer = true;
       document.head.appendChild(overviewIndicators);
     }
@@ -69,14 +69,14 @@
     let reloadedForController = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (reloadedForController) return;
-      if (sessionStorage.getItem('ql_sw_reload_1357') === '1') return;
+      if (sessionStorage.getItem('ql_sw_reload_1358') === '1') return;
       reloadedForController = true;
-      sessionStorage.setItem('ql_sw_reload_1357', '1');
+      sessionStorage.setItem('ql_sw_reload_1358', '1');
       location.reload();
     });
 
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js?v=1357-1', { scope: './', updateViaCache: 'none' })
+      navigator.serviceWorker.register('./sw.js?v=1358-1', { scope: './', updateViaCache: 'none' })
         .then(reg => reg.update().catch(() => undefined).then(() => console.log('[QuotaLab] Service Worker ativo:', reg.scope)))
         .catch(err => console.warn('[QuotaLab] Falha ao registrar Service Worker:', err));
     });
