@@ -1,4 +1,4 @@
-const CACHE_NAME = 'quotalab-v1343-fresh-assets';
+const CACHE_NAME = 'quotalab-v1362-cache-reset';
 const STATIC_SHELL = [
   './manifest.webmanifest',
   './manifest.json',
