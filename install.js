@@ -2,15 +2,6 @@
 (() => {
   let deferredPrompt = null;
 
-  function loadPersistenceStability() {
-    if (document.getElementById('qlPersistenceStabilityV1362')) return;
-    const script = document.createElement('script');
-    script.id = 'qlPersistenceStabilityV1362';
-    script.src = './persistence-stability-v1362.js?v=1362-1';
-    script.defer = true;
-    document.head.appendChild(script);
-  }
-
   function loadMobileRefinement() {
     if (document.getElementById('qlMobileRefinoV1336')) return;
     const link = document.createElement('link');
@@ -146,7 +137,6 @@
     console.log('[QuotaLab] Aplicativo instalado.');
   });
 
-  loadPersistenceStability();
   loadMobileRefinement();
   loadDesktopDashboardRefinement();
   readySW();
