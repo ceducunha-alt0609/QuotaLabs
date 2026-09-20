@@ -11722,7 +11722,7 @@ function importJSON(ev){
 
 // ── SALVAR MANUAL ──
 function salvarDados(){
-  autoSave();
+  _doAutoSave();
   const navTxt=document.getElementById('nav-salvar-txt');
   if(navTxt){navTxt.textContent='Salvo ✓';setTimeout(()=>navTxt.textContent='Salvar dados',2200);}
 }
