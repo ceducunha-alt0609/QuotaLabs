@@ -227,6 +227,21 @@
     window.addEventListener('online', () => setTimeout(reconcileCloud, 600));
   }
 
+  function primeLoginUnderSplash(){
+    /* Deixa o login pronto POR BAIXO do splash. Assim, quando o splash
+       desaparecer, nunca há um frame em que alguma guia interna apareça. */
+    try{
+      const persistLocal = localStorage.getItem('ql_demo_access') === '1';
+      const runtimeLive = sessionStorage.getItem('ql_runtime_access') === '1';
+      if(persistLocal || runtimeLive) return;
+      const login = document.getElementById('ql-login');
+      if(login){
+        login.classList.add('show');
+        document.body.classList.add('ql-lock-scroll');
+      }
+    }catch(e){}
+  }
+
   function tuneLoginForLocalAdmin(){
     try{
       const demoBtn = document.getElementById('ql-login-demo');
@@ -289,6 +304,7 @@
   function boot(){
     if(bootDone) return;
     bootDone = true;
+    primeLoginUnderSplash();
     tuneLoginForLocalAdmin();
     clearEmbeddedDemoIfNoSavedState();
     installPersistenceListeners();
