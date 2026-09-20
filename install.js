@@ -2,64 +2,6 @@
 (() => {
   let deferredPrompt = null;
 
-  /* V1363 — trava visual de autenticação.
-     Impede qualquer guia interna de aparecer entre o splash e o login. */
-  function installAuthBootLock(){
-    try{
-      document.documentElement.classList.add('ql-auth-boot-lock');
-      if(!document.getElementById('qlAuthBootLockStyleV1363')){
-        const style=document.createElement('style');
-        style.id='qlAuthBootLockStyleV1363';
-        style.textContent = \
-          'html.ql-auth-boot-lock body > *:not(#ql-splash):not(#ql-login):not(script):not(style){visibility:hidden!important;}'+
-          'html.ql-auth-boot-lock #ql-login,html.ql-auth-boot-lock #ql-splash{visibility:visible!important;}';
-        (document.head||document.documentElement).appendChild(style);
-      }
-
-      const syncLock=()=>{
-        const login=document.getElementById('ql-login');
-        const splash=document.getElementById('ql-splash');
-        const loginShown=!!(login && login.classList.contains('show'));
-        const splashVisible=!!(splash && splash.style.display!=='none' && !splash.classList.contains('hidden'));
-        const runtimeAccess=sessionStorage.getItem('ql_runtime_access')==='1';
-
-        /* Enquanto splash ou login estiverem ativos, app segue invisível.
-           Quando há acesso runtime e login não está visível, libera o app. */
-        if(runtimeAccess && !loginShown && !splashVisible){
-          document.documentElement.classList.remove('ql-auth-boot-lock');
-        }else{
-          document.documentElement.classList.add('ql-auth-boot-lock');
-        }
-      };
-
-      const startObserver=()=>{
-        const login=document.getElementById('ql-login');
-        const splash=document.getElementById('ql-splash');
-        const obs=new MutationObserver(syncLock);
-        if(login) obs.observe(login,{attributes:true,attributeFilter:['class','style']});
-        if(splash) obs.observe(splash,{attributes:true,attributeFilter:['class','style']});
-        window.addEventListener('storage',syncLock);
-        window.addEventListener('pageshow',syncLock);
-        setInterval(syncLock,250);
-        syncLock();
-      };
-
-      if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',startObserver,{once:true});
-      else startObserver();
-    }catch(e){
-      console.warn('[QuotaLab V1363] Falha na trava visual de autenticação:',e);
-    }
-  }
-
-  function loadPersistenceReliability() {
-    if (document.getElementById('qlPersistenceAccessV1362')) return;
-    const script = document.createElement('script');
-    script.id = 'qlPersistenceAccessV1362';
-    script.src = './persistence-access-v1362.js?v=1362-1';
-    script.defer = true;
-    document.head.appendChild(script);
-  }
-
   function loadMobileRefinement() {
     if (document.getElementById('qlMobileRefinoV1336')) return;
     const link = document.createElement('link');
@@ -148,14 +90,14 @@
     let reloadedForController = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (reloadedForController) return;
-      if (sessionStorage.getItem('ql_sw_reload_1363') === '1') return;
+      if (sessionStorage.getItem('ql_sw_reload_1361') === '1') return;
       reloadedForController = true;
-      sessionStorage.setItem('ql_sw_reload_1363', '1');
+      sessionStorage.setItem('ql_sw_reload_1361', '1');
       location.reload();
     });
 
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js?v=1363-1', { scope: './', updateViaCache: 'none' })
+      navigator.serviceWorker.register('./sw.js?v=1361-1', { scope: './', updateViaCache: 'none' })
         .then(reg => reg.update().catch(() => undefined).then(() => console.log('[QuotaLab] Service Worker ativo:', reg.scope)))
         .catch(err => console.warn('[QuotaLab] Falha ao registrar Service Worker:', err));
     });
@@ -195,8 +137,6 @@
     console.log('[QuotaLab] Aplicativo instalado.');
   });
 
-  installAuthBootLock();
-  loadPersistenceReliability();
   loadMobileRefinement();
   loadDesktopDashboardRefinement();
   readySW();
