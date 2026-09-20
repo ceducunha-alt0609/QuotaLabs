@@ -2,6 +2,15 @@
 (() => {
   let deferredPrompt = null;
 
+  function loadPersistenceReliability() {
+    if (document.getElementById('qlPersistenceAccessV1362')) return;
+    const script = document.createElement('script');
+    script.id = 'qlPersistenceAccessV1362';
+    script.src = './persistence-access-v1362.js?v=1362-1';
+    script.defer = true;
+    document.head.appendChild(script);
+  }
+
   function loadMobileRefinement() {
     if (document.getElementById('qlMobileRefinoV1336')) return;
     const link = document.createElement('link');
@@ -90,14 +99,14 @@
     let reloadedForController = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if (reloadedForController) return;
-      if (sessionStorage.getItem('ql_sw_reload_1361') === '1') return;
+      if (sessionStorage.getItem('ql_sw_reload_1362') === '1') return;
       reloadedForController = true;
-      sessionStorage.setItem('ql_sw_reload_1361', '1');
+      sessionStorage.setItem('ql_sw_reload_1362', '1');
       location.reload();
     });
 
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js?v=1361-1', { scope: './', updateViaCache: 'none' })
+      navigator.serviceWorker.register('./sw.js?v=1362-1', { scope: './', updateViaCache: 'none' })
         .then(reg => reg.update().catch(() => undefined).then(() => console.log('[QuotaLab] Service Worker ativo:', reg.scope)))
         .catch(err => console.warn('[QuotaLab] Falha ao registrar Service Worker:', err));
     });
@@ -137,6 +146,7 @@
     console.log('[QuotaLab] Aplicativo instalado.');
   });
 
+  loadPersistenceReliability();
   loadMobileRefinement();
   loadDesktopDashboardRefinement();
   readySW();
