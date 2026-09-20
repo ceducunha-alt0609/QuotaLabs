@@ -40,7 +40,6 @@
     const originalBuild = window.buildAppData;
     const originalApply = window.applyAppData;
     const originalDoSave = window._doAutoSave;
-    const originalSalvar = typeof window.salvarDados === 'function' ? window.salvarDados : null;
 
     window.buildAppData = function(){
       const data = originalBuild.apply(this, arguments);
@@ -89,23 +88,45 @@
       return result;
     };
 
-    window._doAutoSave = function(){
+    function persistNow(reason){
       try{
-        return originalDoSave.apply(this, arguments);
+        const snap = window.buildAppData();
+        localStorage.setItem('condocalc_v3', JSON.stringify(snap));
+
+        try{
+          localStorage.setItem('ql_last_local_save_v1362', JSON.stringify({
+            at: snap.savedAt || isoNow(),
+            reason: reason || 'autosave',
+            patch: PATCH
+          }));
+        }catch(_){}
+
+        try{
+          if (typeof window.saved === 'function') window.saved();
+          if (typeof window.saveSnapshot === 'function') window.saveSnapshot(window._lastCalc);
+          if (typeof window.scheduleSupabaseAutoSync === 'function') window.scheduleSupabaseAutoSync();
+        }catch(e){
+          console.warn('[QuotaLab V1362] Estado local salvo; complemento pós-save falhou:', e);
+        }
+
+        return true;
       }catch(e){
-        console.error('[QuotaLab V1362] Falha ao salvar dados:', e);
+        console.error('[QuotaLab V1362] Falha real ao gravar dados locais:', e);
+        try{
+          if (typeof window.showToast === 'function') {
+            window.showToast('Não foi possível salvar os dados locais.','error',3200);
+          }
+        }catch(_){}
         return false;
       }
+    }
+
+    window._doAutoSave = function(){
+      return persistNow('autosave');
     };
 
     window.salvarDados = function(){
-      let ok = true;
-      try{
-        window._doAutoSave();
-      }catch(e){
-        ok = false;
-        console.error('[QuotaLab V1362] Falha no salvamento manual:', e);
-      }
+      const ok = persistNow('manual');
 
       const navTxt = document.getElementById('nav-salvar-txt');
       if (navTxt){
@@ -119,18 +140,7 @@
     };
 
     function flush(reason){
-      try{
-        window._doAutoSave();
-        try{
-          localStorage.setItem('ql_last_local_save_v1362', JSON.stringify({
-            at: isoNow(),
-            reason: reason || 'flush',
-            patch: PATCH
-          }));
-        }catch(_){}
-      }catch(e){
-        console.error('[QuotaLab V1362] Falha no flush final:', e);
-      }
+      persistNow(reason || 'flush');
     }
 
     window.addEventListener('pagehide', () => flush('pagehide'));
